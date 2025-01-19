@@ -1,17 +1,332 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>2025 Scouting App</title>
 </head>
+
 <body>
+<!-- Match Scouting Section -->
+    <section id="matchScoutingSection">
+        <h1>Match Scouting</h1>
+        <form name="matchScoutingForm" id="matchScoutingForm">
+            
+            <h3>Pre-Game</h3>
 
-    <canvas class="Match Scouting">
+            <label for="matchScouterName">Scouter Name</label>
+            <input type="text" name="matchScouterName">
 
-    </canvas>
-    <canvas class="Pit Scouting">
-        
-    </canvas>
+            <label for="matchTeamNumber">Team Number</label>
+            <input type="number" inputmode="numeric" name="matchTeamNumber">
+
+            <label for="matchMatchNumber">Match Number</label>
+            <input type="number" inputmode="numeric" name="matchMatchNumber">
+
+            <div class="radio">
+                <p class="radioTitle">Start Position</p>
+                <div class="radioInput">
+                    <label class="radioLabel">1</label>
+                    <input type="radio" name="startPosition" value="1"/>
+                    <label class="radioLabel">2</label>
+                    <input type="radio" name="startPosition" value="2"/>
+                    <label class="radioLabel">3</label>
+                    <input type="radio" name="startPosition" value="3"/>
+                </div>
+                <button type="button" class="startPositionLabel" onclick="showStartPositionMap()">Field</button>
+                <dialog id="startPositionDialog">
+                    <button type="button" class="closeStartPositionMap" onclick="closeStartPositionMap()">Close</button>
+                    <div> <!---Start Position Image-->
+                    </div>
+                </dialog>
+            </div>
+
+            <label for="matchNoShow">No Show</label>
+            <input type="checkbox" name="matchNoShow" id="matchNoShow">
     
+            <div id="noShowToggle"> <!-- No Show Section (hides when no show button is pressed)-->
+                
+                <h3>Autonomous</h3>
+                
+                <label for="matchLeaveStartPosition">Leave Start Position</label>
+                <input type="checkbox" name="matchLeaveStartPosition">
+                
+                <div name="autoReef">
+                    <label>Coral</label>
+                    <div id="autoReefLevel">
+                        <p>Level 1</p>
+                        <div id="autoReefNumberStep">
+                            <p>Made</p>
+                            <div class="NumStep" id="NumStep">
+                                <span id="autoReefLevel1NumStepMinus" class="NumStepMinus">&minus;</span>
+                                <span id="autoReefLevel1NumStepNumber" class="NumStepNumber">0</span>
+                                <span id="autoReefLevel1NumStepPlus" class="NumStepPlus">+</span>
+                            </div>
+                        </div>
+                        <div id="autoReefNumberStep">
+                            <p>Missed</p>
+                            <div class="NumStep" id="NumStep">
+                                <span id="autoReefLevel1MissedNumStepMinus" class="NumStepMinus">&minus;</span>
+                                <span id="autoReefLevel1MissedNumStepNumber" class="NumStepNumber">0</span>
+                                <span id="autoReefLevel1MissedNumStepPlus" class="NumStepPlus">+</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="autoReefLevel">
+                        <p>Level 2</p>
+                        <div id="autoReefNumberStep">
+                            <p>Made</p>
+                            <div class="NumStep" id="NumStep">
+                                <span id="autoReefLevel2NumStepMinus" class="NumStepMinus">&minus;</span>
+                                <span id="autoReefLevel2NumStepNumber" class="NumStepNumber">0</span>
+                                <span id="autoReefLevel2NumStepPlus" class="NumStepPlus">+</span>
+                            </div>
+                        </div>
+                        <div id="autoReefNumberStep">
+                            <p>Missed</p>
+                            <div class="NumStep" id="NumStep">
+                                <span id="autoReefLevel2MissedNumStepMinus" class="NumStepMinus">&minus;</span>
+                                <span id="autoReefLevel2MissedNumStepNumber" class="NumStepNumber">0</span>
+                                <span id="autoReefLevel2MissedNumStepPlus" class="NumStepPlus">+</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="autoReefLevel">
+                        <p>Level 3</p>
+                        <div id="autoReefNumberStep">
+                            <p>Made</p>
+                            <div class="NumStep" id="NumStep">
+                                <span id="autoReefLevel3NumStepMinus" class="NumStepMinus">&minus;</span>
+                                <span id="autoReefLevel3NumStepNumber" class="NumStepNumber">0</span>
+                                <span id="autoReefLevel3NumStepPlus" class="NumStepPlus">+</span>
+                            </div>
+                        </div>
+                        <div id="autoReefNumberStep">
+                            <p>Missed</p>
+                            <div class="NumStep" id="NumStep">
+                                <span id="autoReefLevel3MissedNumStepMinus" class="NumStepMinus">&minus;</span>
+                                <span id="autoReefLevel3MissedNumStepNumber" class="NumStepNumber">0</span>
+                                <span id="autoReefLevel3MissedNumStepPlus" class="NumStepPlus">+</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="autoReefLevel">
+                        <p>Level 4</p>
+                        <div id="autoReefNumberStep">
+                            <p>Made</p>
+                            <div class="NumStep" id="NumStep">
+                                <span id="autoReefLevel4NumStepMinus" class="NumStepMinus">&minus;</span>
+                                <span id="autoReefLevel4NumStepNumber" class="NumStepNumber">0</span>
+                                <span id="autoReefLevel4NumStepPlus" class="NumStepPlus">+</span>
+                            </div>
+                        </div>
+                        <div id="autoReefNumberStep">
+                            <p>Missed</p>
+                            <div class="NumStep" id="NumStep">
+                                <span id="autoReefLevel4MissedNumStepMinus" class="NumStepMinus">&minus;</span>
+                                <span id="autoReefLevel4MissedNumStepNumber" class="NumStepNumber">0</span>
+                                <span id="autoReefLevel4MissedNumStepPlus" class="NumStepPlus">+</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="autoReefLevel">
+                        <p>Algae Collection</p>
+                        <div id="autoReefNumberStep">
+                            <p>Low</p>
+                            <div class="NumStep" id="NumStep">
+                                <span name="autoReefAlgaeLowNumStepMinus" class="NumStepMinus">&minus;</span>
+                                <span name="autoReefAlgaeLowNumStepNumber" class="NumStepNumber">0</span>
+                                <span name="autoReefAlgaeLowNumStepPlus" class="NumStepPlus">+</span>
+                            </div>
+                        </div>
+                        <div id="autoReefNumberStep">
+                            <p>High</p>
+                            <div class="NumStep" id="NumStep">
+                                <span name="autoReefAlgaeHighNumStepMinus" class="NumStepMinus">&minus;</span>
+                                <span name="autoReefAlgaeHighNumStepNumber" class="NumStepNumber">0</span>
+                                <span name="autoReefAlgaeHighNumStepPlus" class="NumStepPlus">+</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <label>Processor</label>
+                
+
+            <h3>Tele-Op</h3>
+
+            <h3>End Game</h3>
+            </div id=noShowToggle> <!-- End No Show Section-->
+        <button type="button">Generate</button>
+        </form>
+    </section>
+<!-- End of Match Scouting Section -->
+<!-- Pit Scouting Section -->
+    <section class="pitScoutingSection">
+        <h1>Pit Scouting</h1>
+    </section>
+    <div class="qrcodeModal"> 
+        
+    </section>
+
+<!--stylesheet-->
+    <style>
+        /* https://www.schemecolor.com/green-black-yellow-color-scheme.php */
+        :root {
+            --black: #101511;
+            --seconBlack: #333;
+            --green: #648E37;
+            --yellow: #FFD900;
+        }
+        
+        * {
+            margin: 0px;
+            padding: 0px;
+            color: white;
+            user-select: none;
+        }
+
+        body {
+            background: var(--black);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .NumStepPlus {
+            padding: 10px;
+            color: black;
+            background: white;
+            border-radius: 5px;
+        }
+
+        .NumStepNumber {
+            padding: 10px;
+            color: black;
+            background: white;
+            border-radius: 5px;
+        }
+
+        .NumStepMinus {
+            padding: 10px;
+            color: black;
+            background: white;
+            border-radius: 5px;
+        }
+        
+        #numStep {
+            display: flex;
+            flex-direction: row;
+        }
+
+        div[name="autoReef"] {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #autoReefLevel {
+            display: flex;
+            flex-direction: row;
+        }
+
+        #autoReefNumberStep {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #matchScoutingSection {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background-color: #333;
+            width: 80%;
+            margin: 2rem auto;
+        }
+
+    </style>
+    
+    <!-- Qr Code Livisibility: visible;brary Script -->
+    <script src="./qrlibrary.js"></script>
+
+    <!-- Logic to collect and create QR Code -->
+    <script>
+
+    </script>
+
+    <script>
+        document.addEventListener("reload", function(event) {
+            event.preventDefault();
+        });
+        /*all form scripts*/
+        const matchNoShow = document.getElementById('matchNoShow');
+        const noShowToggle = document.getElementById('noShowToggle');
+        matchNoShow.addEventListener('change', function() {
+            noShowToggle.style.visibility = "visible";
+            console.log("changed");
+    
+            if (matchNoShow.checked) {
+                noShowToggle.style.display = "none";
+            } else {
+                noShowToggle.style.display = "flex";
+            }
+        });
+            autoReefLevel1NumStepMinus = document.getElementById("autoReefLevel1NumStepMinus"),
+            autoReefLevel1NumStepNumber = document.getElementById("autoReefLevel1NumStepNumber"),
+            autoReefLevel1NumStepPlus = document.getElementById("autoReefLevel1NumStepPlus"),
+            autoreeflevel1Number = 0;
+            autoReefLevel1NumStepPlus.addEventListener("click", () => {
+                autoreeflevel1Number++;
+                autoReefLevel1NumStepNumber.innerText = autoreeflevel1Number;
+            });
+            autoReefLevel1NumStepMinus.addEventListener("click", () => {
+                if (autoreeflevel1Number > 0) {
+                    autoreeflevel1Number--;}
+                    autoReefLevel1NumStepNumber.innerText = autoreeflevel1Number;
+                });
+                
+            autoReefLevel1MissedNumStepMinus = document.getElementById("autoReefLevel1MissedNumStepMinus"),
+            autoReefLevel1MissedNumStepNumber = document.getElementById("autoReefLevel1MissedNumStepNumber"),
+            autoReefLevel1MissedNumStepPlus = document.getElementById("autoReefLevel1MissedNumStepPlus"),
+            autoreeflevel1MissedNumber = 0;
+            autoReefLevel1MissedNumStepPlus.addEventListener("click", () => {
+                autoreeflevel1MissedNumber++;
+                autoReefLevel1MissedNumStepNumber.innerText = autoreeflevel1MissedNumber;
+            });
+            autoReefLevel1MissedNumStepMinus.addEventListener("click", () => {
+                if (autoreeflevel1MissedNumber > 0) {
+                    autoreeflevel1MissedNumber--;}
+                    autoReefLevel1MissedNumStepNumber.innerText = autoreeflevel1MissedNumber;
+                });
+
+
+            autoReefLevel2NumStepMinus = document.getElementById("autoReefLevel2NumStepMinus"),
+            autoReefLevel2NumStepNumber = document.getElementById("autoReefLevel2NumStepNumber"),
+            autoReefLevel2NumStepPlus = document.getElementById("autoReefLevel2NumStepPlus"),
+            autoreeflevel2Number = 0;
+            autoReefLevel2NumStepPlus.addEventListener("click", () => {
+                autoreeflevel2Number++;
+                autoReefLevel2NumStepNumber.innerText = autoreeflevel2Number;
+            });
+            autoReefLevel2NumStepMinus.addEventListener("click", () => {
+                if (autoreeflevel2Number > 0) {
+                    autoreeflevel2Number--;}
+                    autoReefLevel2NumStepNumber.innerText = autoreeflevel2Number;
+                });
+            autoReefLevel2MissedNumStepMinus = document.getElementById("autoReefLevel1MissedNumStepMinus"),
+            autoReefLevel2MissedNumStepNumber = document.getElementById("autoReefLevel1MissedNumStepNumber"),
+            autoReefLevel2MissedNumStepPlus = document.getElementById("autoReefLevel1MissedNumStepPlus"),
+            autoreeflevel2MissedNumber = 0;
+            autoReefLevel2MissedNumStepPlus.addEventListener("click", () => {
+                autoreeflevel2MissedNumber++;
+                autoReefLevel2MissedNumStepNumber.innerText = autoreeflevel2MissedNumber;
+            });
+            autoReefLevel2MissedNumStepMinus.addEventListener("click", () => {
+                if (autoreeflevel2MissedNumber > 0) {
+                    autoreeflevel2MissedNumber--;}
+                    autoReefLevel2MissedNumStepNumber.innerText = autoreeflevel2MissedNumber;
+                });
+    </script>
 </body>
 </html>
