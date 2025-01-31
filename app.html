@@ -9,15 +9,27 @@
 </head>
 
 <body>
+    <div id="navigationBar">
+        <button>&#9974;</button>
+        <button>&#9776;</button>
+    </div>
 <!-- Match Scouting Section -->
     <section id="matchScoutingSection">
         <h1>Match Scouting</h1>
+        <hr>
         <form name="matchScoutingForm" id="matchScoutingForm">
             
-            <h3>Pre-Game</h3>
+            <h2>Pre-Game</h2>
 
             <label for="matchScouterName">Scouter Name</label>
-            <input type="text" name="matchScouterName">
+            <input type="text" name="matchScouterName" list="matchScouterName">
+
+            <datalist id="matchScouterName">
+                <option value="Liam">
+                <option value="Andrew">
+                <option value="Liam">
+                <option value="Liam">
+            </datalist>
 
             <label for="matchTeamNumber">Team Number</label>
             <input type="number" inputmode="numeric" name="matchTeamNumber">
@@ -26,16 +38,22 @@
             <input type="number" inputmode="numeric" name="matchMatchNumber">
 
             <div class="radio">
-                <p class="radioTitle">Start Position</p>
+                <label>Start Position</label>
                 <div class="radioInput">
-                    <label class="radioLabel">1</label>
-                    <input type="radio" name="startPosition" value="1"/>
-                    <label class="radioLabel">2</label>
-                    <input type="radio" name="startPosition" value="2"/>
-                    <label class="radioLabel">3</label>
-                    <input type="radio" name="startPosition" value="3"/>
+                    <div class="radioOption">
+                        <label class="radioLabel">1</label>
+                        <input type="radio" name="startPosition" value="1"/>
+                    </div>
+                    <div class="radioOption">
+                        <label class="radioLabel">2</label>
+                        <input type="radio" name="startPosition" value="2"/>
+                    </div>
+                    <div class="radioOption">
+                        <label class="radioLabel">3</label>
+                        <input type="radio" name="startPosition" value="3"/>
+                    </div>
                 </div>
-                <button type="button" class="startPositionLabel" onclick="showStartPositionMap()">Field</button>
+                <button type="button" id="startPositionMapButton" onclick="showStartPositionMap()">Field</button>
                 <dialog id="startPositionDialog">
                     <button type="button" class="closeStartPositionMap" onclick="closeStartPositionMap()">Close</button>
                     <div> <!---Start Position Image-->
@@ -48,13 +66,13 @@
     
             <div id="noShowToggle"> <!-- No Show Section (hides when no show button is pressed)-->
                 
-                <h3>Autonomous</h3>
+                <h2>Autonomous</h2>
                 
                 <label for="matchLeaveStartPosition">Leave Start Position</label>
                 <input type="checkbox" name="matchLeaveStartPosition">
                 
                 <div name="autoReef">
-                    <label>Coral</label>
+                    <label>Reef</label>
                     <div id="autoReefLevel">
                         <p>Level 1</p>
                         <div id="autoReefNumberStep">
@@ -153,11 +171,22 @@
                 </div>
 
                 <label>Processor</label>
+                <div class="NumStep" id="NumStep">
+                    <span id="autoProcessorNumStepMinus" class="NumStepMinus">&minus;</span>
+                    <span id="autoProcessorNumStepNumber" class="NumStepNumber">0</span>
+                    <span id="autoProcessorNumStepPlus" class="NumStepPlus">+</span>
+                </div>
+
+                <label>Net</label>
+                <div class="NumStep" id="NumStep">
+                    <span id="autoNetNumStepMinus" class="NumStepMinus">&minus;</span>
+                    <span id="autoNetNumStepNumber" class="NumStepNumber">0</span>
+                    <span id="autoNetNumStepPlus" class="NumStepPlus">+</span>
+                </div>
                 
+            <h2>Tele-Op</h2>
 
-            <h3>Tele-Op</h3>
-
-            <h3>End Game</h3>
+            <h2>End Game</h2>
             </div id=noShowToggle> <!-- End No Show Section-->
         <button type="button">Generate</button>
         </form>
@@ -167,32 +196,60 @@
     <section class="pitScoutingSection">
         <h1>Pit Scouting</h1>
     </section>
-    <div class="qrcodeModal"> 
+    <dialog class="qrcodeModal">
+
+    </dialog>
         
     </section>
 
 <!--stylesheet-->
     <style>
         /* https://www.schemecolor.com/green-black-yellow-color-scheme.php */
-        :root {
-            --black: #101511;
-            --seconBlack: #333;
-            --green: #648E37;
-            --yellow: #FFD900;
-        }
         
         * {
             margin: 0px;
             padding: 0px;
             color: white;
+            font-family: sans-serif;
             user-select: none;
+            color: black;
         }
 
         body {
-            background: var(--black);
             display: flex;
             flex-direction: column;
             justify-content: center;
+            text-align: center;
+            background-image: url("./background.jpeg");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        #navigationBar {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            position: fixed;
+            top: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 95%;
+        }
+
+        #navigationBar button {
+            font-size: 2rem;
+            font-weight: bold;
+            color: black;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: .5rem 1rem;
+            border-radius: 15px;
+            cursor: pointer;
         }
 
         .NumStepPlus {
@@ -200,6 +257,7 @@
             color: black;
             background: white;
             border-radius: 5px;
+            cursor: pointer;
         }
 
         .NumStepNumber {
@@ -214,6 +272,7 @@
             color: black;
             background: white;
             border-radius: 5px;
+            cursor: pointer;
         }
         
         #numStep {
@@ -229,6 +288,13 @@
         #autoReefLevel {
             display: flex;
             flex-direction: row;
+            align-items: center;
+            margin: 2rem 0rem 0rem 0rem;
+        }
+
+        #autoReefLevel p {
+            text-align: center;
+            width: 60px;
         }
 
         #autoReefNumberStep {
@@ -236,13 +302,139 @@
             flex-direction: column;
         }
 
+        #autoReefNumberStep p{
+            display: flex;
+            align-self: center;
+            margin: 0rem 0rem 1rem 1rem;
+        }
+
         #matchScoutingSection {
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            background-color: #333;
-            width: 80%;
+            width: 70%;
             margin: 2rem auto;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 2rem 0rem 2rem 0rem;
+            border-radius: 2rem;
+        }
+
+        #matchScoutingSection h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            align-items: center;
+        }
+
+        #matchScoutingSection h2 {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        #matchScoutingForm {
+            display: flex;
+            flex-direction: column;
+            margin: 1rem 0rem;
+        }
+
+        div[name="autoReef"] {
+            display: flex;
+            padding: 2rem 2rem;
+            background: rgba(105, 105, 105, 0.2);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;    
+        }
+
+        div[name="autoReef"] label {
+            display: flex;
+            font-size: 2rem;
+            justify-content: center;
+        }
+
+        #autoReefNumberStep {
+            margin: 0rem 0rem;
+        }
+
+        #autoReefNumberStep {
+            margin: 0rem 0rem 0rem 4rem;
+        }
+
+        input[type="text"] {
+            font-size: 1rem;
+            width: 300px;
+            height: 30px;
+            margin: auto;
+            outline: none;
+            border: none;
+            border-radius: 5px;
+        }
+
+        input[type="number"] {
+            font-size: 1rem;
+            width: 300px;
+            height: 30px;
+            margin: auto;
+            outline: none;
+            border: none;
+            border-radius: 5px;
+        }
+
+        input[type="radio"] {
+            transform: scale(1.5);
+        }
+
+        .radio {
+            display: flex;
+            flex-direction: column;
+            margin: 1rem auto;
+            width: 50%;
+            padding: 2rem 2rem;
+            background: rgba(105, 105, 105, 0.2);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .radio label {
+            font-size: 2rem;
+        }
+
+        .radioInput {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+        }
+
+        .radioOption {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #startPositionMapButton {
+            margin: 1rem 0rem 0rem 0rem;
+            padding: 0.25rem;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        #noShowToggle {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: all 1s ease-in-out;
         }
 
     </style>
@@ -264,10 +456,10 @@
         const noShowToggle = document.getElementById('noShowToggle');
         matchNoShow.addEventListener('change', function() {
             noShowToggle.style.visibility = "visible";
-            console.log("changed");
     
             if (matchNoShow.checked) {
                 noShowToggle.style.display = "none";
+                
             } else {
                 noShowToggle.style.display = "flex";
             }
