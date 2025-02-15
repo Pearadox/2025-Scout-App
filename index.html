@@ -10,11 +10,18 @@
 
 <body>
     <div id="navigationBar">
-        <button>&#9974;</button>
-        <button>&#9776;</button>
+        <button onclick="fullscreen()">&#9974;</button>
+        <button onclick="showScoutingModeModal()">&#9776;</button>
     </div>
+    <dialog id="scoutingModeModal">
+        <button>Match Scouting</button>
+        <button>Pit Scouting</button>
+        <button onclick="closeScoutingModeModal()">Close</button>
+        <p>Version: 2025.1.0</p>
+    </dialog>
+
 <!-- Match Scouting Section -->
-    <section id="matchScoutingSection">
+    <section class="section">
         <h1>Match Scouting</h1>
         <hr>
         <form name="matchScoutingForm" id="matchScoutingForm">
@@ -38,7 +45,7 @@
             <input type="number" inputmode="numeric" name="matchMatchNumber">
 
             <div class="radio">
-                <label>Start Position</label>
+                <p>Start Position</p>
                 <div class="radioInput">
                     <div class="radioOption">
                         <label class="radioLabel">1</label>
@@ -70,8 +77,8 @@
                 
                 <label for="matchLeaveStartPosition">Leave Start Position</label>
                 <input type="checkbox" name="matchLeaveStartPosition">
-                
-                <div name="autoReef">
+            
+                <div name="autoReef" class="numberStepperSection">
                     <label>Reef</label>
                     <div id="autoReefLevel">
                         <p>Level 1</p>
@@ -172,7 +179,7 @@
                 
                 <br>
 
-                <div name="autoAlgae">
+                <div name="autoAlgae" class="numberStepperSection">
                     <label>Algae</label>
                     <div id="autoAlgaeLevel">
                         <p>Processor</p>
@@ -205,10 +212,11 @@
                         </div>
                         <div id="autoAlgaeNumberStep">
                             <p>Missed</p>
-                            <div class="NumStep" id="NumStep">
-                                <span id="autoNetNumStepMinus" class="NumStepMinus">&minus;</span>
-                                <span id="autoNetNumStepNumber" class="NumStepNumber">0</span>
-                                <span id="autoNetNumStepPlus" class="NumStepPlus">+</span>
+                            <div class="NumStep" id="NumStep"> 
+                                <span id="autoNetMissedNumStepMinus" class="NumStepMinus">&minus;</span> 
+                                <!--these where just "autoNet" but its under the "Missed" tag so i figured it is meant to be 'autoNetMissed" yeah? -->
+                                <span id="autoNetMissedNumStepNumber" class="NumStepNumber">0</span>
+                                <span id="autoNetMissedNumStepPlus" class="NumStepPlus">+</span>
                             </div>
                         </div>
                     </div>
@@ -218,7 +226,7 @@
                 
                 <h2>Tele-Op</h2>
 
-                <div name="teleReef">
+                <div name="teleReef" class="numberStepperSection">
                     <label>Reef</label>
                     <div id="teleReefLevel">
                         <p>Level 1</p>
@@ -316,10 +324,8 @@
                         </div>
                     </div>
                 </div>
-
-                <br>
                 
-                <div name="teleAlgae">
+                <div name="teleAlgae" class="numberStepperSection">
                     <label>Algae</label>
                     <div id="teleAlgaeLevel">
                         <p>Processor</p>
@@ -353,9 +359,9 @@
                         <div id="teleAlgaeNumberStep">
                             <p>Missed</p>
                             <div class="NumStep" id="NumStep">
-                                <span id="teleNetNumStepMinus" class="NumStepMinus">&minus;</span>
-                                <span id="teleNetNumStepNumber" class="NumStepNumber">0</span>
-                                <span id="teleNetNumStepPlus" class="NumStepPlus">+</span>
+                                <span id="teleNetMissedNumStepMinus" class="NumStepMinus">&minus;</span>
+                                <span id="teleNetMissedNumStepNumber" class="NumStepNumber">0</span>
+                                <span id="teleNetMissedNumStepPlus" class="NumStepPlus">+</span>
                             </div>
                         </div>
                     </div>
@@ -364,7 +370,7 @@
                 <h2>End Game</h2>
 
                 <div class="radio">
-                    <label>Shallow Climb</label>
+                    <p>Shallow Climb</p>
                     <div class="radioInput">
                         <div class="radioOption">
                             <label class="radioLabel">Made</label>
@@ -382,7 +388,7 @@
                 </div>
 
                 <div class="radio">
-                    <label>Deep Climb</label>
+                    <p>Deep Climb</p>
                     <div class="radioInput">
                         <div class="radioOption">
                             <label class="radioLabel">Made</label>
@@ -399,8 +405,8 @@
                     </div>
                 </div>
 
-                <div class="park">
-                    <label>Park</label>
+                <div class="radio">
+                    <p>Park</p>
                     <div class="radioInput">
                         <div class="radioOption">
                             <label class="radioLabel">Made</label>
@@ -413,39 +419,48 @@
                     </div>
                 </div>
 
-                <label for="collectCoralStation">Collect Coral from the Human Station</label>
-                <input type="checkbox" name="collectCoralStation">
-
-                <label for="collectCoralGround">Collect Coral from the Ground</label>
-                <input type="checkbox" name="collectCoralGround">
-
-                <label for="collectAlgaeReef">Collect Algae from the Reef</label>
-                <input type="checkbox" name="collectAlgaeReef">
-
-                <label for="collectAlgaeGround">Collect Algae from the Ground</label>
-                <input type="checkbox" name="collectAlgaeGround">
-
+                <div class="radio">
+                    <p>Collections</p>
+                    <label for="collectCoralStation">Collected Coral from the Human Station</label>
+                    <input type="checkbox" name="collectCoralStation">
+    
+                    <label for="collectCoralGround">Collected Coral from the Ground</label>
+                    <input type="checkbox" name="collectCoralGround">
+    
+                    <label for="collectAlgaeReef">Collected Algae from the Reef</label>
+                    <input type="checkbox" name="collectAlgaeReef">
+    
+                    <label for="collectAlgaeGround">Collected Algae from the Ground</label>
+                    <input type="checkbox" name="collectAlgaeGround">
+                </div>
+                
                 <label for="died">Robot Died</label>
                 <input type="checkbox" name="died">
 
             </div id=noShowToggle> <!-- End No Show Section-->
-            <button type="button">Generate</button>
+            <button type="button" onclick="generateMatchData()">Generate</button>
         </form>
+        <dialog id="qrModal">
+            <div id="qrcode"></div>
+            <button onclick="closeQR()">edit / close</button>
+            <button onclick="resetMatchData()">reset</button>
+        </dialog>
     </section>
 <!-- End of Match Scouting Section -->
+
 <!-- Pit Scouting Section -->
     <section class="pitScoutingSection">
-        <h1>Pit Scouting</h1>
+        <!-- <h1>Pit Scouting</h1> -->
     </section>
-    <dialog class="qrcodeModal">
-
-    </dialog>
+    <!-- <dialog id="qrcodeModal">
+        <div id="qrcode"></div>
+        <button>edit</button>
+        <button>reset</button>
+    </dialog> -->
         
-    </section>
 
 <!--stylesheet-->
     <style>
-        /* https://www.schemecolor.com/green-black-yellow-color-scheme.php */
         
         * {
             margin: 0px;
@@ -493,6 +508,69 @@
             cursor: pointer;
         }
 
+        #scoutingModeModal {
+            position: fixed;
+            width: 400px;
+            height: 200px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: black;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: .5rem 1rem;
+            border-radius: 15px;
+            z-index: 1;
+        }
+
+        #scoutingModeModal dialog[open] {
+            display: block;
+            opacity: 1;
+            translate: 0 -25vh;
+        }
+
+        #scoutingModeModal button {
+            width: 300px;
+            height: 50px;
+            font-size: 2rem;
+            transform: translateY(25px);
+        }
+
+        #scoutingModeModal p {
+            transform: translateY(25px);
+        }
+
+        .section {
+            display: flex;
+            flex-direction: column;
+            width: 70%;
+            margin: 2rem auto;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 2rem 0rem 2rem 0rem;
+            border-radius: 2rem;
+        }
+
+        .section h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            align-items: center;
+        }
+
+        .section h2 {
+            margin: 1rem 0rem 0.5rem 0rem;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
         .NumStepPlus {
             padding: 10px;
             color: black;
@@ -516,14 +594,9 @@
             cursor: pointer;
         }
         
-        #numStep {
+        .numStep {
             display: flex;
             flex-direction: row;
-        }
-
-        div[name="autoReef"] {
-            display: flex;
-            flex-direction: column;
         }
 
         #autoReefLevel {
@@ -549,11 +622,6 @@
             margin: 0rem 0rem 1rem 1rem;
         }
 
-        div[name="autoAlgae"] {
-            display: flex;
-            flex-direction: column;
-        }
-
         #autoAlgaeLevel {
             display: flex;
             flex-direction: row;
@@ -575,11 +643,6 @@
             display: flex;
             align-self: center;
             margin: 0rem 0rem 1rem 1rem;
-        }
-
-        div[name="teleReef"] {
-            display: flex;
-            flex-direction: column;
         }
 
         #teleReefLevel {
@@ -605,11 +668,6 @@
             margin: 0rem 0rem 1rem 1rem;
         }
 
-        div[name="teleAlgae"] {
-            display: flex;
-            flex-direction: column;
-        }
-
         #teleAlgaeLevel {
             display: flex;
             flex-direction: row;
@@ -633,80 +691,18 @@
             margin: 0rem 0rem 1rem 1rem;
         }
 
-        #matchScoutingSection {
-            display: flex;
-            flex-direction: column;
-            width: 70%;
-            margin: 2rem auto;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 16px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 2rem 0rem 2rem 0rem;
-            border-radius: 2rem;
-        }
-
-        #matchScoutingSection h1 {
-            font-size: 3rem;
-            font-weight: bold;
-            align-items: center;
-        }
-
-        #matchScoutingSection h2 {
-            font-size: 1.8rem;
-            font-weight: bold;
-        }
-
         #matchScoutingForm {
             display: flex;
             flex-direction: column;
             margin: 1rem 0rem;
         }
-
-        div[name="autoReef"] {
-            display: flex;
-            padding: 2rem 2rem;
-            background: rgba(105, 105, 105, 0.2);
-            border-radius: 16px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 15px;    
-        }
-
-        div[name="autoReef"] label {
-            display: flex;
-            font-size: 2rem;
-            justify-content: center;
-        }
-
+        
         #autoReefNumberStep {
             margin: 0rem 0rem;
         }
 
         #autoReefNumberStep {
             margin: 0rem 0rem 0rem 4rem;
-        }
-
-        div[name="autoAlgae"] {
-            display: flex;
-            padding: 2rem 2rem;
-            background: rgba(105, 105, 105, 0.2);
-            border-radius: 16px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 15px;    
-        }
-
-        div[name="autoAlgae"] label {
-            display: flex;
-            font-size: 2rem;
-            justify-content: center;
         }
 
         #autoAlgaeNumberStep {
@@ -717,24 +713,6 @@
             margin: 0rem 0rem 0rem 4rem;
         }
 
-        div[name="teleReef"] {
-            display: flex;
-            padding: 2rem 2rem;
-            background: rgba(105, 105, 105, 0.2);
-            border-radius: 16px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 15px;    
-        }
-
-        div[name="teleReef"] label {
-            display: flex;
-            font-size: 2rem;
-            justify-content: center;
-        }
-
         #teleReefNumberStep {
             margin: 0rem 0rem;
         }
@@ -743,9 +721,11 @@
             margin: 0rem 0rem 0rem 4rem;
         }
 
-        div[name="teleAlgae"] {
+        .numberStepperSection {
             display: flex;
+            flex-direction: column;
             padding: 2rem 2rem;
+            margin: 0rem 0rem 1rem 0rem;
             background: rgba(105, 105, 105, 0.2);
             border-radius: 16px;
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -755,7 +735,7 @@
             border-radius: 15px;    
         }
 
-        div[name="teleAlgae"] label {
+        .numberStepperSection label { 
             display: flex;
             font-size: 2rem;
             justify-content: center;
@@ -767,6 +747,10 @@
 
         #teleAlgaeNumberStep {
             margin: 0rem 0rem 0rem 4rem;
+        }
+
+        label {
+            margin: 0.5rem 0rem 0rem 0rem;
         }
 
         input[type="text"] {
@@ -789,8 +773,16 @@
             border-radius: 5px;
         }
 
+        input[type="checkbox"] {
+            margin: 0rem auto 1rem auto;
+            height: 30px;
+            width: 30px;
+            outline: none;
+            border: none;
+        }
+
         input[type="radio"] {
-            transform: scale(1.5);
+            transform: scale(2);
         }
 
         .radio {
@@ -807,8 +799,13 @@
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
-        .radio label {
+        .radio p {
             font-size: 2rem;
+        }
+
+        .radio label {
+            font-size: 1rem;
+            margin: 1.5rem 0rem 0.5rem 0rem;
         }
 
         .radioInput {
@@ -839,21 +836,37 @@
             align-items: center;
             transition: all 1s ease-in-out;
         }
-
+        
     </style>
     
-    <!-- Qr Code Livisibility: visible;brary Script -->
+    <!-- Qr Code Library Script -->
+     <!-- https://davidshimjs.github.io/qrcodejs/ -->
     <script src="./qrlibrary.js"></script>
 
     <!-- Logic to collect and create QR Code -->
-    <script>
+    <script defer>
+        //prevent accidental reloading
+        window.onbeforeunload = function() {
+            return "If you refresh, your data will not be saved!";
+        }
 
-    </script>
+        function fullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else if (document.exitFullscreen) {
+                document.exitFullscreen();
+            }
+        }
+        
+        var scoutingModeModal = document.getElementById("scoutingModeModal");
+        function showScoutingModeModal() {
+            scoutingModeModal.show();
+        }
 
-    <script>
-        document.addEventListener("reload", function(event) {
-            event.preventDefault();
-        });
+        function closeScoutingModeModal() {
+            scoutingModeModal.close();
+        }
+        
         /*all form scripts*/
         const matchNoShow = document.getElementById('matchNoShow');
         const noShowToggle = document.getElementById('noShowToggle');
@@ -867,6 +880,7 @@
                 noShowToggle.style.display = "flex";
             }
         });
+    /*Auto*/
             autoReefLevel1NumStepMinus = document.getElementById("autoReefLevel1NumStepMinus"),
             autoReefLevel1NumStepNumber = document.getElementById("autoReefLevel1NumStepNumber"),
             autoReefLevel1NumStepPlus = document.getElementById("autoReefLevel1NumStepPlus"),
@@ -895,7 +909,6 @@
                     autoReefLevel1MissedNumStepNumber.innerText = autoreeflevel1MissedNumber;
                 });
 
-
             autoReefLevel2NumStepMinus = document.getElementById("autoReefLevel2NumStepMinus"),
             autoReefLevel2NumStepNumber = document.getElementById("autoReefLevel2NumStepNumber"),
             autoReefLevel2NumStepPlus = document.getElementById("autoReefLevel2NumStepPlus"),
@@ -909,9 +922,9 @@
                     autoreeflevel2Number--;}
                     autoReefLevel2NumStepNumber.innerText = autoreeflevel2Number;
                 });
-            autoReefLevel2MissedNumStepMinus = document.getElementById("autoReefLevel1MissedNumStepMinus"),
-            autoReefLevel2MissedNumStepNumber = document.getElementById("autoReefLevel1MissedNumStepNumber"),
-            autoReefLevel2MissedNumStepPlus = document.getElementById("autoReefLevel1MissedNumStepPlus"),
+            autoReefLevel2MissedNumStepMinus = document.getElementById("autoReefLevel2MissedNumStepMinus"),
+            autoReefLevel2MissedNumStepNumber = document.getElementById("autoReefLevel2MissedNumStepNumber"),
+            autoReefLevel2MissedNumStepPlus = document.getElementById("autoReefLevel2MissedNumStepPlus"),
             autoreeflevel2MissedNumber = 0;
             autoReefLevel2MissedNumStepPlus.addEventListener("click", () => {
                 autoreeflevel2MissedNumber++;
@@ -922,6 +935,382 @@
                     autoreeflevel2MissedNumber--;}
                     autoReefLevel2MissedNumStepNumber.innerText = autoreeflevel2MissedNumber;
                 });
+                
+                autoReefLevel3NumStepMinus = document.getElementById("autoReefLevel3NumStepMinus"),
+            autoReefLevel3NumStepNumber = document.getElementById("autoReefLevel3NumStepNumber"),
+            autoReefLevel3NumStepPlus = document.getElementById("autoReefLevel3NumStepPlus"),
+            autoreeflevel3Number = 0;
+            autoReefLevel3NumStepPlus.addEventListener("click", () => {
+                autoreeflevel3Number++;
+                autoReefLevel3NumStepNumber.innerText = autoreeflevel3Number;
+            });
+            autoReefLevel3NumStepMinus.addEventListener("click", () => {
+                if (autoreeflevel3Number > 0) {
+                    autoreeflevel3Number--;}
+                    autoReefLevel3NumStepNumber.innerText = autoreeflevel3Number;
+                });
+            autoReefLevel3MissedNumStepMinus = document.getElementById("autoReefLevel3MissedNumStepMinus"),
+            autoReefLevel3MissedNumStepNumber = document.getElementById("autoReefLevel3MissedNumStepNumber"),
+            autoReefLevel3MissedNumStepPlus = document.getElementById("autoReefLevel3MissedNumStepPlus"),
+            autoreeflevel3MissedNumber = 0;
+            autoReefLevel3MissedNumStepPlus.addEventListener("click", () => {
+                autoreeflevel3MissedNumber++;
+                autoReefLevel3MissedNumStepNumber.innerText = autoreeflevel3MissedNumber;
+            });
+            autoReefLevel3MissedNumStepMinus.addEventListener("click", () => {
+                if (autoreeflevel3MissedNumber > 0) {
+                    autoreeflevel3MissedNumber--;}
+                    autoReefLevel3MissedNumStepNumber.innerText = autoreeflevel3MissedNumber;
+                });
+
+            autoReefLevel4NumStepMinus = document.getElementById("autoReefLevel4NumStepMinus"),
+            autoReefLevel4NumStepNumber = document.getElementById("autoReefLevel4NumStepNumber"),
+            autoReefLevel4NumStepPlus = document.getElementById("autoReefLevel4NumStepPlus"),
+            autoreeflevel4Number = 0;
+            autoReefLevel4NumStepPlus.addEventListener("click", () => {
+                autoreeflevel4Number++;
+                autoReefLevel4NumStepNumber.innerText = autoreeflevel4Number;
+            });
+            autoReefLevel4NumStepMinus.addEventListener("click", () => {
+                if (autoreeflevel4Number > 0) {
+                    autoreeflevel4Number--;}
+                    autoReefLevel4NumStepNumber.innerText = autoreeflevel4Number;
+                });
+            autoReefLevel4MissedNumStepMinus = document.getElementById("autoReefLevel4MissedNumStepMinus"),
+            autoReefLevel4MissedNumStepNumber = document.getElementById("autoReefLevel4MissedNumStepNumber"),
+            autoReefLevel4MissedNumStepPlus = document.getElementById("autoReefLevel4MissedNumStepPlus"),
+            autoreeflevel4MissedNumber = 0;
+            autoReefLevel4MissedNumStepPlus.addEventListener("click", () => {
+                autoreeflevel4MissedNumber++;
+                autoReefLevel4MissedNumStepNumber.innerText = autoreeflevel4MissedNumber;
+            });
+            autoReefLevel4MissedNumStepMinus.addEventListener("click", () => {
+                if (autoreeflevel4MissedNumber > 0) {
+                    autoreeflevel4MissedNumber--;}
+                    autoReefLevel4MissedNumStepNumber.innerText = autoreeflevel4MissedNumber;
+                });
+
+
+                autoReefAlgaeLowNumStepMinus = document.getElementById("autoReefAlgaeLowNumStepMinus"),
+                autoReefAlgaeLowNumStepNumber = document.getElementById("autoReefAlgaeLowNumStepNumber"),
+                autoReefAlgaeLowNumStepPlus = document.getElementById("autoReefAlgaeLowNumStepPlus"),
+            autoReefAlgaeLowNumStep = 0;
+            autoReefAlgaeLowNumStepPlus.addEventListener("click", () => {
+                autoReefAlgaeLowNumber++;
+                autoReefAlgaeLowNumStepNumber.innerText = autoReefAlgaeLowNumber;
+            });
+            autoReefAlgaeLowNumStepMinus.addEventListener("click", () => {
+                if (autoReefAlgaeLowNumber > 0) {
+                    autoReefAlgaeLowNumber--;}
+                    autoReefAlgaeLowNumStepNumber.innerText = autoReefAlgaeLowNumber;
+                });
+
+                autoReefAlgaeHighNumStepMinus = document.getElementById("autoReefAlgaeHighNumStepMinus"),
+                autoReefAlgaeHighNumStepNumber = document.getElementById("autoReefAlgaeHighNumStepNumber"),
+                autoReefAlgaeHighNumStepPlus = document.getElementById("autoReefAlgaeHighNumStepPlus"),
+            autoReefAlgaeHighNumStep = 0;
+            autoReefAlgaeHighNumStepPlus.addEventListener("click", () => {
+                autoReefAlgaeHighNumber++;
+                autoReefAlgaeHighNumStepNumber.innerText = autoReefAlgaeHighNumber;
+            });
+            autoReefAlgaeHighNumStepMinus.addEventListener("click", () => {
+                if (autoReefAlgaeHighNumber > 0) {
+                    autoReefAlgaeHighNumber--;}
+                    autoReefAlgaeHighNumStepNumber.innerText = autoReefAlgaeHighNumber;
+                });
+
+                autoProcessorNumStepMinus = document.getElementById("autoProcessorNumStepMinus"),
+            autoProcessorNumStepNumber = document.getElementById("autoProcessorNumStepNumber"),
+            autoProcessorNumStepPlus = document.getElementById("autoProcessorNumStepPlus"),
+            autoProcessorNumber = 0;
+            autoProcessorNumStepPlus.addEventListener("click", () => {
+                autoProcessorNumber++;
+                autoProcessorNumStepNumber.innerText = autoProcessorNumber;
+            });
+            autoProcessorNumStepMinus.addEventListener("click", () => {
+                if (autoProcessorNumber > 0) {
+                    autoProcessorNumber--;}
+                    autoProcessorNumStepNumber.innerText = autoProcessorNumber;
+                });
+            autoProcessorMissedNumStepMinus = document.getElementById("autoProcessorMissedNumStepMinus"),
+            autoProcessorMissedNumStepNumber = document.getElementById("autoProcessorMissedNumStepNumber"),
+            autoProcessorMissedNumStepPlus = document.getElementById("autoProcessorMissedNumStepPlus"),
+            autoProcessorMissedNumber = 0;
+            autoProcessorMissedNumStepPlus.addEventListener("click", () => {
+                autoProcessorMissedNumber++;
+                autoProcessorMissedNumStepNumber.innerText = autoProcessorMissedNumber;
+            });
+            autoProcessorMissedNumStepMinus.addEventListener("click", () => {
+                if (autoProcessorMissedNumber > 0) {
+                    autoProcessorMissedNumber--;}
+                    autoProcessorMissedNumStepNumber.innerText = autoProcessorMissedNumber;
+                });
+
+                autoNetNumStepMinus = document.getElementById("autoNetNumStepMinus"),
+            autoNetNumStepNumber = document.getElementById("autoNetNumStepNumber"),
+            autoNetNumStepPlus = document.getElementById("autoNetNumStepPlus"),
+            autoNetNumber = 0;
+            autoNetNumStepPlus.addEventListener("click", () => {
+                autoNetNumber++;
+                autoNetNumStepNumber.innerText = autoNetNumber;
+            });
+            autoNetNumStepMinus.addEventListener("click", () => {
+                if (autoNetNumber > 0) {
+                    autoNetNumber--;}
+                    autoNetNumStepNumber.innerText = autoNetNumber;
+                });
+            autoNetMissedNumStepMinus = document.getElementById("autoNetMissedNumStepMinus"),
+            autoNetMissedNumStepNumber = document.getElementById("autoNetMissedNumStepNumber"),
+            autoNetMissedNumStepPlus = document.getElementById("autoNetMissedNumStepPlus"),
+            autoNetMissedNumber = 0;
+            autoNetMissedNumStepPlus.addEventListener("click", () => {
+                autoNetMissedNumber++;
+                autoNetMissedNumStepNumber.innerText = autoNetMissedNumber;
+            });
+            autoNetMissedNumStepMinus.addEventListener("click", () => {
+                if (autoNetMissedNumber > 0) {
+                    autoNetMissedNumber--;}
+                    autoNetMissedNumStepNumber.innerText = autoNetMissedNumber;
+                });
+
+    /* Teleop */
+
+        teleReefLevel1NumStepMinus = document.getElementById("teleReefLevel1NumStepMinus"),
+            teleReefLevel1NumStepNumber = document.getElementById("teleReefLevel1NumStepNumber"),
+            teleReefLevel1NumStepPlus = document.getElementById("teleReefLevel1NumStepPlus"),
+            teleReeflevel1Number = 0;
+            teleReefLevel1NumStepPlus.addEventListener("click", () => {
+                teleReeflevel1Number++;
+                teleReefLevel1NumStepNumber.innerText = teleReeflevel1Number;
+            });
+            teleReefLevel1NumStepMinus.addEventListener("click", () => {
+                if (teleReeflevel1Number > 0) {
+                    teleReeflevel1Number--;}
+                    teleReefLevel1NumStepNumber.innerText = teleReeflevel1Number;
+                });
+                
+            teleReefLevel1MissedNumStepMinus = document.getElementById("teleReefLevel1MissedNumStepMinus"),
+            teleReefLevel1MissedNumStepNumber = document.getElementById("teleReefLevel1MissedNumStepNumber"),
+            teleReefLevel1MissedNumStepPlus = document.getElementById("teleReefLevel1MissedNumStepPlus"),
+            teleReeflevel1MissedNumber = 0;
+            teleReefLevel1MissedNumStepPlus.addEventListener("click", () => {
+                teleReeflevel1MissedNumber++;
+                teleReefLevel1MissedNumStepNumber.innerText = teleReeflevel1MissedNumber;
+            });
+            teleReefLevel1MissedNumStepMinus.addEventListener("click", () => {
+                if (teleReeflevel1MissedNumber > 0) {
+                    teleReeflevel1MissedNumber--;}
+                    teleReefLevel1MissedNumStepNumber.innerText = teleReeflevel1MissedNumber;
+                });
+
+            teleReefLevel2NumStepMinus = document.getElementById("teleReefLevel2NumStepMinus"),
+            teleReefLevel2NumStepNumber = document.getElementById("teleReefLevel2NumStepNumber"),
+            teleReefLevel2NumStepPlus = document.getElementById("teleReefLevel2NumStepPlus"),
+            teleReeflevel2Number = 0;
+            teleReefLevel2NumStepPlus.addEventListener("click", () => {
+                teleReeflevel2Number++;
+                teleReefLevel2NumStepNumber.innerText = teleReeflevel2Number;
+            });
+            teleReefLevel2NumStepMinus.addEventListener("click", () => {
+                if (teleReeflevel2Number > 0) {
+                    teleReeflevel2Number--;}
+                    teleReefLevel2NumStepNumber.innerText = teleReeflevel2Number;
+                });
+            teleReefLevel2MissedNumStepMinus = document.getElementById("teleReefLevel2MissedNumStepMinus"),
+            teleReefLevel2MissedNumStepNumber = document.getElementById("teleReefLevel2MissedNumStepNumber"),
+            teleReefLevel2MissedNumStepPlus = document.getElementById("teleReefLevel2MissedNumStepPlus"),
+            teleReeflevel2MissedNumber = 0;
+            teleReefLevel2MissedNumStepPlus.addEventListener("click", () => {
+                teleReeflevel2MissedNumber++;
+                teleReefLevel2MissedNumStepNumber.innerText = teleReeflevel2MissedNumber;
+            });
+            teleReefLevel2MissedNumStepMinus.addEventListener("click", () => {
+                if (teleReeflevel2MissedNumber > 0) {
+                    teleReeflevel2MissedNumber--;}
+                    teleReefLevel2MissedNumStepNumber.innerText = teleReeflevel2MissedNumber;
+                });
+                
+                teleReefLevel3NumStepMinus = document.getElementById("teleReefLevel3NumStepMinus"),
+            teleReefLevel3NumStepNumber = document.getElementById("teleReefLevel3NumStepNumber"),
+            teleReefLevel3NumStepPlus = document.getElementById("teleReefLevel3NumStepPlus"),
+            teleReeflevel3Number = 0;
+            teleReefLevel3NumStepPlus.addEventListener("click", () => {
+                teleReeflevel3Number++;
+                teleReefLevel3NumStepNumber.innerText = teleReeflevel3Number;
+            });
+            teleReefLevel3NumStepMinus.addEventListener("click", () => {
+                if (teleReeflevel3Number > 0) {
+                    teleReeflevel3Number--;}
+                    teleReefLevel3NumStepNumber.innerText = teleReeflevel3Number;
+                });
+            teleReefLevel3MissedNumStepMinus = document.getElementById("teleReefLevel3MissedNumStepMinus"),
+            teleReefLevel3MissedNumStepNumber = document.getElementById("teleReefLevel3MissedNumStepNumber"),
+            teleReefLevel3MissedNumStepPlus = document.getElementById("teleReefLevel3MissedNumStepPlus"),
+            teleReeflevel3MissedNumber = 0;
+            teleReefLevel3MissedNumStepPlus.addEventListener("click", () => {
+                teleReeflevel3MissedNumber++;
+                teleReefLevel3MissedNumStepNumber.innerText = teleReeflevel3MissedNumber;
+            });
+            teleReefLevel3MissedNumStepMinus.addEventListener("click", () => {
+                if (teleReeflevel3MissedNumber > 0) {
+                    teleReeflevel3MissedNumber--;}
+                    teleReefLevel3MissedNumStepNumber.innerText = teleReeflevel3MissedNumber;
+                });
+
+            teleReefLevel4NumStepMinus = document.getElementById("teleReefLevel4NumStepMinus"),
+            teleReefLevel4NumStepNumber = document.getElementById("teleReefLevel4NumStepNumber"),
+            teleReefLevel4NumStepPlus = document.getElementById("teleReefLevel4NumStepPlus"),
+            teleReeflevel4Number = 0;
+            teleReefLevel4NumStepPlus.addEventListener("click", () => {
+                teleReeflevel4Number++;
+                teleReefLevel4NumStepNumber.innerText = teleReeflevel4Number;
+            });
+            teleReefLevel4NumStepMinus.addEventListener("click", () => {
+                if (teleReeflevel4Number > 0) {
+                    teleReeflevel4Number--;}
+                    teleReefLevel4NumStepNumber.innerText = teleReeflevel4Number;
+                });
+            teleReefLevel4MissedNumStepMinus = document.getElementById("teleReefLevel4MissedNumStepMinus"),
+            teleReefLevel4MissedNumStepNumber = document.getElementById("teleReefLevel4MissedNumStepNumber"),
+            teleReefLevel4MissedNumStepPlus = document.getElementById("teleReefLevel4MissedNumStepPlus"),
+            teleReeflevel4MissedNumber = 0;
+            teleReefLevel4MissedNumStepPlus.addEventListener("click", () => {
+                teleReeflevel4MissedNumber++;
+                teleReefLevel4MissedNumStepNumber.innerText = teleReeflevel4MissedNumber;
+            });
+            teleReefLevel4MissedNumStepMinus.addEventListener("click", () => {
+                if (teleReeflevel4MissedNumber > 0) {
+                    teleReeflevel4MissedNumber--;}
+                    teleReefLevel4MissedNumStepNumber.innerText = teleReeflevel4MissedNumber;
+                });
+
+               teleReefAlgeaLowNumStepMinus = document.getElementById("teleReefAlgeaLowNumStepMinus"),
+               teleReefAlgeaLowNumStepNumber = document.getElementById("teleReefAlgeaLowNumStepNumber"),
+               teleReefAlgeaLowNumStepPlus = document.getElementById("teleReefAlgeaLowNumStepPlus"),
+           teleReefAlgeaLowNumStep = 0;
+           teleReefAlgeaLowNumStepPlus.addEventListener("click", () => {
+               teleReefAlgeaLowNumber++;
+               teleReefAlgeaLowNumStepNumber.innerText =teleReefAlgeaLowNumber;
+            });
+           teleReefAlgeaLowNumStepMinus.addEventListener("click", () => {
+                if (teleReefAlgeaLowNumber > 0) {
+                   teleReefAlgeaLowNumber--;}
+                   teleReefAlgeaLowNumStepNumber.innerText =teleReefAlgeaLowNumber;
+                });
+
+                teleReefAlgeaHighNumStepMinus = document.getElementById("teleReefAlgeaHighNumStepMinus"),
+                teleReefAlgeaHighNumStepNumber = document.getElementById("teleReefAlgeaHighNumStepNumber"),
+                teleReefAlgeaHighNumStepPlus = document.getElementById("teleReefAlgeaHighNumStepPlus"),
+            teleReefAlgeaHighNumStep = 0;
+            teleReefAlgeaHighNumStepPlus.addEventListener("click", () => {
+                teleReefAlgeaHighNumber++;
+                teleReefAlgeaHighNumStepNumber.innerText = teleReefAlgeaHighNumber;
+            });
+            teleReefAlgeaHighNumStepMinus.addEventListener("click", () => {
+                if (teleReefAlgeaHighNumber > 0) {
+                    teleReefAlgeaHighNumber--;}
+                    teleReefAlgeaHighNumStepNumber.innerText = teleReefAlgeaHighNumber;
+                });
+
+                teleProcessorNumStepMinus = document.getElementById("teleProcessorNumStepMinus"),
+            teleProcessorNumStepNumber = document.getElementById("teleProcessorNumStepNumber"),
+            teleProcessorNumStepPlus = document.getElementById("teleProcessorNumStepPlus"),
+            teleProcessorNumber = 0;
+            teleProcessorNumStepPlus.addEventListener("click", () => {
+                teleProcessorNumber++;
+                teleProcessorNumStepNumber.innerText = teleProcessorNumber;
+            });
+            teleProcessorNumStepMinus.addEventListener("click", () => {
+                if (teleProcessorNumber > 0) {
+                    teleProcessorNumber--;}
+                    teleProcessorNumStepNumber.innerText = teleProcessorNumber;
+                });
+            teleProcessorMissedNumStepMinus = document.getElementById("teleProcessorMissedNumStepMinus"),
+            teleProcessorMissedNumStepNumber = document.getElementById("teleProcessorMissedNumStepNumber"),
+            teleProcessorMissedNumStepPlus = document.getElementById("teleProcessorMissedNumStepPlus"),
+            teleProcessorMissedNumber = 0;
+            teleProcessorMissedNumStepPlus.addEventListener("click", () => {
+                teleProcessorMissedNumber++;
+                teleProcessorMissedNumStepNumber.innerText = teleProcessorMissedNumber;
+            });
+            teleProcessorMissedNumStepMinus.addEventListener("click", () => {
+                if (teleProcessorMissedNumber > 0) {
+                    teleProcessorMissedNumber--;}
+                    teleProcessorMissedNumStepNumber.innerText = teleProcessorMissedNumber;
+                });
+
+                teleNetNumStepMinus = document.getElementById("teleNetNumStepMinus"),
+            teleNetNumStepNumber = document.getElementById("teleNetNumStepNumber"),
+            teleNetNumStepPlus = document.getElementById("teleNetNumStepPlus"),
+            teleNetNumber = 0;
+            teleNetNumStepPlus.addEventListener("click", () => {
+                teleNetNumber++;
+                teleNetNumStepNumber.innerText = teleNetNumber;
+            });
+            teleNetNumStepMinus.addEventListener("click", () => {
+                if (teleNetNumber > 0) {
+                    teleNetNumber--;}
+                    teleNetNumStepNumber.innerText = teleNetNumber;
+                });
+            teleNetMissedNumStepMinus = document.getElementById("teleNetMissedNumStepMinus"),
+            teleNetMissedNumStepNumber = document.getElementById("teleNetMissedNumStepNumber"),
+            teleNetMissedNumStepPlus = document.getElementById("teleNetMissedNumStepPlus"),
+            teleNetMissedNumber = 0;
+            teleNetMissedNumStepPlus.addEventListener("click", () => {
+                teleNetMissedNumber++;
+                teleNetMissedNumStepNumber.innerText = teleNetMissedNumber;
+            });
+            teleNetMissedNumStepMinus.addEventListener("click", () => {
+                if (teleNetMissedNumber > 0) {
+                    teleNetMissedNumber--;}
+                    teleNetMissedNumStepNumber.innerText = teleNetMissedNumber;
+                });
+    /*Endgame*/
+        let PullShallowClimb = () => {
+            shallowClimb = document.querySelector("input[name='shallowClimb']:checked").value;
+        }
+        shallowClimb.forEach(shallowClimb => {
+            shallowClimb.addEventListener("change",PullShallowClimb);
+        });
+
+        let PullDeepClimb = () => {
+            deepClimb = document.querySelector("input[name='deepClimb']:checked").value;
+        }
+        deepClimb.forEach(deepClimb => {
+            deepClimb.addEventListener("change",PullDeepClimb);
+        });
+
+        let PullPark = () => {
+            park = document.querySelector("input[name='park']:checked").value;
+        }
+        park.forEach(park => {
+            park.addEventListener("change",PullPark);
+        });
+
+    var qrModal = document.getElementById("qrModal");
+    function generateMatchData() {
+        qrModal.show();
+
+        const data = [];
+
+        var qrcode = new QRCode(document.getElementById("qrcode"), {
+            text: data,
+            width: 128,
+            height: 128,
+            colorDark : "#000000",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.L
+        });
+    }
+
+    function closeQR() {
+        qrModal.close();
+    }
+
+    function resetMatchData() {
+
+    }
+
     </script>
 </body>
 </html>
