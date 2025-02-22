@@ -14,14 +14,14 @@
         <button onclick="showScoutingModeModal()">&#9776;</button>
     </div>
     <dialog id="scoutingModeModal">
-        <button>Match Scouting</button>
-        <button>Pit Scouting</button>
+        <button id="switchMatchScoutingMode">Match Scouting</button>
+        <button id="switchPitScoutingMode">Pit Scouting</button>
         <button onclick="closeScoutingModeModal()">Close</button>
         <p>Version: 2025.1.0</p>
     </dialog>
 
 <!-- Match Scouting Section -->
-    <section class="section">
+    <section class="matchScoutingSection" id="matchScoutingSection">
         <h1>Match Scouting</h1>
         <hr>
         <form name="matchScoutingForm" id="matchScoutingForm">
@@ -44,34 +44,34 @@
             <label for="matchMatchNumber">Match Number</label>
             <input type="number" inputmode="numeric" name="matchMatchNumber">
 
-            <div class="radio">
-                <p>Start Position</p>
-                <div class="radioInput">
-                    <div class="radioOption">
-                        <label class="radioLabel">1</label>
-                        <input type="radio" name="startPosition" value="1"/>
-                    </div>
-                    <div class="radioOption">
-                        <label class="radioLabel">2</label>
-                        <input type="radio" name="startPosition" value="2"/>
-                    </div>
-                    <div class="radioOption">
-                        <label class="radioLabel">3</label>
-                        <input type="radio" name="startPosition" value="3"/>
-                    </div>
-                </div>
-                <button type="button" id="startPositionMapButton" onclick="showStartPositionMap()">Field</button>
-                <dialog id="startPositionDialog">
-                    <button type="button" class="closeStartPositionMap" onclick="closeStartPositionMap()">Close</button>
-                    <div> <!---Start Position Image-->
-                    </div>
-                </dialog>
-            </div>
-
             <label for="matchNoShow">No Show</label>
             <input type="checkbox" name="matchNoShow" id="matchNoShow">
     
             <div id="noShowSection"> <!-- No Show Section (hides form when no show button is pressed)-->
+
+                <div class="radio">
+                    <p>Start Position</p>
+                    <div class="radioInput">
+                        <div class="radioOption">
+                            <label class="radioLabel">1</label>
+                            <input type="radio" name="startPosition" value="1"/>
+                        </div>
+                        <div class="radioOption">
+                            <label class="radioLabel">2</label>
+                            <input type="radio" name="startPosition" value="2"/>
+                        </div>
+                        <div class="radioOption">
+                            <label class="radioLabel">3</label>
+                            <input type="radio" name="startPosition" value="3"/>
+                        </div>
+                    </div>
+                    <button type="button" id="startPositionMapButton" onclick="showStartPositionMap()">Field</button>
+                    <dialog id="startPositionDialog">
+                        <button type="button" class="closeStartPositionMap" onclick="closeStartPositionMap()">Close</button>
+                        <div> <!---Start Position Image-->
+                        </div>
+                    </dialog>
+                </div>
                 
                 <h2>Autonomous</h2>
                 
@@ -449,8 +449,26 @@
 <!-- End of Match Scouting Section -->
 
 <!-- Pit Scouting Section -->
-    <section class="pitScoutingSection">
-        <!-- <h1>Pit Scouting</h1> -->
+    <section class="pitScoutingSection" id="pitScoutingSection">
+        <h1>Pit Scouting</h1>
+        <hr>
+        <form name="pitScoutingForm" id="pitScoutingForm">
+            <label for="pitScouterName">Scouter Name</label>
+            <input type="text" name="pitScouterName" list="pitScouterName">
+            
+            <datalist id="pitScouterName">
+                <option value="Liam">
+                <option value="Andrew">
+                <option value="Liam">
+                <option value="Liam">
+            </datalist>
+
+            <label for="pitTeamNumber">Team Number</label>
+            <input type="number" inputmode="numeric" name="pitTeamNumber">
+
+
+
+        </form>
     </section>
     <!-- <dialog id="qrcodeModal">
         <div id="qrcode"></div>
@@ -578,7 +596,7 @@
             padding: 1rem;
         }
 
-        .section {
+        .matchScoutingSection{
             display: flex;
             flex-direction: column;
             width: 70%;
@@ -593,13 +611,40 @@
             border-radius: 2rem;
         }
 
-        .section h1 {
+        .matchScoutingSection h1 {
             font-size: 3rem;
             font-weight: bold;
             align-items: center;
         }
 
-        .section h2 {
+        .matchScoutingSection h2 {
+            margin: 1rem 0rem 0.5rem 0rem;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .pitScoutingSection{
+            display: none;
+            flex-direction: column;
+            width: 70%;
+            margin: 2rem auto;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 2rem 0rem 2rem 0rem;
+            border-radius: 2rem;
+        }
+
+        .pitScoutingSection h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            align-items: center;
+        }
+
+        .pitScoutingSection h2 {
             margin: 1rem 0rem 0.5rem 0rem;
             font-size: 1.8rem;
             font-weight: bold;
@@ -726,6 +771,12 @@
         }
 
         #matchScoutingForm {
+            display: flex;
+            flex-direction: column;
+            margin: 1rem 0rem;
+        }
+
+        #pitScoutingForm {
             display: flex;
             flex-direction: column;
             margin: 1rem 0rem;
@@ -904,13 +955,37 @@
             }
         }
         
-        //buttons to show and hode the mode switcher
+        //buttons to show and hide the mode switcher
         var scoutingModeModal = document.getElementById("scoutingModeModal");
         function showScoutingModeModal() {
             scoutingModeModal.show();
         }
         function closeScoutingModeModal() {
             scoutingModeModal.close();
+        }
+
+        //function to switch between match and pit scouting
+        const switchMatchScoutingMode = document.getElementById('switchMatchScoutingMode');
+        const switchPitScoutingMode = document.getElementById('switchPitScoutingMode');
+        switchMatchScoutingMode.addEventListener('click', function() {
+            switchScoutingMode("match");
+            closeScoutingModeModal();
+        });
+        switchPitScoutingMode.addEventListener('click', function() {
+            switchScoutingMode("pit");
+            closeScoutingModeModal();
+        });
+        const matchScoutingSection = document.getElementById('matchScoutingSection');
+        const pitScoutingSection = document.getElementById('pitScoutingSection');
+
+        function switchScoutingMode(mode) {
+            if (mode == "match") {
+                matchScoutingSection.style.display = "flex";
+                pitScoutingSection.style.display = "none";
+            } else if (mode == "pit") {
+                matchScoutingSection.style.display = "none";
+                pitScoutingSection.style.display = "flex";
+            }
         }
         
         //function to hide most of the form if the team is a no show
@@ -921,7 +996,6 @@
     
             if (matchNoShow.checked) {
                 noShowSection.style.display = "none";
-                
             } else {
                 noShowSection.style.display = "flex";
             }
