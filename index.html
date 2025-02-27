@@ -460,13 +460,68 @@
             <label for="pitTeamNumber">Team Number</label>
             <input type="number" inputmode="numeric" name="pitTeamNumber">
 
+
             <!-- reef scoring capabilities that I won't add because I don't know how to make multiselect yet-->
 
+            <label for="scoreInNet">Scores in the net?</label>
+            <input type="checkbox" name="scoreInNet">
 
+            <label for="scoreInProcessor">Scores in the processor?</label>
+            <input type="checkbox" name="scoreInProcessor">
+
+            <label for="autoStrategy">Auto strategy?</label>
+            <input type="text" name="autoStrategy">
+
+            <!-- starting positions that I won't add because I don't know how to make multicheckbox yet-->
+
+            <label for="leaveStartingLine">Leaves starting line in auto?</label>
+            <input type="checkbox" name="leaveStartingLine">
+
+            <!-- this sounds really complicated - where in reef they can score coral in auto-->
+
+            <!-- this sounds complicated too - what algae they remove from reef in auto-->
+
+            <!-- requires multiselect - pre-placed-->
+
+            <!--requires multiselect - auto coral station pickup-->
+
+            <label for="driveExperience">Drive experience (time)?</label>
+            <input type="text" name="driveExperience">
+
+            <label for="driveTrain">Drive train?</label>
+            <input type="text" name="driveTrain">
+
+            <label for="robotPurpose">What is the primary purpose of the robot (what game pieces is it designed to score/ does it play defense)?</label>
+            <input type="text" name="robotPurpose">
+
+            <label for="coralPickupCapability">Coral pickup capability?</label>
+            <!-- requires multiselect-->
+
+            <label for="algaePickupCapability">Algae pickup capability?</label>
+            <!-- requires multiselect-->
+
+            <label for="buildQuality">Build quality (do not ask)?</label>
+            <input type="range" name="buildQuality" min="1" max="10">
+
+            <label for="programmingLanguage">Programming language?</label>
+            <input type="text" name="programmingLanguage">
+
+            <label for="pearatrooperHelp">Help needed?</label>
+            <input type="checkbox" name="pearatrooper help">
+
+            <label for="helpNeeded">Type of help needed?</label>
+            <input type="text" name="helpNeeded">
+
+            <label for="specialNotes">Special notes?</label> 
+            <input type="text" name="specialNotes">
+
+            <br>
 
             <button type="button" onclick="generateMatchData()">Generate</button>
         </form>
     </section>
+
+    <!--QR code-->
     <dialog id="QRModal">
         <div id="QRCode"></div>
         <button onclick="closeQR()">Edit / Close</button>
