@@ -21,7 +21,7 @@
     </dialog>
 
 <!-- Match Scouting Section -->
-    <section class="matchScoutingSection" id="matchScoutingSection">
+    <section class="section" id="matchScoutingSection">
         <h1>Match Scouting</h1>
         <hr>
         <form name="matchScoutingForm" id="matchScoutingForm">
@@ -213,8 +213,7 @@
                         <div id="autoAlgaeNumberStep">
                             <p>Missed</p>
                             <div class="NumStep" id="NumStep"> 
-                                <span id="autoNetMissedNumStepMinus" class="NumStepMinus">&minus;</span> 
-                                <!--these where just "autoNet" but its under the "Missed" tag so i figured it is meant to be 'autoNetMissed" yeah? -->
+                                <span id="autoNetMissedNumStepMinus" class="NumStepMinus">&minus;</span>
                                 <span id="autoNetMissedNumStepNumber" class="NumStepNumber">0</span>
                                 <span id="autoNetMissedNumStepPlus" class="NumStepPlus">+</span>
                             </div>
@@ -440,16 +439,11 @@
             </div id=noShowToggle> <!-- End No Show Section-->
             <button type="button" onclick="generateMatchData()">Generate</button>
         </form>
-        <dialog id="matchQRModal">
-            <div id="matchQRCode"></div>
-            <button onclick="closeQR()">Edit / Close</button>
-            <button onclick="resetMatchData()">Reset Form</button>
-        </dialog>
     </section>
 <!-- End of Match Scouting Section -->
 
 <!-- Pit Scouting Section -->
-    <section class="pitScoutingSection" id="pitScoutingSection">
+    <section class="section" id="pitScoutingSection">
         <h1>Pit Scouting</h1>
         <hr>
         <form name="pitScoutingForm" id="pitScoutingForm">
@@ -466,15 +460,19 @@
             <label for="pitTeamNumber">Team Number</label>
             <input type="number" inputmode="numeric" name="pitTeamNumber">
 
+            <!-- reef scoring capabilities that I won't add because I don't know how to make multiselect yet-->
 
 
+
+            <button type="button" onclick="generateMatchData()">Generate</button>
         </form>
     </section>
-    <!-- <dialog id="qrcodeModal">
-        <div id="qrcode"></div>
-        <button>edit</button>
-        <button>reset</button>
-    </dialog> -->
+    <dialog id="QRModal">
+        <div id="QRCode"></div>
+        <button onclick="closeQR()">Edit / Close</button>
+        <button onclick="resetMatchData()">Reset Form</button>
+    </dialog>
+    
         
 
 <!--stylesheet-->
@@ -562,7 +560,7 @@
             transform: translateY(25px);
         }
 
-        #matchQRModal {
+        #QRModal {
             position: fixed;
             width: 400px;
             height: 460px;
@@ -581,14 +579,14 @@
             z-index: 1;
         }
 
-        #matchQRModal button {
+        #QRModal button {
             width: 300px;
             height: 50px;
             font-size: 2rem;
             transform: translateY(25px);
         }
 
-        #matchQRCode {
+        #QRCode {
             width: 300px;
             margin: 0rem auto;
             border-radius: 15px;
@@ -596,7 +594,7 @@
             padding: 1rem;
         }
 
-        .matchScoutingSection{
+        .section{
             display: flex;
             flex-direction: column;
             width: 70%;
@@ -611,40 +609,13 @@
             border-radius: 2rem;
         }
 
-        .matchScoutingSection h1 {
+        .section h1 {
             font-size: 3rem;
             font-weight: bold;
             align-items: center;
         }
 
-        .matchScoutingSection h2 {
-            margin: 1rem 0rem 0.5rem 0rem;
-            font-size: 1.8rem;
-            font-weight: bold;
-        }
-
-        .pitScoutingSection{
-            display: none;
-            flex-direction: column;
-            width: 70%;
-            margin: 2rem auto;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 16px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 2rem 0rem 2rem 0rem;
-            border-radius: 2rem;
-        }
-
-        .pitScoutingSection h1 {
-            font-size: 3rem;
-            font-weight: bold;
-            align-items: center;
-        }
-
-        .pitScoutingSection h2 {
+        .section h2 {
             margin: 1rem 0rem 0.5rem 0rem;
             font-size: 1.8rem;
             font-weight: bold;
@@ -932,7 +903,7 @@
     <script defer>
 
         //define the qr code
-        var matchQRCode = new QRCode(document.getElementById("matchQRCode"), {
+        var QRCode = new QRCode(document.getElementById("QRCode"), {
             text: "",
             width: 300,
             height: 300,
@@ -977,6 +948,7 @@
         });
         const matchScoutingSection = document.getElementById('matchScoutingSection');
         const pitScoutingSection = document.getElementById('pitScoutingSection');
+        pitScoutingSection.style.display = "none";
 
         function switchScoutingMode(mode) {
             if (mode == "match") {
@@ -1432,25 +1404,24 @@
 
         //function to encode the form data to qr-code
         function generateMatchData() {
-            var matchQRModal = document.getElementById("matchQRModal");
-            matchQRModal.show();
+            var QRModal = document.getElementById("QRModal");
+            QRModal.show();
 
             const dataArray = [matchScouterName.value, matchTeamNumber.value, matchMatchNumber.value, startPosition, matchNoShow.checked, matchLeaveStartPosition.checked, autoreeflevel1Number, autoreeflevel1MissedNumber, autoreeflevel2Number,autoreeflevel2MissedNumber, autoreeflevel3Number, autoreeflevel3MissedNumber, autoreeflevel4Number, autoreeflevel4MissedNumber, autoReefAlgaeLowNumber, autoReefAlgaeHighNumber, autoProcessorNumber, autoProcessorMissedNumber, autoNetNumber, autoNetMissedNumber, teleReeflevel1Number, teleReeflevel1MissedNumber, teleReeflevel2Number, teleReeflevel2MissedNumber, teleReeflevel3Number, teleReeflevel3MissedNumber, teleReeflevel4Number, teleReeflevel4MissedNumber, teleReefAlgeaLowNumber, teleReefAlgeaHighNumber, teleProcessorNumber, teleProcessorMissedNumber, teleNetNumber, teleNetMissedNumber, shallowClimb, deepClimb, park, collectCoralStation.checked, collectCoralGround.checked, collectAlgaeReef.checked, collectAlgaeGround.checked, new Date().toLocaleTimeString()];
 
             console.log(dataArray.join("	"));
-            matchQRCode.clear();
-            matchQRCode.makeCode(dataArray.join("	"));
+            QRCode.clear();
+            QRCode.makeCode(dataArray.join("	"));
         }
 
         function closeQR() {
-            matchQRModal.close();
-            matchQRCode.clear();
-            window.scrollTo({top: 0, behavior: 'smooth'});
+            QRModal.close();
+            QRCode.clear();
         }
 
         function resetMatchData() {
-            matchQRModal.close();
-            matchQRCode.clear();
+            QRModal.close();
+            QRCode.clear();
             window.scrollTo({top: 0, behavior: 'smooth'});
             clearMatchForm();
         }
