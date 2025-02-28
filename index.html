@@ -66,11 +66,6 @@
                         </div>
                     </div>
                     <button type="button" id="startPositionMapButton" onclick="showStartPositionMap()">Field</button>
-                    <dialog id="startPositionDialog">
-                        <button type="button" class="closeStartPositionMap" onclick="closeStartPositionMap()">Close</button>
-                        <div> <!---Start Position Image-->
-                        </div>
-                    </dialog>
                 </div>
                 
                 <h2>Autonomous</h2>
@@ -460,8 +455,27 @@
             <label for="pitTeamNumber">Team Number</label>
             <input type="number" inputmode="numeric" name="pitTeamNumber">
 
-
-            <!-- reef scoring capabilities that I won't add because I don't know how to make multiselect yet-->
+            <div class="multi-select">
+                <p class="multi-selectTitle">Reef Scoring Capabilities</p>
+                <div class="multi-selectInput">
+                    <div class="multi-selectOption">
+                        <label for="reefLevel1">Level 1</label>
+                        <input type="checkbox" name="reefLevel1">
+                    </div>
+                    <div class="multi-selectOption">
+                        <label for="reefLevel2">Level 2</label>
+                        <input type="checkbox" name="reefLevel2">  
+                    </div>
+                    <div class="multi-selectOption">
+                        <label for="reefLevel3">Level 3</label>
+                        <input type="checkbox" name="reefLevel3">
+                    </div>
+                    <div class="multi-selectOption">
+                        <label for="reefLevel4">Level 4</label>
+                        <input type="checkbox" name="reefLevel4">
+                    </div>
+                </div>
+            </div>
 
             <label for="scoreInNet">Scores in the net?</label>
             <input type="checkbox" name="scoreInNet">
@@ -472,18 +486,65 @@
             <label for="autoStrategy">Auto strategy?</label>
             <input type="text" name="autoStrategy">
 
-            <!-- starting positions that I won't add because I don't know how to make multicheckbox yet-->
+            <div class="multi-select">
+                <p class="multi-selectTitle">Possible Starting Position</p>
+                <div class="multi-selectInput">
+                    <div class="multi-selectOption">
+                        <label for="possibleStartPosition1">1</label>
+                        <input type="checkbox" name="possibleStartPosition1">
+                    </div>
+                    <div class="multi-selectOption">
+                        <label for="possibleStartPosition2">2</label>
+                        <input type="checkbox" name="possibleStartPosition2">  
+                    </div>
+                    <div class="multi-selectOption">
+                        <label for="possibleStartPosition3">3</label>
+                        <input type="checkbox" name="possibleStartPosition3">
+                    </div>
+                </div>
+                <button type="button" id="startPositionMapButton" onclick="showStartPositionMap()">Field</button>
+            </div>
 
             <label for="leaveStartingLine">Leaves starting line in auto?</label>
             <input type="checkbox" name="leaveStartingLine">
 
-            <!-- this sounds really complicated - where in reef they can score coral in auto-->
+            <!-- this sounds complicated - where in reef they can score coral in auto, I don't know how to do this-->
 
             <!-- this sounds complicated too - what algae they remove from reef in auto-->
 
-            <!-- requires multiselect - pre-placed-->
+            <div class="multi-select">
+                <p class="multi-selectTitle">Pre-placed</p>
+                <div class="multi-selectInput">
+                    <div class="multi-selectOption">
+                        <label for="pre-placed1">1</label>
+                        <input type="checkbox" name="pre-placed1">
+                    </div>
+                    <div class="multi-selectOption">
+                        <label for="pre-placed2">2</label>
+                        <input type="checkbox" name="pre-placed2">  
+                    </div>
+                    <div class="multi-selectOption">
+                        <label for="pre-placed3">3</label>
+                        <input type="checkbox" name="pre-placed3">
+                    </div>
+                </div>
+                <button type="button" id="startPositionMapButton" onclick="showStartPositionMap()">Field</button>
+            </div>
 
-            <!--requires multiselect - auto coral station pickup-->
+            <div class="multi-select">
+                <p class="multi-selectTitle">Auto Coral Station Pickup</p>
+                <div class="multi-selectInput">
+                    <div class="multi-selectOption">
+                        <label for="pre-placed1">1</label>
+                        <input type="checkbox" name="pre-placed1">
+                    </div>
+                    <div class="multi-selectOption">
+                        <label for="pre-placed2">2</label>
+                        <input type="checkbox" name="pre-placed2">  
+                    </div>
+                </div>
+                <button type="button" id="startPositionMapButton" onclick="showStartPositionMap()">Field</button>
+            </div>
 
             <label for="driveExperience">Drive experience (time)?</label>
             <input type="text" name="driveExperience">
@@ -494,13 +555,49 @@
             <label for="robotPurpose">What is the primary purpose of the robot (what game pieces is it designed to score/ does it play defense)?</label>
             <input type="text" name="robotPurpose">
 
-            <label for="coralPickupCapability">Coral pickup capability?</label>
-            <!-- requires multiselect-->
+            <div class="multi-select">
+                <p class="multi-selectTitle">Climber capability?</p>
+                <div class="multi-selectInput">
+                    <div class="multi-selectOption">
+                        <label for="climberShallow">Shallow</label>
+                        <input type="checkbox" name="climberShallow">
+                    </div>
+                    <div class="multi-selectOption">
+                        <label for="climberDeep">Deep</label>
+                        <input type="checkbox" name="climberDeep">  
+                    </div>
+                </div>
+            </div>
 
-            <label for="algaePickupCapability">Algae pickup capability?</label>
-            <!-- requires multiselect-->
+            <div class="multi-select">
+                <p class="multi-selectTitle">Coral pickup capability?</p>
+                <div class="multi-selectInput">
+                    <div class="multi-selectOption">
+                        <label for="coralPickupGround">Ground</label>
+                        <input type="checkbox" name="coralPickupGround">
+                    </div>
+                    <div class="multi-selectOption">
+                        <label for="coralPickupStation">Station</label>
+                        <input type="checkbox" name="coralPickupStation">  
+                    </div>
+                </div>
+            </div>
 
-            <label for="buildQuality">Build quality (do not ask)?</label>
+            <div class="multi-select">
+                <p class="multi-selectTitle">Algae pickup capability?</p>
+                <div class="multi-selectInput">
+                    <div class="multi-selectOption">
+                        <label for="algaePickupGround">Ground</label>
+                        <input type="checkbox" name="algaePickupGround">
+                    </div>
+                    <div class="multi-selectOption">
+                        <label for="algaePickupReef">Station</label>
+                        <input type="checkbox" name="algaePickupReef">  
+                    </div>
+                </div>
+            </div>
+
+            <label for="buildQuality">Build quality (do not ask!!)?</label>
             <input type="range" name="buildQuality" min="1" max="10">
 
             <label for="programmingLanguage">Programming language?</label>
@@ -526,6 +623,13 @@
         <div id="QRCode"></div>
         <button onclick="closeQR()">Edit / Close</button>
         <button onclick="resetMatchData()">Reset Form</button>
+    </dialog>
+
+    <!--Start Position Map-->
+    <dialog id="startPositionDialog">
+        <button type="button" class="closeStartPositionMap" onclick="closeStartPositionMap()">Close</button>
+        <div> <!---Start Position Image-->
+        </div>
     </dialog>
     
         
@@ -926,6 +1030,35 @@
         }
 
         .radioOption {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .multi-select {
+            display: flex;
+            flex-direction: column;
+            margin: 1rem auto;
+            width: 50%;
+            padding: 2rem 2rem;
+            background: rgba(105, 105, 105, 0.2);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .multi-select-title p {
+            font-size: 2rem;
+        }
+
+        .multi-selectInput {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+        }
+
+        .multi-selectOption {
             display: flex;
             flex-direction: column;
         }
