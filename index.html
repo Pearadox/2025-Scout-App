@@ -1663,24 +1663,6 @@
             var startPositionDialog = document.getElementById("startPositionDialog");
             startPositionDialog.close();
         }
-
-        //function to rotate the field map
-        var startPositionCounter = 0;
-        function rotateStartPositionMap() {
-            var startPositionMap = document.getElementById("startPositionMap");
-            if (startPostionCounter == 1) {
-            startPositionMap.style.display = "flex";
-            rotatedStartPositionMap.style.display = "none"
-            startPostionCounter = 0;
-            } else {
-            startPositionMap.style.display = "none";
-            rotatedStartPositionMap.style.display = "flex"
-            startPostionCounter = 1;
-            }
-        }
-
-
-
     </script>
 </body>
 </html>
