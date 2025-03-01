@@ -617,6 +617,7 @@
             <button type="button" onclick="generateMatchData()">Generate</button>
         </form>
     </section>
+    <!-- End of pit Scouting Section-->
 
     <!--QR code-->
     <dialog id="QRModal">
@@ -628,7 +629,8 @@
     <!--Start Position Map-->
     <dialog id="startPositionDialog">
         <button type="button" class="closeStartPositionMap" onclick="closeStartPositionMap()">Close</button>
-        <div> <!---Start Position Image-->
+        <div>
+            <img src="./temp.jpg" alt="Start Position Map" id="startPositionMap"> <!-- Note: this link should probably be updated-->
         </div>
     </dialog>
     
@@ -1064,6 +1066,42 @@
         }
 
         #startPositionMapButton {
+            margin: 1rem 0rem 0rem 0rem;
+            padding: 0.25rem;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        #startPositionDialog {
+            position: fixed;
+            width: 400px;
+            height: 600px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: black;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: .5rem 1rem;
+            border-radius: 15px;
+            z-index: 1;
+        }
+
+        #startPositionMap {
+            display: block;
+            margin: 1rem auto;
+            width: 100%;
+            border-radius: 15px;
+        }
+
+        .closeStartPositionMap {
             margin: 1rem 0rem 0rem 0rem;
             padding: 0.25rem;
             color: black;
@@ -1613,6 +1651,35 @@
             window.scrollTo({top: 0, behavior: 'smooth'});
             clearMatchForm();
         }
+
+        //function to show the field map
+        function showStartPositionMap() {
+            var startPositionDialog = document.getElementById("startPositionDialog");
+            startPositionDialog.show();
+        }
+        
+        //function to close the field map
+        function closeStartPositionMap() {
+            var startPositionDialog = document.getElementById("startPositionDialog");
+            startPositionDialog.close();
+        }
+
+        //function to rotate the field map
+        var startPositionCounter = 0;
+        function rotateStartPositionMap() {
+            var startPositionMap = document.getElementById("startPositionMap");
+            if (startPostionCounter == 1) {
+            startPositionMap.style.display = "flex";
+            rotatedStartPositionMap.style.display = "none"
+            startPostionCounter = 0;
+            } else {
+            startPositionMap.style.display = "none";
+            rotatedStartPositionMap.style.display = "flex"
+            startPostionCounter = 1;
+            }
+        }
+
+
 
     </script>
 </body>
