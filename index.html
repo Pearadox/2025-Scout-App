@@ -431,7 +431,7 @@
             <input type="number" inputmode="numeric" name="pitTeamNumber" list="teamNumbers">
 
             <div class="multi-select">
-                <p class="multiSelectTitle">Reef Scoring Capabilities</p>
+                <p class="multiSelectTitle">Tele-op Reef Scoring Capabilities</p>
                 <div class="multi-selectInput">
                     <div class="multi-selectOption">
                         <label for="reefLevel1">1</label>
@@ -496,7 +496,7 @@
 
             <div class="coordinatePlane" id="reefCoralID">
                 <table>
-                    <p>Auto coral scores capability</p>
+                    <p>Auto Coral Scoring Capability</p>
                     <tr>
                         <th>Index</th>
                         <th>Level 1</th>
@@ -593,6 +593,41 @@
             </div>
 
             <!--what algae they remove from reef in auto-->
+
+            <div class="coordinatePlane" id="reefCoralID">
+                <table>
+                    <p>Auto Algea Reef Collection Capability</p>
+                    <tr>
+                        <th>Index</th>
+                        <th>Collect</th>
+                    </tr>
+                    <tr>
+                        <td>A</td>
+                        <td><input type="checkbox" name="autoAlgaeCollectionA"></td>
+                    </tr>
+                    <tr>
+                        <td>C</td>
+                        <td><input type="checkbox" name="autoAlgaeCollectionC"></td>
+                    </tr>
+                    <tr>
+                        <td>E</td>
+                        <td><input type="checkbox" name="autoAlgaeCollectionE"></td>
+                    </tr>
+                    <tr>
+                        <td>G</td>
+                        <td><input type="checkbox" name="autoAlgaeCollectionG"></td>
+                    </tr>
+                    <tr>
+                        <td>I</td>
+                        <td><input type="checkbox" name="autoAlgaeCollectionI"></td>
+                    </tr>
+                    <tr>
+                        <td>K</td>
+                        <td><input type="checkbox" name="autoAlgaeCollectionK"></td>
+                    </tr>
+                </table>
+                <button type="button" id="startPositionMapButton" onclick="showReefCoralMap()">Reef</button>
+            </div>
 
             <div class="multi-select">
                 <p class="multiSelectTitle">Auto Pre-Placed Collection</p>
@@ -1066,7 +1101,7 @@
             display: flex;
             flex-direction: column;
             width: 50%;
-            margin: 0rem auto;
+            margin: 1rem auto;
             padding: 2rem 2rem;
             background: rgba(105, 105, 105, 0.2);
             border-radius: 16px;
@@ -1862,17 +1897,14 @@
         let possibleStartPositions = possibleStartPosition1.checked + "," + possibleStartPosition2.checked + "," + possibleStartPosition3.checked;
         let pitLeavesStartingPosition = document.getElementsByName("leaveStartingLine")[0];
 
-        const pitAutoCoralCapabilityLetters = "ABCDEFGHIJKL";
-        let pitAutoCoralCapabilityCombinedValues = [];
-        for (let letter of pitAutoCoralCapabilityLetters) {
-            for (let i = 1; i <= 4; i++) {
-                let pitAutoCoralCapabilityElement = document.getElementsByName(`autoCoral${letter}${i}`)[0];
-                if (pitAutoCoralCapabilityElement) {
-                    pitAutoCoralCapabilityCombinedValues.push(pitAutoCoralCapabilityElement.checked);
-                }
-            }
-        }
-        let pitAutoCoralCapability = pitAutoCoralCapabilityCombinedValues.join(",");
+        let pitAutoCoralCapability;
+            let autoAlgaeCollectionA = document.getElementsByName("autoAlgaeCollectionA")[0];
+            let autoAlgaeCollectionC = document.getElementsByName("autoAlgaeCollectionC")[0];
+            let autoAlgaeCollectionE = document.getElementsByName("autoAlgaeCollectionE")[0];
+            let autoAlgaeCollectionG = document.getElementsByName("autoAlgaeCollectionG")[0];
+            let autoAlgaeCollectionI = document.getElementsByName("autoAlgaeCollectionI")[0];
+            let autoAlgaeCollectionK = document.getElementsByName("autoAlgaeCollectionK")[0];
+        let pitAutoAlgaeCapability = autoAlgaeCollectionA.checked + "," + autoAlgaeCollectionC.checked + "," + autoAlgaeCollectionE.checked + "," + autoAlgaeCollectionG.checked + "," + autoAlgaeCollectionI.checked + "," + autoAlgaeCollectionK.checked;
 
         let preplaced1 = document.getElementsByName("pre-placed1")[0];
         let preplaced2 = document.getElementsByName("pre-placed2")[0];
@@ -1906,7 +1938,18 @@
         let pitComments = document.getElementsByName("pitComments")[0];
 
         function checkPitInputs() {
-            //nothing should be invalid as no inputs should produce an invalid input
+            //get values for auto reef scoring capabilities
+            const pitAutoCoralCapabilityLetters = "ABCDEFGHIJKL";
+            let pitAutoCoralCapabilityCombinedValues = [];
+            for (let letter of pitAutoCoralCapabilityLetters) {
+                for (let i = 1; i <= 4; i++) {
+                    let pitAutoCoralCapabilityElement = document.getElementsByName(`autoCoral${letter}${i}`)[0];
+                    if (pitAutoCoralCapabilityElement) {
+                        pitAutoCoralCapabilityCombinedValues.push(pitAutoCoralCapabilityElement.checked);
+                    }
+                }
+            }
+            pitAutoCoralCapability = pitAutoCoralCapabilityCombinedValues.join(",");
         }
 
         function resetPitForm() {
@@ -1919,7 +1962,7 @@
 
             checkPitInputs();
 
-            const dataArray = [pitScouterName.value, pitTeamNumber.value, pitReefCapability, pitCapabilityProccessor.checked, pitCapabilityNet.checked, robotPurpose.value, autoStrategy.value, possibleStartPositions, pitLeavesStartingPosition.checked, pitAutoCoralCapability, autoPrePlacedCollection, autoCoralStationPickUp, driverExperience.value, driveTrain.value, pitClimberCapability, pitCoralPickUpCapability, pitAlgaePickUpCapability, pitRobotQuality.value, programmingLanguage.value, helpNeeded.checked, typeHelpNeeded.value, pitComments.value, new Date().toLocaleTimeString()];
+            const dataArray = [pitScouterName.value, pitTeamNumber.value, pitReefCapability, pitCapabilityProccessor.checked, pitCapabilityNet.checked, robotPurpose.value, autoStrategy.value, possibleStartPositions, pitLeavesStartingPosition.checked, pitAutoCoralCapability, pitAutoAlgaeCapability. autoPrePlacedCollection, autoCoralStationPickUp, driverExperience.value, driveTrain.value, pitClimberCapability, pitCoralPickUpCapability, pitAlgaePickUpCapability, pitRobotQuality.value, programmingLanguage.value, helpNeeded.checked, typeHelpNeeded.value, pitComments.value, new Date().toLocaleTimeString()];
 
             console.log(dataArray.join("	"));
             QRCode.clear();
