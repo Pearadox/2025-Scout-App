@@ -1880,64 +1880,65 @@
         }
 
         //pit scouting data points
-        let pitScouterName = document.getElementsByName("pitScouterName")[0];
-        let pitTeamNumber = document.getElementsByName("pitTeamNumber")[0];
+        let pitScouterName;
+        let pitTeamNumber;
+        let pitReefCapability;
+        let pitCapabilityProccessor;
+        let pitCapabilityNet;
+        let robotPurpose;
+        let autoStrategy;
+            
+        let pitLeavesStartingPosition;
+
+        let pitAutoCoralCapability;
+ 
+        let pitAutoAlgaeCapability;
+        let possibleStartPositions;
+        let preplaced1;
+        let preplaced2;
+        let preplaced3;
+        let autoPrePlacedCollection;
+
+        let autoCoralStationPickUp1;
+        let autoCoralStationPickUp2;
+        let autoCoralStationPickUp;
+
+        let driverExperience;
+        let driveTrain;
+
+        let pitClimberCapabilityShallow;
+        let pitClimberCapabilityDeep;
+        let pitClimberCapabilityNone;
+        let pitClimberCapability;
+
+        let pitCoralPickUpCapabilityGround;
+        let pitCoralPickUpCapabilityStation;
+        let pitCoralPickUpCapability;
+
+        let pitAlgaePickUpCapabilityGround;
+        let pitAlgaePickUpCapabilityReef;
+        let pitAlgaePickUpCapability;
+
+        let pitRobotQuality;
+        let programmingLanguage;
+        let helpNeeded;
+        let typeHelpNeeded;
+        let pitComments;
+
+        function checkPitInputs() {
+            //get values for tele-op reef
             let capabilityReefLevel1 = document.getElementsByName("reefLevel1")[0];
             let capabilityReefLevel2 = document.getElementsByName("reefLevel2")[0];
             let capabilityReefLevel3 = document.getElementsByName("reefLevel3")[0];
             let capabilityReefLevel4 = document.getElementsByName("reefLevel4")[0];
-        let pitReefCapability = capabilityReefLevel1.checked + "," + capabilityReefLevel2.checked + "," + capabilityReefLevel3.checked + "," + capabilityReefLevel4.checked;
-        let pitCapabilityProccessor = document.getElementsByName("scoreInProccessor")[0];
-        let pitCapabilityNet = document.getElementsByName("scoreInNet")[0];
-        let robotPurpose = document.getElementsByName("robotPurpose")[0];
-        let autoStrategy = document.getElementsByName("autoStrategy")[0];
+            pitReefCapability = capabilityReefLevel1.checked + "," + capabilityReefLevel2.checked + "," + capabilityReefLevel3.checked + "," + capabilityReefLevel4.checked;
+
+            //get values for possible starting positions
             let possibleStartPosition1 = document.getElementsByName("possibleStartPosition1")[0];
             let possibleStartPosition2 = document.getElementsByName("possibleStartPosition2")[0];
             let possibleStartPosition3 = document.getElementsByName("possibleStartPosition3")[0];
-        let possibleStartPositions = possibleStartPosition1.checked + "," + possibleStartPosition2.checked + "," + possibleStartPosition3.checked;
-        let pitLeavesStartingPosition = document.getElementsByName("leaveStartingLine")[0];
+            possibleStartPositions = possibleStartPosition1.checked + "," + possibleStartPosition2.checked + "," + possibleStartPosition3.checked;
 
-        let pitAutoCoralCapability;
-            let autoAlgaeCollectionA = document.getElementsByName("autoAlgaeCollectionA")[0];
-            let autoAlgaeCollectionC = document.getElementsByName("autoAlgaeCollectionC")[0];
-            let autoAlgaeCollectionE = document.getElementsByName("autoAlgaeCollectionE")[0];
-            let autoAlgaeCollectionG = document.getElementsByName("autoAlgaeCollectionG")[0];
-            let autoAlgaeCollectionI = document.getElementsByName("autoAlgaeCollectionI")[0];
-            let autoAlgaeCollectionK = document.getElementsByName("autoAlgaeCollectionK")[0];
-        let pitAutoAlgaeCapability = autoAlgaeCollectionA.checked + "," + autoAlgaeCollectionC.checked + "," + autoAlgaeCollectionE.checked + "," + autoAlgaeCollectionG.checked + "," + autoAlgaeCollectionI.checked + "," + autoAlgaeCollectionK.checked;
-
-        let preplaced1 = document.getElementsByName("pre-placed1")[0];
-        let preplaced2 = document.getElementsByName("pre-placed2")[0];
-        let preplaced3 = document.getElementsByName("pre-placed3")[0];
-        let autoPrePlacedCollection = preplaced1.checked + "," + preplaced2.checked + "," + preplaced3.checked;
-
-        let autoCoralStationPickUp1 = document.getElementsByName("autoCoralStationCollection1")[0];
-        let autoCoralStationPickUp2 = document.getElementsByName("autoCoralStationCollection2")[0];
-        let autoCoralStationPickUp = autoCoralStationPickUp1.checked + "," + autoCoralStationPickUp2.checked;
-
-        let driverExperience = document.getElementsByName("driverExperience")[0];
-        let driveTrain = document.getElementsByName("driveTrain")[0];
-
-        let pitClimberCapabilityShallow = document.getElementsByName("pitClimberShallow")[0];
-        let pitClimberCapabilityDeep = document.getElementsByName("pitClimberDeep")[0];
-        let pitClimberCapabilityNone = document.getElementsByName("pitClimberNone")[0];
-        let pitClimberCapability = pitClimberCapabilityShallow.checked + "," + pitClimberCapabilityDeep.checked + "," + pitClimberCapabilityNone.checked;
-
-        let pitCoralPickUpCapabilityGround = document.getElementsByName("pitCoralPickupGround")[0];
-        let pitCoralPickUpCapabilityStation = document.getElementsByName("pitCoralPickupStation")[0];
-        let pitCoralPickUpCapability = pitCoralPickUpCapabilityGround.checked + "," + pitCoralPickUpCapabilityStation.checked;
-
-        let pitAlgaePickUpCapabilityGround = document.getElementsByName("pitAlgaePickupGround")[0];
-        let pitAlgaePickUpCapabilityReef = document.getElementsByName("pitAlgaePickupReef")[0];
-        let pitAlgaePickUpCapability = pitAlgaePickUpCapabilityGround.checked + "," + pitAlgaePickUpCapabilityReef.checked;
-
-        let pitRobotQuality = document.getElementsByName("buildQuality")[0];
-        let programmingLanguage = document.getElementsByName("programmingLanguage")[0];
-        let helpNeeded = document.getElementsByName("helpNeeded")[0];
-        let typeHelpNeeded = document.getElementsByName("typeHelpNeeded")[0];
-        let pitComments = document.getElementsByName("pitComments")[0];
-
-        function checkPitInputs() {
             //get values for auto reef scoring capabilities
             const pitAutoCoralCapabilityLetters = "ABCDEFGHIJKL";
             let pitAutoCoralCapabilityCombinedValues = [];
@@ -1950,6 +1951,53 @@
                 }
             }
             pitAutoCoralCapability = pitAutoCoralCapabilityCombinedValues.join(",");
+
+        pitScouterName = document.getElementsByName("pitScouterName")[0];
+        pitTeamNumber = document.getElementsByName("pitTeamNumber")[0];
+        pitCapabilityProccessor = document.getElementsByName("scoreInProccessor")[0];
+        pitCapabilityNet = document.getElementsByName("scoreInNet")[0];
+        robotPurpose = document.getElementsByName("robotPurpose")[0];
+        autoStrategy = document.getElementsByName("autoStrategy")[0];
+            
+        pitLeavesStartingPosition = document.getElementsByName("leaveStartingLine")[0];
+
+        autoAlgaeCollectionA = document.getElementsByName("autoAlgaeCollectionA")[0];
+        autoAlgaeCollectionC = document.getElementsByName("autoAlgaeCollectionC")[0];
+        autoAlgaeCollectionE = document.getElementsByName("autoAlgaeCollectionE")[0];
+        autoAlgaeCollectionG = document.getElementsByName("autoAlgaeCollectionG")[0];
+        autoAlgaeCollectionI = document.getElementsByName("autoAlgaeCollectionI")[0];
+        autoAlgaeCollectionK = document.getElementsByName("autoAlgaeCollectionK")[0];
+        pitAutoAlgaeCapability = autoAlgaeCollectionA.checked + "," + autoAlgaeCollectionC.checked + "," + autoAlgaeCollectionE.checked + "," + autoAlgaeCollectionG.checked + "," + autoAlgaeCollectionI.checked + "," + autoAlgaeCollectionK.checked;
+        preplaced1 = document.getElementsByName("pre-placed1")[0];
+        preplaced2 = document.getElementsByName("pre-placed2")[0];
+        preplaced3 = document.getElementsByName("pre-placed3")[0];
+        autoPrePlacedCollection = preplaced1.checked + "," + preplaced2.checked + "," + preplaced3.checked;
+
+        autoCoralStationPickUp1 = document.getElementsByName("autoCoralStationCollection1")[0];
+        autoCoralStationPickUp2 = document.getElementsByName("autoCoralStationCollection2")[0];
+        autoCoralStationPickUp = autoCoralStationPickUp1.checked + "," + autoCoralStationPickUp2.checked;
+
+        driverExperience = document.getElementsByName("driverExperience")[0];
+        driveTrain = document.getElementsByName("driveTrain")[0];
+
+        pitClimberCapabilityShallow = document.getElementsByName("pitClimberShallow")[0];
+        pitClimberCapabilityDeep = document.getElementsByName("pitClimberDeep")[0];
+        pitClimberCapabilityNone = document.getElementsByName("pitClimberNone")[0];
+        pitClimberCapability = pitClimberCapabilityShallow.checked + "," + pitClimberCapabilityDeep.checked + "," + pitClimberCapabilityNone.checked;
+
+        pitCoralPickUpCapabilityGround = document.getElementsByName("pitCoralPickupGround")[0];
+        pitCoralPickUpCapabilityStation = document.getElementsByName("pitCoralPickupStation")[0];
+        pitCoralPickUpCapability = pitCoralPickUpCapabilityGround.checked + "," + pitCoralPickUpCapabilityStation.checked;
+
+        pitAlgaePickUpCapabilityGround = document.getElementsByName("pitAlgaePickupGround")[0];
+        pitAlgaePickUpCapabilityReef = document.getElementsByName("pitAlgaePickupReef")[0];
+        pitAlgaePickUpCapability = pitAlgaePickUpCapabilityGround.checked + "," + pitAlgaePickUpCapabilityReef.checked;
+
+        pitRobotQuality = document.getElementsByName("buildQuality")[0];
+        programmingLanguage = document.getElementsByName("programmingLanguage")[0];
+        helpNeeded = document.getElementsByName("helpNeeded")[0];
+        typeHelpNeeded = document.getElementsByName("typeHelpNeeded")[0];
+        pitComments = document.getElementsByName("pitComments")[0];
         }
 
         function resetPitForm() {
