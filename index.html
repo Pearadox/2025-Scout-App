@@ -17,7 +17,7 @@
         <button id="switchMatchScoutingMode">Match Scouting</button>
         <button id="switchPitScoutingMode">Pit Scouting</button>
         <button onclick="closeScoutingModeModal()">Close</button>
-        <p>Version: 2025.1.1</p>
+        <p>Version: 2025.2.1</p>
     </dialog>
 
 <!-- Match Scouting Section -->
@@ -32,14 +32,15 @@
             <input type="text" name="matchScouterName" list="scouterName">
 
             <datalist id="scouterName">
-                <option value="Alana W"><option value="Alex H"><option value="Andrew H"><option value="Anthony K"><option value="Arianna L"><option value="Blake M"><option value="Bowen X"><option value="Bradley P"><option value="Bryanna H"><option value="CJ"><option value="Cameron O"><option value="Cameronn L"><option value="Cate C"><option value="Daniel F"><option value="Daniel Xi"><option value="Eduardo M"><option value="Emmeline T"><option value="Ethan G"><option value="Evan P"><option value="Gabriel J"><option value="Gavynn T"><option value="Grace J"><option value="Grae S"><option value="Hannah S"><option value="Jasper M"><option value="Jessica T"><option value="JP M"><option value="Julian R"><option value="Katherine B"><option value="Kevin W"><option value="Laura H"><option value="Liam L"><option value="Lori"><option value="Mark S"><option value="Michael S"><option value="Misha G"><option value="Myra J"><option value="Natalie C"><option value="Nazeer H"><option value="Nova P"><option value="Nuhan H"><option value="Roger C"><option value="Roy W"><option value="Shaotan L"><option value="Tino N"><option value="Tony K"><option value="Trace V"><option value="Yu C">
+                <option value="Alana W"><option value="Alex H"><option value="Alex M"><option value="Andrew H"><option value="Anthony K"><option value="Arianna L"><option value="Blake M"><option value="Bowen X"><option value="Bradley P"><option value="Bryanna H"><option value="CJ"><option value="Cameron O"><option value="Cypher S"><option value="Cameronn L"><option value="Cate C"><option value="Courvus G"><option value="Daniel F"><option value="Daniel Xi"><option value="Eduardo M"><option value="Emmeline T"><option value="Ethan G"><option value="Evan P"><option value="Gabriel J"><option value="Gavynn T"><option value="Grace J"><option value="Grae S"><option value="Hannah S"><option value="Harllee B"><option value="Hitesh M"><option value="Ian C"><option value="Jacoby"><option value="Jasper M"><option value="Jennifer R"><option value="Jessica T"><option value="Jorge R"><option value="JP M"><option value="Julian R"><option value="Junxi D"><option value="Katherine B"><option value="Katia L"><option value="Kevin W"><option value="Laura H"><option value="Liam L"><option value="Lori"><option value="Mark S"><option value="Michael S"><option value="Miranda M"><option value="Misha G"><option value="Myra J"><option value="Natalie C"><option value="Nazeer H"><option value="Nova P"><option value="Nuhan H"><option value="Roger C"><option value="Roy W"><option value="Shaotan L"><option value="Tino N"><option value="Tony K"><option value="Trace V"><option value="Yu C">
             </datalist>
 
             <label for="matchTeamNumber">Team Number</label>
             <input type="number" inputmode="numeric" name="matchTeamNumber" list="teamNumbers">
 
             <datalist id="teamNumbers">
-                <option value="127"><option value="457"><option value="1745"><option value="3240"><option value="3561"><option value="3679"><option value="3743"><option value="3847"><option value="4364"><option value="4717"><option value="5103"><option value="5414"><option value="5572"><option value="5726"><option value="5829"><option value="5892"><option value="5986"><option value="6155"><option value="6243"><option value="6357"><option value="6369"><option value="6901"><option value="7138"><option value="7271"><option value="7503"><option value="7521"><option value="7540"><option value="8019"><option value="8573"><option value="8598"><option value="8610"><option value="8625"><option value="8874"><option value="9034"><option value="9080"><option value="9121"><option value="9140"><option value="9311"><option value="9418"><option value="9448"><option value="9664"><option value="10518">
+                <option value="118">118</option><option value="1255">1255</option><option value="2585">2585</option><option value="2882">2882</option><option value="3481">3481</option><option value="3847">3847</option><option value="4328">4328</option><option value="4332">4332</option><option value="4587">4587</option><option value="4597">4597</option><option value="5070">5070</option><option value="5261">5261</option><option value="5414">5414</option><option value="5894">5894</option><option value="6488">6488</option><option value="7115">7115</option><option value="7440">7440</option><option value="7691">7691</option><option value="8144">8144</option><option value="8177">8177</option><option value="8392">8392</option><option value="8515">8515</option><option value="8827">8827</option><option value="9137">9137</option><option value="9181">9181</option><option value="9515">9515</option><option value="9516">9516</option><option value="9517">9517</option><option value="9521">9521</option><option value="9658">9658</option><option value="10014">10014</option><option value="10118">10118</option>
+
             </datalist>
 
             <label for="matchMatchNumber">Match Number</label>
@@ -2016,7 +2017,7 @@
             QRCode.clear();
             QRCode.makeCode(dataArray.join("	"));
             let QRCodePreview = document.getElementById("QRCodePreview");
-            QRCodePreview.innerHTML = matchScouterName.value + " | " + matchTeamNumber.value + " | " + matchMatchNumber.value;
+            QRCodePreview.innerHTML = pitScouterName.value + " | " + pitTeamNumber.value;
         }
 
         function closeQR() {
