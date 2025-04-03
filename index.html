@@ -73,6 +73,9 @@
                 
                 <label for="matchLeaveStartPosition">Leave Start Position</label>
                 <input type="checkbox" id="matchLeaveStartPosition" name="matchLeaveStartPosition">
+
+                <label for="taxi">Moved over starting position by another robot</label>
+                <input type="checkbox" id="taxi" name="taxi">
             
                 <div name="autoReef" class="numberStepperSection">
                     <label>Reef</label>
@@ -497,8 +500,8 @@
             <label for="leaveStartingLine">Leaves starting line in auto</label>
             <input type="checkbox" name="leaveStartingLine">
 
-            <label for="taxi">Pulled over starting line by another robot</label>
-            <input type="checkbox" name="taxi">
+            <label for="taxis">Can move other robots over the starting line</label>
+            <input type="checkbox" name="taxis">
 
             <div class="coordinatePlane" id="reefCoralID">
                 <table>
@@ -1403,6 +1406,7 @@
 
         //Auto variables
         let matchLeaveStartPosition = document.getElementsByName("matchLeaveStartPosition")[0];
+        let taxi = document.getElementsByName("taxi")[0];
         autoReefLevel1NumStepMinus = document.getElementById("autoReefLevel1NumStepMinus");
         autoReefLevel1NumStepNumber = document.getElementById("autoReefLevel1NumStepNumber");
         autoReefLevel1NumStepPlus = document.getElementById("autoReefLevel1NumStepPlus");
@@ -1876,7 +1880,7 @@
 
             checkMatchInputs();
 
-            const dataArray = [matchScouterName.value, matchTeamNumber.value, matchMatchNumber.value, matchNoShow.checked, startPosition, matchLeaveStartPosition.checked, autoreeflevel1Number, autoreeflevel1MissedNumber, autoreeflevel2Number,autoreeflevel2MissedNumber, autoreeflevel3Number, autoreeflevel3MissedNumber, autoreeflevel4Number, autoreeflevel4MissedNumber, autoReefAlgaeLowNumber, autoReefAlgaeHighNumber, autoProcessorNumber, autoProcessorMissedNumber, autoNetNumber, autoNetMissedNumber, teleReeflevel1Number, teleReeflevel1MissedNumber, teleReeflevel2Number, teleReeflevel2MissedNumber, teleReeflevel3Number, teleReeflevel3MissedNumber, teleReeflevel4Number, teleReeflevel4MissedNumber, teleReefAlgeaLowNumber, teleReefAlgeaHighNumber, teleProcessorNumber, teleProcessorMissedNumber, teleNetNumber, teleNetMissedNumber, collectCoralStation.checked, collectCoralGround.checked, collectAlgaeReef.checked, collectAlgaeGround.checked, robotDeath.checked, matchComments.value, matchClimb, new Date().toLocaleTimeString()];
+            const dataArray = [matchScouterName.value, matchTeamNumber.value, matchMatchNumber.value, matchNoShow.checked, startPosition, matchLeaveStartPosition.checked, taxi.checked, autoreeflevel1Number, autoreeflevel1MissedNumber, autoreeflevel2Number,autoreeflevel2MissedNumber, autoreeflevel3Number, autoreeflevel3MissedNumber, autoreeflevel4Number, autoreeflevel4MissedNumber, autoReefAlgaeLowNumber, autoReefAlgaeHighNumber, autoProcessorNumber, autoProcessorMissedNumber, autoNetNumber, autoNetMissedNumber, teleReeflevel1Number, teleReeflevel1MissedNumber, teleReeflevel2Number, teleReeflevel2MissedNumber, teleReeflevel3Number, teleReeflevel3MissedNumber, teleReeflevel4Number, teleReeflevel4MissedNumber, teleReefAlgeaLowNumber, teleReefAlgeaHighNumber, teleProcessorNumber, teleProcessorMissedNumber, teleNetNumber, teleNetMissedNumber, collectCoralStation.checked, collectCoralGround.checked, collectAlgaeReef.checked, collectAlgaeGround.checked, robotDeath.checked, matchComments.value, matchClimb, new Date().toLocaleTimeString()];
 
             console.log(dataArray.join("	"));
             QRCode.clear();
