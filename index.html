@@ -672,8 +672,11 @@
                 <button type="button" id="startPositionMapButton" onclick="showStartPositionMap()">Field</button>
             </div>
 
-            <label for="driveExperience">Drive experience (time)</label>
+            <label for="driveExperience">Drive experience (years)</label>
             <input type="text" name="driverExperience">
+
+            <label for="driverSkill">Drive practice (hours)</label>
+            <input type="text" name="driverSkill">
 
             <label for="driveTrain">Drive train</label>
             <input type="text" name="driveTrain">
@@ -1988,6 +1991,7 @@
         autoCoralStationPickUp = autoCoralStationPickUp1.checked + "," + autoCoralStationPickUp2.checked;
 
         driverExperience = document.getElementsByName("driverExperience")[0];
+        driverSkill = document.getElementsByName("driverSkill")[0];
         driveTrain = document.getElementsByName("driveTrain")[0];
 
         pitClimberCapabilityShallow = document.getElementsByName("pitClimberShallow")[0];
@@ -2020,7 +2024,7 @@
 
             checkPitInputs();
 
-            const dataArray = [pitScouterName.value, pitTeamNumber.value, pitReefCapability, pitCapabilityProccessor.checked, pitCapabilityNet.checked, robotPurpose.value, autoStrategy.value, possibleStartPositions, pitLeavesStartingPosition.checked, pitAutoCoralCapability, pitAutoAlgaeCapability. autoPrePlacedCollection, autoCoralStationPickUp, driverExperience.value, driveTrain.value, pitClimberCapability, pitCoralPickUpCapability, pitAlgaePickUpCapability, pitRobotQuality.value, programmingLanguage.value, helpNeeded.checked, typeHelpNeeded.value, pitComments.value, new Date().toLocaleTimeString()];
+            const dataArray = [pitScouterName.value, pitTeamNumber.value, pitReefCapability, pitCapabilityProccessor.checked, pitCapabilityNet.checked, robotPurpose.value, autoStrategy.value, possibleStartPositions, pitLeavesStartingPosition.checked, pitAutoCoralCapability, pitAutoAlgaeCapability. autoPrePlacedCollection, autoCoralStationPickUp, driverExperience.value, driverSkill.value, driveTrain.value, pitClimberCapability, pitCoralPickUpCapability, pitAlgaePickUpCapability, pitRobotQuality.value, programmingLanguage.value, helpNeeded.checked, typeHelpNeeded.value, pitComments.value, new Date().toLocaleTimeString()];
 
             console.log(dataArray.join("	"));
             QRCode.clear();
