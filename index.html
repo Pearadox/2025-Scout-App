@@ -474,7 +474,7 @@
                 <button type="button" class="generateButton" onclick="changeGameSection('preMatch')">Pre-Match</button>
                 <button type="button" class="generateButton" onclick="changeGameSection('autonomous')">Autonomous</button>
                 <button type="button" class="generateButton" onclick="changeGameSection('teleOp')">Tele-Op</button>
-                <button type="button" class="generateButton" onclick="changeGameSection('Pre-Match')">End Game</button>
+                <button type="button" class="generateButton" onclick="changeGameSection('endGame')">End Game</button>
             </div>
 
 
@@ -832,6 +832,20 @@
 
         #scoutingModeModal p {
             transform: translateY(25px);
+        }
+
+        .gameSection {
+            display: flex;
+            flex-direction: column;
+            width: 80%;
+            margin: 2rem auto;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 2rem;
         }
 
         .generateButton {
@@ -1391,8 +1405,25 @@
                     section.style.display = "flex";
                 else
                     section.style.display = "none";
+
+            }
+            // Update the section name displayed at the top
             const sectionName = document.getElementById("sectionName");
-            sectionName.innerText = selectedSection.innerText;
+            switch (selectedSection) {
+                case "preMatch":
+                    sectionName.innerText = "Pre-Match";
+                    break;
+                case "autonomous":
+                    sectionName.innerText = "Autonomous";
+                    break;
+                case "teleOp":
+                    sectionName.innerText = "Tele-Op";
+                    break;
+                case "endGame":
+                    sectionName.innerText = "Endgame";
+                    break;
+                default:
+                    pass
             }
         }
         
