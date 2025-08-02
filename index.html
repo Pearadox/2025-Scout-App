@@ -735,6 +735,20 @@
         <button onclick="resetData()">Reset Form</button>
     </dialog>
 
+    <!--RegenerateButtons-->
+    <dialog id="RegenerateBackground">
+        <button id="rTopButton" type="button" class="topRegenerateButton">Button 1</button>
+        <button id="r2Button" type="button" class="downwardsRegenerateButton">Button 2</button>
+        <button id="r3Button" type="button" class="downwardsRegenerateButton">Button 3</button>
+        <button id="r4Button" type="button" class="downwardsRegenerateButton">Button 4</button>
+        <button id="r5Button" type="button" class="downwardsRegenerateButton">Button 5</button>
+        <button id="r6Button" type="button" class="downwardsRegenerateButton">Button 6</button>
+        <button id="r7Button" type="button" class="downwardsRegenerateButton">Button 7</button>
+        <button id="r8Button" type="button" class="downwardsRegenerateButton">Button 8</button>
+        <button id="r9Button" type="button" class="downwardsRegenerateButton">Button 9</button>
+        <button id="r10Button" type="button" class="downwardsRegenerateButton">Button 10</button>
+    </dialog>
+
     <!--Start Position Map-->
     <dialog class="imageDialog" id="startPositionDialog">
         <button type="button" class="closeImageDialog" onclick="closeStartPositionMap()">Close</button>
@@ -863,6 +877,43 @@
             height: 50px;
             font-size: 2rem;
             cursor: pointer;
+        }
+
+        .topRegenerateButton {
+            position: fixed;
+            width: 250px;
+            height: 50px;
+            font-size: 2rem;
+            top: 100px;
+            left: 50%;
+            cursor: pointer;
+        }
+
+        .downwardsRegenerateButtons {
+            margin: auto;
+            width: 250px;
+            height: 50px;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        #regenerateBackground {
+            position: fixed;
+            width: 350px;
+            height: 1080px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: black;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: .5rem 1rem;
+            border-radius: 15px;
+            z-index: 1;
         }
 
         #QRModal {
@@ -1934,8 +1985,8 @@
             QRCodePreview.innerHTML = matchScouterName.value + " | " + matchTeamNumber.value + " | " + matchMatchNumber.value;
         }
 
-        // Regenerate data array
-        var regenerateArray;
+        // Regenerate data array for pit data
+        var regeneratePitArray = [];
 
         //pit scouting data points
         let pitScouterName;
@@ -2071,6 +2122,8 @@
 
             const dataArray = [pitScouterName.value, pitTeamNumber.value, pitReefCapability, pitCapabilityProccessor.checked, pitCapabilityNet.checked, robotPurpose.value, autoStrategy.value, possibleStartPositions, pitLeavesStartingPosition.checked, pitAutoCoralCapability, pitAutoAlgaeCapability. autoPrePlacedCollection, autoCoralStationPickUp, driverExperience.value, driverSkill.value, driveTrain.value, pitClimberCapability, pitCoralPickUpCapability, pitAlgaePickUpCapability, pitRobotQuality.value, programmingLanguage.value, helpNeeded.checked, typeHelpNeeded.value, pitComments.value, new Date().toLocaleTimeString()];
 
+            regeneratePitArray.push(dataArray);
+
             console.log(dataArray.join("	"));
             QRCode.clear();
             QRCode.makeCode(dataArray.join("	"));
@@ -2089,6 +2142,51 @@
             window.scrollTo({top: 0, behavior: 'smooth'});
             resetMatchForm();
             resetPitForm();
+        }
+
+        function regeneratePitData() {
+            var regenerateButtons = []
+            // Gets every button that needs to be shown (how many data points are in the regenerate array)
+            for (let i = 0; i < regeneratePitArray.length; i++) {
+                switch (i) {
+                    case 0:
+                        regenerateButtons.push(document.getElementById("rTopButton"))
+                        regenerateButtons[0].textContent = ""
+                        break;
+                    case 1:
+                        regenerateButtons.push(document.getElementById("r2Button"))
+                        break;
+                    case 2:
+                        regenerateButtons.push(document.getElementById("r3Button"))
+                        break;
+                    case 3:
+                        regenerateButtons.push(document.getElementById("r4Button"))
+                        break;
+                    case 4:
+                        regenerateButtons.push(document.getElementById("r5Button"))
+                        break;
+                    case 5:
+                        regenerateButtons.push(document.getElementById("r6Button"))
+                        break;
+                    case 6:
+                        regenerateButtons.push(document.getElementById("r7Button"))
+                        break;
+                    case 7:
+                        regenerateButtons.push(document.getElementById("r8Button"))
+                        break;
+                    case 8:
+                        regenerateButtons.push(document.getElementById("r9Button"))
+                        break;
+                    case 10:
+                        regenerateButtons.push(document.getElementById("r10Button"))
+                        break;
+                }
+            }
+
+            var rBackground = document.getElementById("regenerateBackground")
+            rBackground.Show()
+
+            
         }
 
         //function to show the field map
