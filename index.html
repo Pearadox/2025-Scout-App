@@ -50,6 +50,7 @@
             updateDeadTimerDisplay();
         });
     </script>
+    <script src="scripts.js" defer></script>
 </head>
 
 <body>
@@ -73,7 +74,7 @@
             <h2 id="sectionName">Pre-Match</h2>
 
             <label for="matchScouterName">Scouter Name</label>
-            <input type="text" name="matchScouterName" list="scouterName" placeholder="Full first name and last initial (e.g. Andrew H)">
+            <input type="text" name="matchScouterName" list="scouterName" placeholder="Full first name and last initial (e.g. Andrew H)" style="width: 350px;">
 
             <datalist id="scouterName">
                 <option value="Alana W"><option value="Alex H"><option value="Andrew H"><option value="Anthony K"><option value="Arianna L"><option value="Blake M"><option value="Bowen X"><option value="Bradley P"><option value="Bryanna H"><option value="CJ"><option value="Cameron O"><option value="Cameronn L"><option value="Cate C"><option value="Daniel F"><option value="Daniel Xi"><option value="Eduardo M"><option value="Emmeline T"><option value="Ethan G"><option value="Evan P"><option value="Gabriel J"><option value="Gavynn T"><option value="Grace J"><option value="Grae S"><option value="Hannah S"><option value="Jasper M"><option value="Jessica T"><option value="JP M"><option value="Julian R"><option value="Katherine B"><option value="Kevin W"><option value="Laura H"><option value="Liam L"><option value="Lori"><option value="Mark S"><option value="Michael S"><option value="Misha G"><option value="Myra J"><option value="Natalie C"><option value="Nazeer H"><option value="Nova P"><option value="Nuhan H"><option value="Roger C"><option value="Roy W"><option value="Shaotan L"><option value="Tino N"><option value="Tony K"><option value="Trace V"><option value="Yu C"><option value="Kyle H"><option value="Nick Z"><option value="Steven X">
@@ -118,8 +119,6 @@
                 </div> <!-- End Pre-Match Section-->
 
                 <div id="autonomous" class="gameSection"> <!-- Shows when scouting app is in autonomous mode-->
-
-                    <h2>Autonomous</h2>
                     
                     <label for="matchLeaveStartPosition">Leave Start Position</label>
                     <input type="checkbox" id="matchLeaveStartPosition" name="matchLeaveStartPosition">
@@ -273,8 +272,6 @@
                 </div> <!-- End Autonomous Section-->
 
                 <div id="teleOp" class="gameSection"> <!-- Shows when scouting app is in Tele-Op mode-->
-                    
-                    <h2>Tele-Op</h2>
 
                     <div id="teleReef" class="numberStepperSection">
                         <label>Reef</label>
@@ -419,9 +416,7 @@
 
                 </div> <!-- End Tele-Op Section-->
 
-                <div id="endGame" class="gameSection"> <!-- Shows when scouting app is in End Game mode-->
-
-                    <h2>End Game</h2>
+                <div id="endGame" class="gameSection"> <!-- Shows when scouting app is in End Game mode-->  
 
                     <div class="radio">
                         <p>Climb</p>
@@ -500,209 +495,91 @@
     <section class="section" id="pitScoutingSection">
         <h1>Pit Scouting</h1>
         <hr>
+
         <form name="pitScoutingForm" id="pitScoutingForm">
-            <label for="pitScouterName">Scouter Name</label>
-            <input type="text" name="pitScouterName" list="scouterName">
-
-            <label for="pitTeamNumber">Team Number</label>
-            <input type="number" inputmode="numeric" name="pitTeamNumber" list="teamNumbers">
-
             <div class="multi-select">
-                <p class="multiSelectTitle">Tele-op Reef Scoring Capabilities</p>
-                <div class="multi-selectInput">
-                    <div class="multi-selectOption">
-                        <label for="reefLevel1">1</label>
-                        <input type="checkbox" name="reefLevel1">
-                    </div>
-                    <div class="multi-selectOption">
-                        <label for="reefLevel2">2</label>
-                        <input type="checkbox" name="reefLevel2">  
-                    </div>
-                    <div class="multi-selectOption">
-                        <label for="reefLevel3">3</label>
-                        <input type="checkbox" name="reefLevel3">
-                    </div>
-                    <div class="multi-selectOption">
-                        <label for="reefLevel4">4</label>
-                        <input type="checkbox" name="reefLevel4">
-                    </div>
-                </div>
+                <label for="pitScouterName">Scouter Name</label>
+                <input type="text" name="pitScouterName" list="scouterName" placeholder="Full first name and last initial (e.g. Andrew H)" style="width: 350px;">
+
+                <label for="pitTeamNumber">Team Number</label>
+                <input type="text" name="pitTeamNumber">
             </div>
 
             <div class="multi-select">
-                <p class="multiSelectTitle">Algae Capabilities</p>
-                <div class="multi-selectInput">
-                    <div class="multi-selectOption">
-                        <label for="scoreInProcessor">Proccessor</label>
-                        <input type="checkbox" name="scoreInProccessor">
-                    </div>
-                    <div class="multi-selectOption">
-                        <label for="scoreInNet">Net</label>
-                        <input type="checkbox" name="scoreInNet">  
-                    </div>
-                </div>
+                <label for="pitDriveTrain">Drive Train</label>
+                <input type="text" name="pitDriveTrain">
+                <label for="pitDriverExperience">Driver Experience</label>
+                <input type="text" name="pitDriverExperience">
+                <label for="pitDriverSkill">Driver Skill</label>
+                <input type="text" name="pitDriverSkill">
             </div>
-
-            <label for="robotPurpose">What is the primary purpose of the robot (what game pieces is it designed to score/ does it play defense)</label>
-            <input type="text" name="robotPurpose">
-
-            <label for="bumpers">Describe your bumpers</label>
-            <input type="text" name="bumpers">
-
-            <label for="autoStrategy">Auto strategy</label>
-            <textarea type="text" name="autoStrategy" placeholder="Explain their auto stragy in your best detail"></textarea>
-
+            
             <div class="multi-select">
-                <p class="multiSelectTitle">Possible Starting Position</p>
-                <div class="multi-selectInput">
-                    <div class="multi-selectOption">
-                        <label for="possibleStartPosition1">1</label>
-                        <input type="checkbox" name="possibleStartPosition1">
-                    </div>
-                    <div class="multi-selectOption">
-                        <label for="possibleStartPosition2">2</label>
-                        <input type="checkbox" name="possibleStartPosition2">  
-                    </div>
-                    <div class="multi-selectOption">
-                        <label for="possibleStartPosition3">3</label>
-                        <input type="checkbox" name="possibleStartPosition3">
-                    </div>
-                </div>
-                <button type="button" id="startPositionMapButton" onclick="showStartPositionMap()">Field</button>
+                <p class="multiSelectTitle">Coral Reef Scoring Capabilities</p>
+                <label for="reefLevel1">Level 1</label>
+                <input type="checkbox" name="reefLevel1">
+                <label for="reefLevel2">Level 2</label>
+                <input type="checkbox" name="reefLevel2">
+                <label for="reefLevel3">Level 3</label>
+                <input type="checkbox" name="reefLevel3">
+                <label for="reefLevel4">Level 4</label>
+                <input type="checkbox" name="reefLevel4">
             </div>
 
-            <label for="leaveStartingLine">Leaves starting line in auto</label>
-            <input type="checkbox" name="leaveStartingLine">
-
-            <label for="taxis">Can move other robots over the starting line</label>
-            <input type="checkbox" name="taxis">
-
-
-
-            <!--what algae they remove from reef in auto-->
-
-            <div class="coordinatePlane" id="reefCoralID">
-                <table>
-                    <p>Auto Algea Reef Collection Capability</p>
-                    <tr>
-                        <th>Index</th>
-                        <th>Collect</th>
-                    </tr>
-                    <tr>
-                        <td>A</td>
-                        <td><input type="checkbox" name="autoAlgaeCollectionA"></td>
-                    </tr>
-                    <tr>
-                        <td>C</td>
-                        <td><input type="checkbox" name="autoAlgaeCollectionC"></td>
-                    </tr>
-                    <tr>
-                        <td>E</td>
-                        <td><input type="checkbox" name="autoAlgaeCollectionE"></td>
-                    </tr>
-                    <tr>
-                        <td>G</td>
-                        <td><input type="checkbox" name="autoAlgaeCollectionG"></td>
-                    </tr>
-                    <tr>
-                        <td>I</td>
-                        <td><input type="checkbox" name="autoAlgaeCollectionI"></td>
-                    </tr>
-                    <tr>
-                        <td>K</td>
-                        <td><input type="checkbox" name="autoAlgaeCollectionK"></td>
-                    </tr>
-                </table>
-                <button type="button" id="startPositionMapButton" onclick="showReefCoralMap()">Reef</button>
-            </div>
-
+            
             <div class="multi-select">
-                <p class="multiSelectTitle">Auto Pre-Placed Collection</p>
-                <div class="multi-selectInput">
-                    <div class="multi-selectOption">
-                        <label for="pre-placed1">1</label>
-                        <input type="checkbox" name="pre-placed1">
-                    </div>
-                    <div class="multi-selectOption">
-                        <label for="pre-placed2">2</label>
-                        <input type="checkbox" name="pre-placed2">  
-                    </div>
-                    <div class="multi-selectOption">
-                        <label for="pre-placed3">3</label>
-                        <input type="checkbox" name="pre-placed3">
-                    </div>
-                </div>
-                <button type="button" id="startPositionMapButton" onclick="showStartPositionMap()">Field</button>
+                <p class="multiSelectTitle">Algae Scoring Capabilities</p>
+                <label for="scoreInProccessor">Score in Processor</label>
+                <input type="checkbox" name="scoreInProccessor">
+                <label for="scoreInNet">Score in Net</label>
+                <input type="checkbox" name="scoreInNet">
             </div>
 
-            <div class="multi-select">
-                <p class="multiSelectTitle">Auto Coral Station Pickup</p>
-                <div class="multi-selectInput">
-                    <div class="multi-selectOption">
-                        <label for="autoCoralStationCollection1">1</label>
-                        <input type="checkbox" name="autoCoralStationCollection1">
-                    </div>
-                    <div class="multi-selectOption">
-                        <label for="autoCoralStationCollection2">2</label>
-                        <input type="checkbox" name="autoCoralStationCollection2">  
-                    </div>
-                </div>
-                <button type="button" id="startPositionMapButton" onclick="showStartPositionMap()">Field</button>
-            </div>
+            <!-- Auto Paths Section (Replaces Possible Starting Position) -->
+            <p class="multiSelectTitle">Auto Paths</p>
+            <button type="button" id="createAutoPathBtn" onclick="createNewAutoPath()" style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; margin-bottom: 10px;">
+                Create New Auto Path
+            </button>
+                <div id="autoPathsContainer">
+        <!-- Auto paths will be dynamically added here -->
+    </div>
+    
+    <button type="button" onclick="showStartPositionMap()" style="background-color: #2196F3; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; margin-bottom: 10px;">
+        Field
+    </button>
 
-            <label for="driveExperience">Drive experience (years)</label>
-            <input type="text" name="driverExperience">
-
-            <label for="driverSkill">Drive practice (hours)</label>
-            <input type="text" name="driverSkill">
-
-            <label for="driveTrain">Drive train</label>
-            <input type="text" name="driveTrain">
-
+            
             <div class="multi-select">
                 <p class="multiSelectTitle">Climber capability</p>
-                <div class="multi-selectInput">
-                    <div class="multi-selectOption">
-                        <label for="pitClimberShallow">Shallow</label>
-                        <input type="checkbox" name="pitClimberShallow">
-                    </div>
-                    <div class="multi-selectOption">
-                        <label for="pitClimberDeep">Deep</label>
-                        <input type="checkbox" name="pitClimberDeep">  
-                    </div>
-                    <div class="multi-selectOption">
-                        <label for="pitClimberNone">None</label>
-                        <input type="checkbox" name="pitClimberNone">  
-                    </div>
-                </div>
+                <label for="pitClimberShallow">Shallow</label>
+                <input type="checkbox" name="pitClimberShallow">
+                <label for="pitClimberDeep">Deep</label>
+                <input type="checkbox" name="pitClimberDeep">
+                <label for="pitClimberNone">None</label>
+                <input type="checkbox" name="pitClimberNone">
             </div>
 
+            
             <div class="multi-select">
                 <p class="multiSelectTitle">Coral pickup capability</p>
-                <div class="multi-selectInput">
-                    <div class="multi-selectOption">
-                        <label for="pitCoralPickupGround">Ground</label>
-                        <input type="checkbox" name="pitCoralPickupGround">
-                    </div>
-                    <div class="multi-selectOption">
-                        <label for="pitCoralPickupStation">Station</label>
-                        <input type="checkbox" name="pitCoralPickupStation">  
-                    </div>
-                </div>
+                <label for="pitCoralPickupGround">Ground</label>
+                <input type="checkbox" name="pitCoralPickupGround">
+                <label for="pitCoralPickupStation">Station</label>
+                <input type="checkbox" name="pitCoralPickupStation">
+            </div>
+
+            
+            <div class="multi-select">
+                <p class="multiSelectTitle">Algae pickup capability</p>
+                <label for="pitAlgaePickupGround">Ground</label>
+                <input type="checkbox" name="pitAlgaePickupGround">
+                <label for="pitAlgaePickupReef">Reef</label>
+                <input type="checkbox" name="pitAlgaePickupReef">
             </div>
 
             <div class="multi-select">
-                <p class="multiSelectTitle">Algae pickup capability</p>
-                <div class="multi-selectInput">
-                    <div class="multi-selectOption">
-                        <label for="pitAlgaePickupGround">Ground</label>
-                        <input type="checkbox" name="pitAlgaePickupGround">
-                    </div>
-                    <div class="multi-selectOption">
-                        <label for="pitAlgaePickupReef">Reef</label>
-                        <input type="checkbox" name="pitAlgaePickupReef">  
-                    </div>
-                </div>
+                <label for="helpNeeded">Help Needed</label>
+                <input type="checkbox" name="helpNeeded">
             </div>
 
             <label for="buildQuality">Build quality (do not ask!!)</label>
@@ -723,6 +600,9 @@
             <button type="button" class="regenerateButton" onclick="generatePitData()">Regenerate</button>
             <button type="button" class="generateButton" onclick="generatePitData()">Generate</button>
         </form>
+
+
+
     </section>
     <!-- End of pit Scouting Section-->
 
