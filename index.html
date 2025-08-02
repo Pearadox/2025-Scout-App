@@ -597,7 +597,7 @@
             <label for="pitComments">Comments</label> 
             <textarea type="text" name="pitComments" placeholder="Anything else about the robot?"></textarea>
             
-            <button type="button" class="regenerateButton" onclick="generatePitData()">Regenerate</button>
+            <button type="button" class="regenerateButton" onclick="regeneratePitData()">Regenerate</button>
             <button type="button" class="generateButton" onclick="generatePitData()">Generate</button>
         </form>
 
@@ -606,6 +606,22 @@
     </section>
     <!-- End of pit Scouting Section-->
 
+    <!--RegenerateButtons-->
+
+    <dialog id="regenerateBackground">
+        <button id="rTopButton" type="button" class="downwardsRegenerateButtons" onclick="regenerateQR(0)">Button 1</button>
+        <button id="r2Button" type="button" class="downwardsRegenerateButtons" onclick="regenerateQR(1)">Button 2</button>
+        <button id="r3Button" type="button" class="downwardsRegenerateButtons" onclick="regenerateQR(2)">Button 3</button>
+        <button id="r4Button" type="button" class="downwardsRegenerateButtons" onclick="regenerateQR(3)">Button 4</button>
+        <button id="r5Button" type="button" class="downwardsRegenerateButtons" onclick="regenerateQR(4)">Button 5</button>
+        <button id="r6Button" type="button" class="downwardsRegenerateButtons" onclick="regenerateQR(5)">Button 6</button>
+        <button id="r7Button" type="button" class="downwardsRegenerateButtons" onclick="regenerateQR(6)">Button 7</button>
+        <button id="r8Button" type="button" class="downwardsRegenerateButtons" onclick="regenerateQR(7)">Button 8</button>
+        <button id="r9Button" type="button" class="downwardsRegenerateButtons" onclick="regenerateQR(8)">Button 9</button>
+        <button id="r10Button" type="button" class="downwardsRegenerateButtons" onclick="regenerateQR(9)">Button 10</button>
+        <button id="rClose" type="button" class="downwardsRegenerateButtons" onclick="closeRegenerate()">Close</button>
+    </dialog>
+
     <!--QR code-->
     <dialog id="QRModal">
         <div id="QRCode">
@@ -613,20 +629,6 @@
         </div>
         <button onclick="closeQR()">Close</button>
         <button onclick="resetData()">Reset Form</button>
-    </dialog>
-
-    <!--RegenerateButtons-->
-    <dialog id="RegenerateBackground">
-        <button id="rTopButton" type="button" class="topRegenerateButton">Button 1</button>
-        <button id="r2Button" type="button" class="downwardsRegenerateButton">Button 2</button>
-        <button id="r3Button" type="button" class="downwardsRegenerateButton">Button 3</button>
-        <button id="r4Button" type="button" class="downwardsRegenerateButton">Button 4</button>
-        <button id="r5Button" type="button" class="downwardsRegenerateButton">Button 5</button>
-        <button id="r6Button" type="button" class="downwardsRegenerateButton">Button 6</button>
-        <button id="r7Button" type="button" class="downwardsRegenerateButton">Button 7</button>
-        <button id="r8Button" type="button" class="downwardsRegenerateButton">Button 8</button>
-        <button id="r9Button" type="button" class="downwardsRegenerateButton">Button 9</button>
-        <button id="r10Button" type="button" class="downwardsRegenerateButton">Button 10</button>
     </dialog>
 
     <!--Start Position Map-->
@@ -759,19 +761,9 @@
             cursor: pointer;
         }
 
-        .topRegenerateButton {
-            position: fixed;
-            width: 250px;
-            height: 50px;
-            font-size: 2rem;
-            top: 100px;
-            left: 50%;
-            cursor: pointer;
-        }
-
         .downwardsRegenerateButtons {
             margin: auto;
-            width: 250px;
+            width: 400px;
             height: 50px;
             font-size: 2rem;
             cursor: pointer;
@@ -779,8 +771,8 @@
 
         #regenerateBackground {
             position: fixed;
-            width: 350px;
-            height: 1080px;
+            width: 400px;
+            height: 550px;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -1849,6 +1841,45 @@
             matchComments.innerText = "";
         }
 
+        // Regenerate Setup
+        var regeneratePitArray = [];
+        var regenerateMatchData = [];
+        var regenerateButtons = [];
+        for (let i = 0; i < 10; i++) {
+            switch (i) {
+                case 0:
+                    regenerateButtons.push(document.getElementById("rTopButton"))
+                    break;
+                case 1:
+                    regenerateButtons.push(document.getElementById("r2Button"))
+                    break;
+                case 2:
+                    regenerateButtons.push(document.getElementById("r3Button"))
+                    break;
+                case 3:
+                    regenerateButtons.push(document.getElementById("r4Button"))
+                    break;
+                case 4:
+                    regenerateButtons.push(document.getElementById("r5Button"))
+                    break;
+                case 5:
+                    regenerateButtons.push(document.getElementById("r6Button"))
+                    break;
+                case 6:
+                    regenerateButtons.push(document.getElementById("r7Button"))
+                    break;
+                case 7:
+                    regenerateButtons.push(document.getElementById("r8Button"))
+                    break;
+                case 8:
+                    regenerateButtons.push(document.getElementById("r9Button"))
+                    break;
+                case 9:
+                    regenerateButtons.push(document.getElementById("r10Button"))
+                    break;
+            }
+        }
+
         //function to encode the form data to qr-code
         function generateMatchData() {
             var QRModal = document.getElementById("QRModal");
@@ -1864,9 +1895,6 @@
             let QRCodePreview = document.getElementById("QRCodePreview");
             QRCodePreview.innerHTML = matchScouterName.value + " | " + matchTeamNumber.value + " | " + matchMatchNumber.value;
         }
-
-        // Regenerate data array for pit data
-        var regeneratePitArray = [];
 
         //pit scouting data points
         let pitScouterName;
@@ -2008,7 +2036,7 @@
             QRCode.clear();
             QRCode.makeCode(dataArray.join("	"));
             let QRCodePreview = document.getElementById("QRCodePreview");
-            QRCodePreview.innerHTML = matchScouterName.value + " | " + matchTeamNumber.value + " | " + matchMatchNumber.value;
+            QRCodePreview.innerHTML = pitScouterName.value + " | " + pitTeamNumber.value;
         }
 
         function closeQR() {
@@ -2025,48 +2053,36 @@
         }
 
         function regeneratePitData() {
-            var regenerateButtons = []
-            // Gets every button that needs to be shown (how many data points are in the regenerate array)
-            for (let i = 0; i < regeneratePitArray.length; i++) {
-                switch (i) {
-                    case 0:
-                        regenerateButtons.push(document.getElementById("rTopButton"))
-                        regenerateButtons[0].textContent = ""
-                        break;
-                    case 1:
-                        regenerateButtons.push(document.getElementById("r2Button"))
-                        break;
-                    case 2:
-                        regenerateButtons.push(document.getElementById("r3Button"))
-                        break;
-                    case 3:
-                        regenerateButtons.push(document.getElementById("r4Button"))
-                        break;
-                    case 4:
-                        regenerateButtons.push(document.getElementById("r5Button"))
-                        break;
-                    case 5:
-                        regenerateButtons.push(document.getElementById("r6Button"))
-                        break;
-                    case 6:
-                        regenerateButtons.push(document.getElementById("r7Button"))
-                        break;
-                    case 7:
-                        regenerateButtons.push(document.getElementById("r8Button"))
-                        break;
-                    case 8:
-                        regenerateButtons.push(document.getElementById("r9Button"))
-                        break;
-                    case 10:
-                        regenerateButtons.push(document.getElementById("r10Button"))
-                        break;
+            var rBackground = document.getElementById("regenerateBackground")
+            rBackground.show()
+
+            for (let i = 0; i < 10; i++) {
+                if (i < regeneratePitArray.length) {
+                    regenerateButtons[i].textContent = regeneratePitArray[i][0] + " | " + regeneratePitArray[i][1];
+                }
+                else {
+                    regenerateButtons[i].textContent = "";
                 }
             }
+        }
 
-            var rBackground = document.getElementById("regenerateBackground")
-            rBackground.Show()
+        function regenerateQR(id) {
+            if (id < regeneratePitArray.length) {
+                var QRModal = document.getElementById("QRModal");
+                QRModal.show();
 
-            
+                regeneratePitArray.push(regeneratePitArray[id]);
+
+                console.log(regeneratePitArray[id].join("	"));
+                QRCode.clear();
+                QRCode.makeCode(regeneratePitArray[id].join("	"));
+                let QRCodePreview = document.getElementById("QRCodePreview");
+                QRCodePreview.innerHTML = regeneratePitArray[id][0] + " | " + regeneratePitArray[id][1];
+            }
+        }
+
+        function closeRegenerate() {
+            rBackground.close();
         }
 
         //function to show the field map
