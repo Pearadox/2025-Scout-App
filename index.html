@@ -6,6 +6,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>2025 Scouting App</title>
+    <script>
+        // Dead Timer logic for timing how long robots are dead (milliseconds)
+        let deadTimerInterval = null;
+        let deadTimerMs = 0;
+
+        function startDeadTimer() {
+            document.getElementById('deadTimerStart').disabled = true;
+            document.getElementById('deadTimerStop').disabled = false;
+            document.getElementById('deadTimerReset').disabled = false;
+            if (!deadTimerInterval) {
+                deadTimerInterval = setInterval(() => {
+                    deadTimerMs += 10;
+                    updateDeadTimerDisplay();
+                }, 10);
+            }
+        }
+
+        function stopDeadTimer() {
+            document.getElementById('deadTimerStart').disabled = false;
+            document.getElementById('deadTimerStop').disabled = true;
+            if (deadTimerInterval) {
+                clearInterval(deadTimerInterval);
+                deadTimerInterval = null;
+            }
+        }
+
+        function resetDeadTimer() {
+            stopDeadTimer();
+            deadTimerMs = 0;
+            updateDeadTimerDisplay();
+            document.getElementById('deadTimerReset').disabled = true;
+        }
+
+        function updateDeadTimerDisplay() {
+            const min = String(Math.floor(deadTimerMs / 60000)).padStart(2, '0');
+            const sec = String(Math.floor((deadTimerMs % 60000) / 1000)).padStart(2, '0');
+            const ms = String(Math.floor((deadTimerMs % 1000) / 10)).padStart(2, '0');
+            document.getElementById('deadTimerDisplay').textContent = `${min}:${sec}:${ms}`;
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            updateDeadTimerDisplay();
+        });
+    </script>
 </head>
 
 <body>
@@ -26,10 +70,10 @@
         <hr>
         <form name="matchScoutingForm" id="matchScoutingForm">
             
-            <h2>Pre-Game</h2>
+            <h2 id="sectionName">Pre-Match</h2>
 
             <label for="matchScouterName">Scouter Name</label>
-            <input type="text" name="matchScouterName" list="scouterName">
+            <input type="text" name="matchScouterName" list="scouterName" placeholder="Full first name and last initial (e.g. Andrew H)">
 
             <datalist id="scouterName">
                 <option value="Alana W"><option value="Alex H"><option value="Andrew H"><option value="Anthony K"><option value="Arianna L"><option value="Blake M"><option value="Bowen X"><option value="Bradley P"><option value="Bryanna H"><option value="CJ"><option value="Cameron O"><option value="Cameronn L"><option value="Cate C"><option value="Daniel F"><option value="Daniel Xi"><option value="Eduardo M"><option value="Emmeline T"><option value="Ethan G"><option value="Evan P"><option value="Gabriel J"><option value="Gavynn T"><option value="Grace J"><option value="Grae S"><option value="Hannah S"><option value="Jasper M"><option value="Jessica T"><option value="JP M"><option value="Julian R"><option value="Katherine B"><option value="Kevin W"><option value="Laura H"><option value="Liam L"><option value="Lori"><option value="Mark S"><option value="Michael S"><option value="Misha G"><option value="Myra J"><option value="Natalie C"><option value="Nazeer H"><option value="Nova P"><option value="Nuhan H"><option value="Roger C"><option value="Roy W"><option value="Shaotan L"><option value="Tino N"><option value="Tony K"><option value="Trace V"><option value="Yu C"><option value="Kyle H"><option value="Nick Z"><option value="Steven X">
@@ -50,368 +94,398 @@
     
             <div id="noShowSection"> <!-- No Show Section (hides form when no show button is pressed)-->
 
-                <div class="radio">
-                    <p>Start Position</p>
-                    <div class="radioInput">
-                        <div class="radioOption">
-                            <label class="radioLabel">1</label>
-                            <input type="radio" name="startPosition" value="1"/>
+                <div id="preMatch" class="gameSection"> <!-- Shows when scouting app is in pre-match mode-->                
+
+                    <div class="radio">
+                        <p>Start Position</p>
+                        <div class="radioInput">
+                            <div class="radioOption">
+                                <label class="radioLabel">1</label>
+                                <input type="radio" name="startPosition" value="1"/>
+                            </div>
+                            <div class="radioOption">
+                                <label class="radioLabel">2</label>
+                                <input type="radio" name="startPosition" value="2"/>
+                            </div>
+                            <div class="radioOption">
+                                <label class="radioLabel">3</label>
+                                <input type="radio" name="startPosition" value="3"/>
+                            </div>
                         </div>
-                        <div class="radioOption">
-                            <label class="radioLabel">2</label>
-                            <input type="radio" name="startPosition" value="2"/>
-                        </div>
-                        <div class="radioOption">
-                            <label class="radioLabel">3</label>
-                            <input type="radio" name="startPosition" value="3"/>
-                        </div>
+                        <button type="button" id="startPositionMapButton" onclick="showStartPositionMap()">Field</button>
                     </div>
-                    <button type="button" id="startPositionMapButton" onclick="showStartPositionMap()">Field</button>
-                </div>
+
+                </div> <!-- End Pre-Match Section-->
+
+                <div id="autonomous" class="gameSection"> <!-- Shows when scouting app is in autonomous mode-->
+
+                    <h2>Autonomous</h2>
+                    
+                    <label for="matchLeaveStartPosition">Leave Start Position</label>
+                    <input type="checkbox" id="matchLeaveStartPosition" name="matchLeaveStartPosition">
+
+                    <label for="taxi">Moved over starting position by another robot</label>
+                    <input type="checkbox" id="taxi" name="taxi">
                 
-                <h2>Autonomous</h2>
-                
-                <label for="matchLeaveStartPosition">Leave Start Position</label>
-                <input type="checkbox" id="matchLeaveStartPosition" name="matchLeaveStartPosition">
+                    <div name="autoReef" class="numberStepperSection">
+                        <label>Reef</label>
+                        <div id="autoReefLevel">
+                            <p>Level 1</p>
+                            <div id="autoReefNumberStep">
+                                <p>Made</p>
+                                <div class="NumStep" id="NumStep">
+                                    <span id="autoReefLevel1NumStepMinus" class="NumStepMinus">&minus;</span>
+                                    <span id="autoReefLevel1NumStepNumber" class="NumStepNumber">0</span>
+                                    <span id="autoReefLevel1NumStepPlus" class="NumStepPlus">+</span>
+                                </div>
+                            </div>
+                            <div id="autoReefNumberStep">
+                                <p>Missed</p>
+                                <div class="NumStep" id="NumStep">
+                                    <span id="autoReefLevel1MissedNumStepMinus" class="NumStepMinus">&minus;</span>
+                                    <span id="autoReefLevel1MissedNumStepNumber" class="NumStepNumber">0</span>
+                                    <span id="autoReefLevel1MissedNumStepPlus" class="NumStepPlus">+</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="autoReefLevel">
+                            <p>Level 2</p>
+                            <div id="autoReefNumberStep">
+                                <p>Made</p>
+                                <div class="NumStep" id="NumStep">
+                                    <span id="autoReefLevel2NumStepMinus" class="NumStepMinus">&minus;</span>
+                                    <span id="autoReefLevel2NumStepNumber" class="NumStepNumber">0</span>
+                                    <span id="autoReefLevel2NumStepPlus" class="NumStepPlus">+</span>
+                                </div>
+                            </div>
+                            <div id="autoReefNumberStep">
+                                <p>Missed</p>
+                                <div class="NumStep" id="NumStep">
+                                    <span id="autoReefLevel2MissedNumStepMinus" class="NumStepMinus">&minus;</span>
+                                    <span id="autoReefLevel2MissedNumStepNumber" class="NumStepNumber">0</span>
+                                    <span id="autoReefLevel2MissedNumStepPlus" class="NumStepPlus">+</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="autoReefLevel">
+                            <p>Level 3</p>
+                            <div id="autoReefNumberStep">
+                                <p>Made</p>
+                                <div class="NumStep" id="NumStep">
+                                    <span id="autoReefLevel3NumStepMinus" class="NumStepMinus">&minus;</span>
+                                    <span id="autoReefLevel3NumStepNumber" class="NumStepNumber">0</span>
+                                    <span id="autoReefLevel3NumStepPlus" class="NumStepPlus">+</span>
+                                </div>
+                            </div>
+                            <div id="autoReefNumberStep">
+                                <p>Missed</p>
+                                <div class="NumStep" id="NumStep">
+                                    <span id="autoReefLevel3MissedNumStepMinus" class="NumStepMinus">&minus;</span>
+                                    <span id="autoReefLevel3MissedNumStepNumber" class="NumStepNumber">0</span>
+                                    <span id="autoReefLevel3MissedNumStepPlus" class="NumStepPlus">+</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="autoReefLevel">
+                            <p>Level 4</p>
+                            <div id="autoReefNumberStep">
+                                <p>Made</p>
+                                <div class="NumStep" id="NumStep">
+                                    <span id="autoReefLevel4NumStepMinus" class="NumStepMinus">&minus;</span>
+                                    <span id="autoReefLevel4NumStepNumber" class="NumStepNumber">0</span>
+                                    <span id="autoReefLevel4NumStepPlus" class="NumStepPlus">+</span>
+                                </div>
+                            </div>
+                            <div id="autoReefNumberStep">
+                                <p>Missed</p>
+                                <div class="NumStep" id="NumStep">
+                                    <span id="autoReefLevel4MissedNumStepMinus" class="NumStepMinus">&minus;</span>
+                                    <span id="autoReefLevel4MissedNumStepNumber" class="NumStepNumber">0</span>
+                                    <span id="autoReefLevel4MissedNumStepPlus" class="NumStepPlus">+</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="autoReefLevel">
+                            <p>Algae Collection</p>
+                            <div id="autoReefNumberStep">
+                                <p>Low</p>
+                                <div class="NumStep" id="NumStep">
+                                    <span id="autoReefAlgaeLowNumStepMinus" class="NumStepMinus">&minus;</span>
+                                    <span id="autoReefAlgaeLowNumStepNumber" class="NumStepNumber">0</span>
+                                    <span id="autoReefAlgaeLowNumStepPlus" class="NumStepPlus">+</span>
+                                </div>
+                            </div>
+                            <div id="autoReefNumberStep">
+                                <p>High</p>
+                                <div class="NumStep" id="NumStep">
+                                    <span id="autoReefAlgaeHighNumStepMinus" class="NumStepMinus">&minus;</span>
+                                    <span id="autoReefAlgaeHighNumStepNumber" class="NumStepNumber">0</span>
+                                    <span id="autoReefAlgaeHighNumStepPlus" class="NumStepPlus">+</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <br>
 
-                <label for="taxi">Moved over starting position by another robot</label>
-                <input type="checkbox" id="taxi" name="taxi">
-            
-                <div name="autoReef" class="numberStepperSection">
-                    <label>Reef</label>
-                    <div id="autoReefLevel">
-                        <p>Level 1</p>
-                        <div id="autoReefNumberStep">
-                            <p>Made</p>
-                            <div class="NumStep" id="NumStep">
-                                <span id="autoReefLevel1NumStepMinus" class="NumStepMinus">&minus;</span>
-                                <span id="autoReefLevel1NumStepNumber" class="NumStepNumber">0</span>
-                                <span id="autoReefLevel1NumStepPlus" class="NumStepPlus">+</span>
+                    <div id="autoAlgae" class="numberStepperSection">
+                        <label>Algae</label>
+                        <div id="autoAlgaeLevel">
+                            <p>Processor</p>
+                            <div id="autoAlgaeNumberStep">
+                                <p>Made</p>
+                                <div class="NumStep" id="NumStep">
+                                    <span id="autoProcessorNumStepMinus" class="NumStepMinus">&minus;</span>
+                                    <span id="autoProcessorNumStepNumber" class="NumStepNumber">0</span>
+                                    <span id="autoProcessorNumStepPlus" class="NumStepPlus">+</span>
+                                </div>
+                            </div>
+                            <div id="autoAlgaeNumberStep">
+                                <p>Missed</p>
+                                <div class="NumStep" id="NumStep">
+                                    <span id="autoProcessorMissedNumStepMinus" class="NumStepMinus">&minus;</span>
+                                    <span id="autoProcessorMissedNumStepNumber" class="NumStepNumber">0</span>
+                                    <span id="autoProcessorMissedNumStepPlus" class="NumStepPlus">+</span>
+                                </div>
                             </div>
                         </div>
-                        <div id="autoReefNumberStep">
-                            <p>Missed</p>
-                            <div class="NumStep" id="NumStep">
-                                <span id="autoReefLevel1MissedNumStepMinus" class="NumStepMinus">&minus;</span>
-                                <span id="autoReefLevel1MissedNumStepNumber" class="NumStepNumber">0</span>
-                                <span id="autoReefLevel1MissedNumStepPlus" class="NumStepPlus">+</span>
+                        <div id="autoAlgaeLevel">
+                            <p>Net</p>
+                            <div id="autoAlgaeNumberStep">
+                                <p>Made</p>
+                                <div class="NumStep" id="NumStep">
+                                    <span id="autoNetNumStepMinus" class="NumStepMinus">&minus;</span>
+                                    <span id="autoNetNumStepNumber" class="NumStepNumber">0</span>
+                                    <span id="autoNetNumStepPlus" class="NumStepPlus">+</span>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div id="autoReefLevel">
-                        <p>Level 2</p>
-                        <div id="autoReefNumberStep">
-                            <p>Made</p>
-                            <div class="NumStep" id="NumStep">
-                                <span id="autoReefLevel2NumStepMinus" class="NumStepMinus">&minus;</span>
-                                <span id="autoReefLevel2NumStepNumber" class="NumStepNumber">0</span>
-                                <span id="autoReefLevel2NumStepPlus" class="NumStepPlus">+</span>
-                            </div>
-                        </div>
-                        <div id="autoReefNumberStep">
-                            <p>Missed</p>
-                            <div class="NumStep" id="NumStep">
-                                <span id="autoReefLevel2MissedNumStepMinus" class="NumStepMinus">&minus;</span>
-                                <span id="autoReefLevel2MissedNumStepNumber" class="NumStepNumber">0</span>
-                                <span id="autoReefLevel2MissedNumStepPlus" class="NumStepPlus">+</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="autoReefLevel">
-                        <p>Level 3</p>
-                        <div id="autoReefNumberStep">
-                            <p>Made</p>
-                            <div class="NumStep" id="NumStep">
-                                <span id="autoReefLevel3NumStepMinus" class="NumStepMinus">&minus;</span>
-                                <span id="autoReefLevel3NumStepNumber" class="NumStepNumber">0</span>
-                                <span id="autoReefLevel3NumStepPlus" class="NumStepPlus">+</span>
-                            </div>
-                        </div>
-                        <div id="autoReefNumberStep">
-                            <p>Missed</p>
-                            <div class="NumStep" id="NumStep">
-                                <span id="autoReefLevel3MissedNumStepMinus" class="NumStepMinus">&minus;</span>
-                                <span id="autoReefLevel3MissedNumStepNumber" class="NumStepNumber">0</span>
-                                <span id="autoReefLevel3MissedNumStepPlus" class="NumStepPlus">+</span>
+                            <div id="autoAlgaeNumberStep">
+                                <p>Missed</p>
+                                <div class="NumStep" id="NumStep"> 
+                                    <span id="autoNetMissedNumStepMinus" class="NumStepMinus">&minus;</span>
+                                    <span id="autoNetMissedNumStepNumber" class="NumStepNumber">0</span>
+                                    <span id="autoNetMissedNumStepPlus" class="NumStepPlus">+</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div id="autoReefLevel">
-                        <p>Level 4</p>
-                        <div id="autoReefNumberStep">
-                            <p>Made</p>
-                            <div class="NumStep" id="NumStep">
-                                <span id="autoReefLevel4NumStepMinus" class="NumStepMinus">&minus;</span>
-                                <span id="autoReefLevel4NumStepNumber" class="NumStepNumber">0</span>
-                                <span id="autoReefLevel4NumStepPlus" class="NumStepPlus">+</span>
-                            </div>
-                        </div>
-                        <div id="autoReefNumberStep">
-                            <p>Missed</p>
-                            <div class="NumStep" id="NumStep">
-                                <span id="autoReefLevel4MissedNumStepMinus" class="NumStepMinus">&minus;</span>
-                                <span id="autoReefLevel4MissedNumStepNumber" class="NumStepNumber">0</span>
-                                <span id="autoReefLevel4MissedNumStepPlus" class="NumStepPlus">+</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="autoReefLevel">
-                        <p>Algae Collection</p>
-                        <div id="autoReefNumberStep">
-                            <p>Low</p>
-                            <div class="NumStep" id="NumStep">
-                                <span id="autoReefAlgaeLowNumStepMinus" class="NumStepMinus">&minus;</span>
-                                <span id="autoReefAlgaeLowNumStepNumber" class="NumStepNumber">0</span>
-                                <span id="autoReefAlgaeLowNumStepPlus" class="NumStepPlus">+</span>
-                            </div>
-                        </div>
-                        <div id="autoReefNumberStep">
-                            <p>High</p>
-                            <div class="NumStep" id="NumStep">
-                                <span id="autoReefAlgaeHighNumStepMinus" class="NumStepMinus">&minus;</span>
-                                <span id="autoReefAlgaeHighNumStepNumber" class="NumStepNumber">0</span>
-                                <span id="autoReefAlgaeHighNumStepPlus" class="NumStepPlus">+</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <br>
 
-                <div id="autoAlgae" class="numberStepperSection">
-                    <label>Algae</label>
-                    <div id="autoAlgaeLevel">
-                        <p>Processor</p>
-                        <div id="autoAlgaeNumberStep">
-                            <p>Made</p>
-                            <div class="NumStep" id="NumStep">
-                                <span id="autoProcessorNumStepMinus" class="NumStepMinus">&minus;</span>
-                                <span id="autoProcessorNumStepNumber" class="NumStepNumber">0</span>
-                                <span id="autoProcessorNumStepPlus" class="NumStepPlus">+</span>
-                            </div>
-                        </div>
-                        <div id="autoAlgaeNumberStep">
-                            <p>Missed</p>
-                            <div class="NumStep" id="NumStep">
-                                <span id="autoProcessorMissedNumStepMinus" class="NumStepMinus">&minus;</span>
-                                <span id="autoProcessorMissedNumStepNumber" class="NumStepNumber">0</span>
-                                <span id="autoProcessorMissedNumStepPlus" class="NumStepPlus">+</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="autoAlgaeLevel">
-                        <p>Net</p>
-                        <div id="autoAlgaeNumberStep">
-                            <p>Made</p>
-                            <div class="NumStep" id="NumStep">
-                                <span id="autoNetNumStepMinus" class="NumStepMinus">&minus;</span>
-                                <span id="autoNetNumStepNumber" class="NumStepNumber">0</span>
-                                <span id="autoNetNumStepPlus" class="NumStepPlus">+</span>
-                            </div>
-                        </div>
-                        <div id="autoAlgaeNumberStep">
-                            <p>Missed</p>
-                            <div class="NumStep" id="NumStep"> 
-                                <span id="autoNetMissedNumStepMinus" class="NumStepMinus">&minus;</span>
-                                <span id="autoNetMissedNumStepNumber" class="NumStepNumber">0</span>
-                                <span id="autoNetMissedNumStepPlus" class="NumStepPlus">+</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </div> <!-- End Autonomous Section-->
 
-                <br>
-                
-                <h2>Tele-Op</h2>
+                <div id="teleOp" class="gameSection"> <!-- Shows when scouting app is in Tele-Op mode-->
+                    
+                    <h2>Tele-Op</h2>
 
-                <div id="teleReef" class="numberStepperSection">
-                    <label>Reef</label>
-                    <div id="teleReefLevel">
-                        <p>Level 1</p>
-                        <div id="teleReefNumberStep">
-                            <p>Made</p>
-                            <div class="NumStep" id="NumStep">
-                                <span id="teleReefLevel1NumStepMinus" class="NumStepMinus">&minus;</span>
-                                <span id="teleReefLevel1NumStepNumber" class="NumStepNumber">0</span>
-                                <span id="teleReefLevel1NumStepPlus" class="NumStepPlus">+</span>
+                    <div id="teleReef" class="numberStepperSection">
+                        <label>Reef</label>
+                        <div id="teleReefLevel">
+                            <p>Level 1</p>
+                            <div id="teleReefNumberStep">
+                                <p>Made</p>
+                                <div class="NumStep" id="NumStep">
+                                    <span id="teleReefLevel1NumStepMinus" class="NumStepMinus">&minus;</span>
+                                    <span id="teleReefLevel1NumStepNumber" class="NumStepNumber">0</span>
+                                    <span id="teleReefLevel1NumStepPlus" class="NumStepPlus">+</span>
+                                </div>
+                            </div>
+                            <div id="teleReefNumberStep">
+                                <p>Missed</p>
+                                <div class="NumStep" id="NumStep">
+                                    <span id="teleReefLevel1MissedNumStepMinus" class="NumStepMinus">&minus;</span>
+                                    <span id="teleReefLevel1MissedNumStepNumber" class="NumStepNumber">0</span>
+                                    <span id="teleReefLevel1MissedNumStepPlus" class="NumStepPlus">+</span>
+                                </div>
                             </div>
                         </div>
-                        <div id="teleReefNumberStep">
-                            <p>Missed</p>
-                            <div class="NumStep" id="NumStep">
-                                <span id="teleReefLevel1MissedNumStepMinus" class="NumStepMinus">&minus;</span>
-                                <span id="teleReefLevel1MissedNumStepNumber" class="NumStepNumber">0</span>
-                                <span id="teleReefLevel1MissedNumStepPlus" class="NumStepPlus">+</span>
+                        <div id="teleReefLevel">
+                            <p>Level 2</p>
+                            <div id="teleReefNumberStep">
+                                <p>Made</p>
+                                <div class="NumStep" id="NumStep">
+                                    <span id="teleReefLevel2NumStepMinus" class="NumStepMinus">&minus;</span>
+                                    <span id="teleReefLevel2NumStepNumber" class="NumStepNumber">0</span>
+                                    <span id="teleReefLevel2NumStepPlus" class="NumStepPlus">+</span>
+                                </div>
+                            </div>
+                            <div id="teleReefNumberStep">
+                                <p>Missed</p>
+                                <div class="NumStep" id="NumStep">
+                                    <span id="teleReefLevel2MissedNumStepMinus" class="NumStepMinus">&minus;</span>
+                                    <span id="teleReefLevel2MissedNumStepNumber" class="NumStepNumber">0</span>
+                                    <span id="teleReefLevel2MissedNumStepPlus" class="NumStepPlus">+</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div id="teleReefLevel">
-                        <p>Level 2</p>
-                        <div id="teleReefNumberStep">
-                            <p>Made</p>
-                            <div class="NumStep" id="NumStep">
-                                <span id="teleReefLevel2NumStepMinus" class="NumStepMinus">&minus;</span>
-                                <span id="teleReefLevel2NumStepNumber" class="NumStepNumber">0</span>
-                                <span id="teleReefLevel2NumStepPlus" class="NumStepPlus">+</span>
+                        <div id="teleReefLevel">
+                            <p>Level 3</p>
+                            <div id="teleReefNumberStep">
+                                <p>Made</p>
+                                <div class="NumStep" id="NumStep">
+                                    <span id="teleReefLevel3NumStepMinus" class="NumStepMinus">&minus;</span>
+                                    <span id="teleReefLevel3NumStepNumber" class="NumStepNumber">0</span>
+                                    <span id="teleReefLevel3NumStepPlus" class="NumStepPlus">+</span>
+                                </div>
+                            </div>
+                            <div id="teleReefNumberStep">
+                                <p>Missed</p>
+                                <div class="NumStep" id="NumStep">
+                                    <span id="teleReefLevel3MissedNumStepMinus" class="NumStepMinus">&minus;</span>
+                                    <span id="teleReefLevel3MissedNumStepNumber" class="NumStepNumber">0</span>
+                                    <span id="teleReefLevel3MissedNumStepPlus" class="NumStepPlus">+</span>
+                                </div>
                             </div>
                         </div>
-                        <div id="teleReefNumberStep">
-                            <p>Missed</p>
-                            <div class="NumStep" id="NumStep">
-                                <span id="teleReefLevel2MissedNumStepMinus" class="NumStepMinus">&minus;</span>
-                                <span id="teleReefLevel2MissedNumStepNumber" class="NumStepNumber">0</span>
-                                <span id="teleReefLevel2MissedNumStepPlus" class="NumStepPlus">+</span>
+                        <div id="teleReefLevel">
+                            <p>Level 4</p>
+                            <div id="teleReefNumberStep">
+                                <p>Made</p>
+                                <div class="NumStep" id="NumStep">
+                                    <span id="teleReefLevel4NumStepMinus" class="NumStepMinus">&minus;</span>
+                                    <span id="teleReefLevel4NumStepNumber" class="NumStepNumber">0</span>
+                                    <span id="teleReefLevel4NumStepPlus" class="NumStepPlus">+</span>
+                                </div>
+                            </div>
+                            <div id="teleReefNumberStep">
+                                <p>Missed</p>
+                                <div class="NumStep" id="NumStep">
+                                    <span id="teleReefLevel4MissedNumStepMinus" class="NumStepMinus">&minus;</span>
+                                    <span id="teleReefLevel4MissedNumStepNumber" class="NumStepNumber">0</span>
+                                    <span id="teleReefLevel4MissedNumStepPlus" class="NumStepPlus">+</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div id="teleReefLevel">
-                        <p>Level 3</p>
-                        <div id="teleReefNumberStep">
-                            <p>Made</p>
-                            <div class="NumStep" id="NumStep">
-                                <span id="teleReefLevel3NumStepMinus" class="NumStepMinus">&minus;</span>
-                                <span id="teleReefLevel3NumStepNumber" class="NumStepNumber">0</span>
-                                <span id="teleReefLevel3NumStepPlus" class="NumStepPlus">+</span>
+                        <div id="teleReefLevel">
+                            <p>Algae Collection</p>
+                            <div id="teleReefNumberStep">
+                                <p>Low</p>
+                                <div class="NumStep" id="NumStep">
+                                    <span id="teleReefAlgaeLowNumStepMinus" class="NumStepMinus">&minus;</span>
+                                    <span id="teleReefAlgaeLowNumStepNumber" class="NumStepNumber">0</span>
+                                    <span id="teleReefAlgaeLowNumStepPlus" class="NumStepPlus">+</span>
+                                </div>
                             </div>
-                        </div>
-                        <div id="teleReefNumberStep">
-                            <p>Missed</p>
-                            <div class="NumStep" id="NumStep">
-                                <span id="teleReefLevel3MissedNumStepMinus" class="NumStepMinus">&minus;</span>
-                                <span id="teleReefLevel3MissedNumStepNumber" class="NumStepNumber">0</span>
-                                <span id="teleReefLevel3MissedNumStepPlus" class="NumStepPlus">+</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="teleReefLevel">
-                        <p>Level 4</p>
-                        <div id="teleReefNumberStep">
-                            <p>Made</p>
-                            <div class="NumStep" id="NumStep">
-                                <span id="teleReefLevel4NumStepMinus" class="NumStepMinus">&minus;</span>
-                                <span id="teleReefLevel4NumStepNumber" class="NumStepNumber">0</span>
-                                <span id="teleReefLevel4NumStepPlus" class="NumStepPlus">+</span>
-                            </div>
-                        </div>
-                        <div id="teleReefNumberStep">
-                            <p>Missed</p>
-                            <div class="NumStep" id="NumStep">
-                                <span id="teleReefLevel4MissedNumStepMinus" class="NumStepMinus">&minus;</span>
-                                <span id="teleReefLevel4MissedNumStepNumber" class="NumStepNumber">0</span>
-                                <span id="teleReefLevel4MissedNumStepPlus" class="NumStepPlus">+</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="teleReefLevel">
-                        <p>Algae Collection</p>
-                        <div id="teleReefNumberStep">
-                            <p>Low</p>
-                            <div class="NumStep" id="NumStep">
-                                <span id="teleReefAlgaeLowNumStepMinus" class="NumStepMinus">&minus;</span>
-                                <span id="teleReefAlgaeLowNumStepNumber" class="NumStepNumber">0</span>
-                                <span id="teleReefAlgaeLowNumStepPlus" class="NumStepPlus">+</span>
-                            </div>
-                        </div>
-                        <div id="teleReefNumberStep">
-                            <p>High</p>
-                            <div class="NumStep" id="NumStep">
-                                <span id="teleReefAlgaeHighNumStepMinus" class="NumStepMinus">&minus;</span>
-                                <span id="teleReefAlgaeHighNumStepNumber" class="NumStepNumber">0</span>
-                                <span id="teleReefAlgaeHighNumStepPlus" class="NumStepPlus">+</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div id="teleAlgae" class="numberStepperSection">
-                    <label>Algae</label>
-                    <div id="teleAlgaeLevel">
-                        <p>Processor</p>
-                        <div id="teleAlgaeNumberStep">
-                            <p>Made</p>
-                            <div class="NumStep" id="NumStep">
-                                <span id="teleProcessorNumStepMinus" class="NumStepMinus">&minus;</span>
-                                <span id="teleProcessorNumStepNumber" class="NumStepNumber">0</span>
-                                <span id="teleProcessorNumStepPlus" class="NumStepPlus">+</span>
-                            </div>
-                        </div>
-                        <div id="teleAlgaeNumberStep">
-                            <p>Missed</p>
-                            <div class="NumStep" id="NumStep">
-                                <span id="teleProcessorMissedNumStepMinus" class="NumStepMinus">&minus;</span>
-                                <span id="teleProcessorMissedNumStepNumber" class="NumStepNumber">0</span>
-                                <span id="teleProcessorMissedNumStepPlus" class="NumStepPlus">+</span>
+                            <div id="teleReefNumberStep">
+                                <p>High</p>
+                                <div class="NumStep" id="NumStep">
+                                    <span id="teleReefAlgaeHighNumStepMinus" class="NumStepMinus">&minus;</span>
+                                    <span id="teleReefAlgaeHighNumStepNumber" class="NumStepNumber">0</span>
+                                    <span id="teleReefAlgaeHighNumStepPlus" class="NumStepPlus">+</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div id="teleAlgaeLevel">
-                        <p>Net</p>
-                        <div id="teleAlgaeNumberStep">
-                            <p>Made</p>
-                            <div class="NumStep" id="NumStep">
-                                <span id="teleNetNumStepMinus" class="NumStepMinus">&minus;</span>
-                                <span id="teleNetNumStepNumber" class="NumStepNumber">0</span>
-                                <span id="teleNetNumStepPlus" class="NumStepPlus">+</span>
+                    
+                    <div id="teleAlgae" class="numberStepperSection">
+                        <label>Algae</label>
+                        <div id="teleAlgaeLevel">
+                            <p>Processor</p>
+                            <div id="teleAlgaeNumberStep">
+                                <p>Made</p>
+                                <div class="NumStep" id="NumStep">
+                                    <span id="teleProcessorNumStepMinus" class="NumStepMinus">&minus;</span>
+                                    <span id="teleProcessorNumStepNumber" class="NumStepNumber">0</span>
+                                    <span id="teleProcessorNumStepPlus" class="NumStepPlus">+</span>
+                                </div>
+                            </div>
+                            <div id="teleAlgaeNumberStep">
+                                <p>Missed</p>
+                                <div class="NumStep" id="NumStep">
+                                    <span id="teleProcessorMissedNumStepMinus" class="NumStepMinus">&minus;</span>
+                                    <span id="teleProcessorMissedNumStepNumber" class="NumStepNumber">0</span>
+                                    <span id="teleProcessorMissedNumStepPlus" class="NumStepPlus">+</span>
+                                </div>
                             </div>
                         </div>
-                        <div id="teleAlgaeNumberStep">
-                            <p>Missed</p>
-                            <div class="NumStep" id="NumStep">
-                                <span id="teleNetMissedNumStepMinus" class="NumStepMinus">&minus;</span>
-                                <span id="teleNetMissedNumStepNumber" class="NumStepNumber">0</span>
-                                <span id="teleNetMissedNumStepPlus" class="NumStepPlus">+</span>
+                        <div id="teleAlgaeLevel">
+                            <p>Net</p>
+                            <div id="teleAlgaeNumberStep">
+                                <p>Made</p>
+                                <div class="NumStep" id="NumStep">
+                                    <span id="teleNetNumStepMinus" class="NumStepMinus">&minus;</span>
+                                    <span id="teleNetNumStepNumber" class="NumStepNumber">0</span>
+                                    <span id="teleNetNumStepPlus" class="NumStepPlus">+</span>
+                                </div>
+                            </div>
+                            <div id="teleAlgaeNumberStep">
+                                <p>Missed</p>
+                                <div class="NumStep" id="NumStep">
+                                    <span id="teleNetMissedNumStepMinus" class="NumStepMinus">&minus;</span>
+                                    <span id="teleNetMissedNumStepNumber" class="NumStepNumber">0</span>
+                                    <span id="teleNetMissedNumStepPlus" class="NumStepPlus">+</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <h2>End Game</h2>
+                </div> <!-- End Tele-Op Section-->
 
-                <div class="radio">
-                    <p>Climb</p>
-                    <div class="radioInput">
-                        <div class="radioOption">
-                            <label class="radioLabel">Deep</label>
-                            <input type="radio" name="matchClimb" value="Deep"/>
-                        </div>
-                        <div class="radioOption">
-                            <label class="radioLabel">Shallow</label>
-                            <input type="radio" name="matchClimb" value="Shallow"/>
-                        </div>
-                        <div class="radioOption">
-                            <label class="radioLabel">Park</label>
-                            <input type="radio" name="matchClimb" value="Park"/>
-                        </div>
-                        <div class="radioOption">
-                            <label class="radioLabel">Failed</label>
-                            <input type="radio" name="matchClimb" value="failed"/>
-                        </div>
-                        <div class="radioOption">
-                            <label class="radioLabel">Not Tried</label>
-                            <input type="radio" name="matchClimb" value="Not Tried"/>
+                <div id="endGame" class="gameSection"> <!-- Shows when scouting app is in End Game mode-->
+
+                    <h2>End Game</h2>
+
+                    <div class="radio">
+                        <p>Climb</p>
+                        <div class="radioInput">
+                            <div class="radioOption">
+                                <label class="radioLabel">Deep</label>
+                                <input type="radio" name="matchClimb" value="Deep"/>
+                            </div>
+                            <div class="radioOption">
+                                <label class="radioLabel">Shallow</label>
+                                <input type="radio" name="matchClimb" value="Shallow"/>
+                            </div>
+                            <div class="radioOption">
+                                <label class="radioLabel">Park</label>
+                                <input type="radio" name="matchClimb" value="Park"/>
+                            </div>
+                            <div class="radioOption">
+                                <label class="radioLabel">Failed</label>
+                                <input type="radio" name="matchClimb" value="Failed"/>
+                            </div>
+                            <div class="radioOption">
+                                <label class="radioLabel">Not Tried</label>
+                                <input type="radio" name="matchClimb" value="Not Tried"/>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="radio">
-                    <p>Collections</p>
-                    <label for="collectCoralStation">Collected Coral from the Human Station</label>
-                    <input type="checkbox" name="collectCoralStation">
-    
-                    <label for="collectCoralGround">Collected Coral from the Ground</label>
-                    <input type="checkbox" name="collectCoralGround">
-    
-                    <label for="collectAlgaeReef">Collected Algae from the Reef</label>
-                    <input type="checkbox" name="collectAlgaeReef">
-    
-                    <label for="collectAlgaeGround">Collected Algae from the Ground</label>
-                    <input type="checkbox" name="collectAlgaeGround">
-                </div>
-                
-                <label for="died">Robot Died</label>
-                <input type="checkbox" name="died">
+                    <div class="radio">
+                        <p>Collections</p>
+                        <label for="collectCoralStation">Collected Coral from the Human Station</label>
+                        <input type="checkbox" name="collectCoralStation">
+        
+                        <label for="collectCoralGround">Collected Coral from the Ground</label>
+                        <input type="checkbox" name="collectCoralGround">
+        
+                        <label for="collectAlgaeReef">Collected Algae from the Reef</label>
+                        <input type="checkbox" name="collectAlgaeReef">
+        
+                        <label for="collectAlgaeGround">Collected Algae from the Ground</label>
+                        <input type="checkbox" name="collectAlgaeGround">
+                    </div>
+                    
+                    
+
+                </div> <!-- End End Game Section-->
 
             </div id=noShowToggle> <!-- End No Show Section-->
+
+            <div>
+                <button type="button" class="generateButton" onclick="changeGameSection('preMatch')">Pre-Match</button>
+                <button type="button" class="generateButton" onclick="changeGameSection('autonomous')">Autonomous</button>
+                <button type="button" class="generateButton" onclick="changeGameSection('teleOp')">Tele-Op</button>
+                <button type="button" class="generateButton" onclick="changeGameSection('endGame')">End Game</button>
+            </div>
+
+
+
+            <label>Total Robot Time Died</label>
+            <div id="deadTimerContainer" style="margin-top:10px;">
+                <span id="deadTimerDisplay">00:00:00</span>
+                <button type="button" id="deadTimerStart" onclick="startDeadTimer()">Start</button>
+                <button type="button" id="deadTimerStop" onclick="stopDeadTimer()" disabled>Stop</button>
+                <button type="button" id="deadTimerReset" onclick="resetDeadTimer()" disabled>Reset</button>
+            </div>
 
             <label for="matchComments">Comments</label>
             <textarea name="matchComments" placeholder="Anything else about how the match went?" >
@@ -503,103 +577,7 @@
             <label for="taxis">Can move other robots over the starting line</label>
             <input type="checkbox" name="taxis">
 
-            <div class="coordinatePlane" id="reefCoralID">
-                <table>
-                    <p>Auto Coral Scoring Capability</p>
-                    <tr>
-                        <th>Index</th>
-                        <th>Level 1</th>
-                        <th>Level 2</th>
-                        <th>Level 3</th>
-                        <th>Level 4</th>
-                    </tr>
-                    <tr>
-                        <td>A</td>
-                        <td><input type="checkbox" name="autoCoralA1"></td>
-                        <td><input type="checkbox" name="autoCoralA2"></td>
-                        <td><input type="checkbox" name="autoCoralA3"></td>
-                        <td><input type="checkbox" name="autoCoralA4"></td>
-                    </tr>
-                    <tr>
-                        <td>B</td>
-                        <td><input type="checkbox" name="autoCoralB1"></td>
-                        <td><input type="checkbox" name="autoCoralB2"></td>
-                        <td><input type="checkbox" name="autoCoralB3"></td>
-                        <td><input type="checkbox" name="autoCoralB4"></td>
-                    </tr>
-                    <tr>
-                        <td>C</td>
-                        <td><input type="checkbox" name="autoCoralC1"></td>
-                        <td><input type="checkbox" name="autoCoralC2"></td>
-                        <td><input type="checkbox" name="autoCoralC3"></td>
-                        <td><input type="checkbox" name="autoCoralC4"></td>
-                    </tr>
-                    <tr>
-                        <td>D</td>
-                        <td><input type="checkbox" name="autoCoralD1"></td>
-                        <td><input type="checkbox" name="autoCoralD2"></td>
-                        <td><input type="checkbox" name="autoCoralD3"></td>
-                        <td><input type="checkbox" name="autoCoralD4"></td>
-                    </tr>
-                    <tr>
-                        <td>E</td>
-                        <td><input type="checkbox" name="autoCoralE1"></td>
-                        <td><input type="checkbox" name="autoCoralE2"></td>
-                        <td><input type="checkbox" name="autoCoralE3"></td>
-                        <td><input type="checkbox" name="autoCoralE4"></td>
-                    </tr>
-                    <tr>
-                        <td>F</td>
-                        <td><input type="checkbox" name="autoCoralF1"></td>
-                        <td><input type="checkbox" name="autoCoralF2"></td>
-                        <td><input type="checkbox" name="autoCoralF3"></td>
-                        <td><input type="checkbox" name="autoCoralF4"></td>
-                    </tr>
-                    <tr>
-                        <td>G</td>
-                        <td><input type="checkbox" name="autoCoralG1"></td>
-                        <td><input type="checkbox" name="autoCoralG2"></td>
-                        <td><input type="checkbox" name="autoCoralG3"></td>
-                        <td><input type="checkbox" name="autoCoralG4"></td>
-                    </tr>
-                    <tr>
-                        <td>H</td>
-                        <td><input type="checkbox" name="autoCoralH1"></td>
-                        <td><input type="checkbox" name="autoCoralH2"></td>
-                        <td><input type="checkbox" name="autoCoralH3"></td>
-                        <td><input type="checkbox" name="autoCoralH4"></td>
-                    </tr>
-                    <tr>
-                        <td>I</td>
-                        <td><input type="checkbox" name="autoCoralI1"></td>
-                        <td><input type="checkbox" name="autoCoralI2"></td>
-                        <td><input type="checkbox" name="autoCoralI3"></td>
-                        <td><input type="checkbox" name="autoCoralI4"></td>
-                    </tr>
-                    <tr>
-                        <td>J</td>
-                        <td><input type="checkbox" name="autoCoralJ1"></td>
-                        <td><input type="checkbox" name="autoCoralJ2"></td>
-                        <td><input type="checkbox" name="autoCoralJ3"></td>
-                        <td><input type="checkbox" name="autoCoralJ4"></td>
-                    </tr>
-                    <tr>
-                        <td>K</td>
-                        <td><input type="checkbox" name="autoCoralK1"></td>
-                        <td><input type="checkbox" name="autoCoralK2"></td>
-                        <td><input type="checkbox" name="autoCoralK3"></td>
-                        <td><input type="checkbox" name="autoCoralK4"></td>
-                    </tr>
-                    <tr>
-                        <td>L</td>
-                        <td><input type="checkbox" name="autoCoralL1"></td>
-                        <td><input type="checkbox" name="autoCoralL2"></td>
-                        <td><input type="checkbox" name="autoCoralL3"></td>
-                        <td><input type="checkbox" name="autoCoralL4"></td>
-                    </tr>
-                </table>
-                <button type="button" id="startPositionMapButton" onclick="showReefCoralMap()">Reef</button>
-            </div>
+
 
             <!--what algae they remove from reef in auto-->
 
@@ -672,8 +650,11 @@
                 <button type="button" id="startPositionMapButton" onclick="showStartPositionMap()">Field</button>
             </div>
 
-            <label for="driveExperience">Drive experience (time)</label>
+            <label for="driveExperience">Drive experience (years)</label>
             <input type="text" name="driverExperience">
+
+            <label for="driverSkill">Drive practice (hours)</label>
+            <input type="text" name="driverSkill">
 
             <label for="driveTrain">Drive train</label>
             <input type="text" name="driveTrain">
@@ -852,6 +833,20 @@
 
         #scoutingModeModal p {
             transform: translateY(25px);
+        }
+
+        .gameSection {
+            display: flex;
+            flex-direction: column;
+            width: 80%;
+            margin: 2rem auto;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 2rem;
         }
 
         .generateButton {
@@ -1400,6 +1395,47 @@
                 noShowSection.style.display = "flex";
             }
         });
+
+        //function to show the section of the game that is being scouted and hide all the others
+        selectedSection = "preMatch"; // Default to pre-match section
+        const sections = document.getElementsByClassName('gameSection');
+        for (const section of sections) {
+            if(section.id == selectedSection)
+                section.style.display = "flex";
+            else
+                section.style.display = "none";
+        }
+
+        //function to change game section selected
+        function changeGameSection(sectionId) {
+            selectedSection = sectionId;
+            for (const section of sections) {
+                if(section.id == selectedSection)
+                    section.style.display = "flex";
+                else
+                    section.style.display = "none";
+
+            }
+            // Update the section name displayed at the top
+            const sectionName = document.getElementById("sectionName");
+            switch (selectedSection) {
+                case "preMatch":
+                    sectionName.innerText = "Pre-Match";
+                    break;
+                case "autonomous":
+                    sectionName.innerText = "Autonomous";
+                    break;
+                case "teleOp":
+                    sectionName.innerText = "Tele-Op";
+                    break;
+                case "endGame":
+                    sectionName.innerText = "Endgame";
+                    break;
+                default:
+                    pass
+            }
+        }
+        
 
         //Pre Game variables
         let matchScouterName = document.getElementsByName("matchScouterName")[0];
@@ -2000,6 +2036,7 @@
         autoCoralStationPickUp = autoCoralStationPickUp1.checked + "," + autoCoralStationPickUp2.checked;
 
         driverExperience = document.getElementsByName("driverExperience")[0];
+        driverSkill = document.getElementsByName("driverSkill")[0];
         driveTrain = document.getElementsByName("driveTrain")[0];
 
         pitClimberCapabilityShallow = document.getElementsByName("pitClimberShallow")[0];
@@ -2032,7 +2069,7 @@
 
             checkPitInputs();
 
-            const dataArray = [pitScouterName.value, pitTeamNumber.value, pitReefCapability, pitCapabilityProccessor.checked, pitCapabilityNet.checked, robotPurpose.value, autoStrategy.value, possibleStartPositions, pitLeavesStartingPosition.checked, pitAutoCoralCapability, pitAutoAlgaeCapability. autoPrePlacedCollection, autoCoralStationPickUp, driverExperience.value, driveTrain.value, pitClimberCapability, pitCoralPickUpCapability, pitAlgaePickUpCapability, pitRobotQuality.value, programmingLanguage.value, helpNeeded.checked, typeHelpNeeded.value, pitComments.value, new Date().toLocaleTimeString()];
+            const dataArray = [pitScouterName.value, pitTeamNumber.value, pitReefCapability, pitCapabilityProccessor.checked, pitCapabilityNet.checked, robotPurpose.value, autoStrategy.value, possibleStartPositions, pitLeavesStartingPosition.checked, pitAutoCoralCapability, pitAutoAlgaeCapability. autoPrePlacedCollection, autoCoralStationPickUp, driverExperience.value, driverSkill.value, driveTrain.value, pitClimberCapability, pitCoralPickUpCapability, pitAlgaePickUpCapability, pitRobotQuality.value, programmingLanguage.value, helpNeeded.checked, typeHelpNeeded.value, pitComments.value, new Date().toLocaleTimeString()];
 
             console.log(dataArray.join("	"));
             QRCode.clear();
