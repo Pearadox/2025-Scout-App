@@ -512,6 +512,10 @@
                 <input type="text" name="pitDriverExperience">
                 <label for="pitDriverSkill">Driver Skill</label>
                 <input type="text" name="pitDriverSkill">
+                <label for="robotPurpose">What is the primary purpose of the robot (what game pieces is it designed to score/ does it play defense)</label>
+                <input type="text" name="robotPurpose">
+                <label for="bumpers">Describe your bumpers</label>
+                <input type="text" name="bumpers">
             </div>
             
             <div class="multi-select">
@@ -578,8 +582,20 @@
             </div>
 
             <div class="multi-select">
-                <label for="helpNeeded">Help Needed</label>
+                <label for="buildQuality">Build quality (do not ask!!)</label>
+                <input type="range" name="buildQuality" min="1" max="10" step="1" value="5">
+
+                <label for="programmingLanguage">Programming language</label>
+                <input type="text" name="programmingLanguage">
+
+                <label for="helpNeeded">Help needed</label>
                 <input type="checkbox" name="helpNeeded">
+
+                <label for="typeHelpNeeded">Type of help needed</label>
+                <input type="text" name="typeHelpNeeded">
+
+                <label for="pitComments">Comments</label> 
+                <textarea type="text" name="pitComments" placeholder="Anything else about the robot?"></textarea>
             </div>
 
             <button type="button" class="generateButton" onclick="generatePitData()">Generate</button>
@@ -1308,6 +1324,7 @@
         //Auto variables
         let matchLeaveStartPosition = document.getElementsByName("matchLeaveStartPosition")[0];
         let taxi = document.getElementsByName("taxi")[0];
+
         autoReefLevel1NumStepMinus = document.getElementById("autoReefLevel1NumStepMinus");
         autoReefLevel1NumStepNumber = document.getElementById("autoReefLevel1NumStepNumber");
         autoReefLevel1NumStepPlus = document.getElementById("autoReefLevel1NumStepPlus");
@@ -1706,7 +1723,6 @@
         let collectCoralGround = document.getElementsByName("collectCoralGround")[0];
         let collectAlgaeReef = document.getElementsByName("collectAlgaeReef")[0];
         let collectAlgaeGround = document.getElementsByName("collectAlgaeGround")[0];
-        let robotDeath = document.getElementsByName("died")[0];
         let matchComments = document.getElementsByName("matchComments")[0];
         matchComments.value = "";
 
@@ -1771,6 +1787,8 @@
             teleNetNumStepNumber.innerText = 0; teleNetNumber = 0;
             teleNetMissedNumStepNumber.innerText = 0; teleNetMissedNumber = 0;
 
+            deadTimerMs = 0;
+
             matchComments.innerText = "";
         }
 
@@ -1781,7 +1799,7 @@
 
             checkMatchInputs();
 
-            const dataArray = [matchScouterName.value, matchTeamNumber.value, matchMatchNumber.value, matchNoShow.checked, startPosition, matchLeaveStartPosition.checked, taxi.checked, autoreeflevel1Number, autoreeflevel1MissedNumber, autoreeflevel2Number,autoreeflevel2MissedNumber, autoreeflevel3Number, autoreeflevel3MissedNumber, autoreeflevel4Number, autoreeflevel4MissedNumber, autoReefAlgaeLowNumber, autoReefAlgaeHighNumber, autoProcessorNumber, autoProcessorMissedNumber, autoNetNumber, autoNetMissedNumber, teleReeflevel1Number, teleReeflevel1MissedNumber, teleReeflevel2Number, teleReeflevel2MissedNumber, teleReeflevel3Number, teleReeflevel3MissedNumber, teleReeflevel4Number, teleReeflevel4MissedNumber, teleReefAlgeaLowNumber, teleReefAlgeaHighNumber, teleProcessorNumber, teleProcessorMissedNumber, teleNetNumber, teleNetMissedNumber, collectCoralStation.checked, collectCoralGround.checked, collectAlgaeReef.checked, collectAlgaeGround.checked, robotDeath.checked, matchComments.value, matchClimb, new Date().toLocaleTimeString()];
+            const dataArray = [matchScouterName.value, matchTeamNumber.value, matchMatchNumber.value, matchNoShow.checked, startPosition, matchLeaveStartPosition.checked, taxi.checked, autoreeflevel1Number, autoreeflevel1MissedNumber, autoreeflevel2Number,autoreeflevel2MissedNumber, autoreeflevel3Number, autoreeflevel3MissedNumber, autoreeflevel4Number, autoreeflevel4MissedNumber, autoReefAlgaeLowNumber, autoReefAlgaeHighNumber, autoProcessorNumber, autoProcessorMissedNumber, autoNetNumber, autoNetMissedNumber, teleReeflevel1Number, teleReeflevel1MissedNumber, teleReeflevel2Number, teleReeflevel2MissedNumber, teleReeflevel3Number, teleReeflevel3MissedNumber, teleReeflevel4Number, teleReeflevel4MissedNumber, teleReefAlgeaLowNumber, teleReefAlgeaHighNumber, teleProcessorNumber, teleProcessorMissedNumber, teleNetNumber, teleNetMissedNumber, collectCoralStation.checked, collectCoralGround.checked, collectAlgaeReef.checked, collectAlgaeGround.checked, deadTimerMs, matchComments.value, matchClimb, new Date().toLocaleTimeString()];
 
             console.log(dataArray.join("	"));
             QRCode.clear();
@@ -1797,24 +1815,10 @@
         let pitCapabilityProccessor;
         let pitCapabilityNet;
         let robotPurpose;
-        let autoStrategy;
-            
-        let pitLeavesStartingPosition;
 
-        let pitAutoCoralCapability;
- 
-        let pitAutoAlgaeCapability;
-        let possibleStartPositions;
-        let preplaced1;
-        let preplaced2;
-        let preplaced3;
-        let autoPrePlacedCollection;
-
-        let autoCoralStationPickUp1;
-        let autoCoralStationPickUp2;
-        let autoCoralStationPickUp;
-
+        
         let driverExperience;
+        let driverSkill;
         let driveTrain;
 
         let pitClimberCapabilityShallow;
@@ -1837,56 +1841,18 @@
         let pitComments;
 
         function checkPitInputs() {
-            //get values for tele-op reef
-            let capabilityReefLevel1 = document.getElementsByName("reefLevel1")[0];
-            let capabilityReefLevel2 = document.getElementsByName("reefLevel2")[0];
-            let capabilityReefLevel3 = document.getElementsByName("reefLevel3")[0];
-            let capabilityReefLevel4 = document.getElementsByName("reefLevel4")[0];
-            pitReefCapability = capabilityReefLevel1.checked + "," + capabilityReefLevel2.checked + "," + capabilityReefLevel3.checked + "," + capabilityReefLevel4.checked;
-
-            //get values for possible starting positions
-            let possibleStartPosition1 = document.getElementsByName("possibleStartPosition1")[0];
-            let possibleStartPosition2 = document.getElementsByName("possibleStartPosition2")[0];
-            let possibleStartPosition3 = document.getElementsByName("possibleStartPosition3")[0];
-            possibleStartPositions = possibleStartPosition1.checked + "," + possibleStartPosition2.checked + "," + possibleStartPosition3.checked;
-
-            //get values for auto reef scoring capabilities
-            const pitAutoCoralCapabilityLetters = "ABCDEFGHIJKL";
-            let pitAutoCoralCapabilityCombinedValues = [];
-            for (let letter of pitAutoCoralCapabilityLetters) {
-                for (let i = 1; i <= 4; i++) {
-                    let pitAutoCoralCapabilityElement = document.getElementsByName(`autoCoral${letter}${i}`)[0];
-                    if (pitAutoCoralCapabilityElement) {
-                        pitAutoCoralCapabilityCombinedValues.push(pitAutoCoralCapabilityElement.checked);
-                    }
-                }
-            }
-            pitAutoCoralCapability = pitAutoCoralCapabilityCombinedValues.join(",");
+        //get values for pit scouting
+        let capabilityReefLevel1 = document.getElementsByName("reefLevel1")[0];
+        let capabilityReefLevel2 = document.getElementsByName("reefLevel2")[0];
+        let capabilityReefLevel3 = document.getElementsByName("reefLevel3")[0];
+        let capabilityReefLevel4 = document.getElementsByName("reefLevel4")[0];
+        pitReefCapability = capabilityReefLevel1.checked + "," + capabilityReefLevel2.checked + "," + capabilityReefLevel3.checked + "," + capabilityReefLevel4.checked;
 
         pitScouterName = document.getElementsByName("pitScouterName")[0];
         pitTeamNumber = document.getElementsByName("pitTeamNumber")[0];
         pitCapabilityProccessor = document.getElementsByName("scoreInProccessor")[0];
         pitCapabilityNet = document.getElementsByName("scoreInNet")[0];
         robotPurpose = document.getElementsByName("robotPurpose")[0];
-        autoStrategy = document.getElementsByName("autoStrategy")[0];
-            
-        pitLeavesStartingPosition = document.getElementsByName("leaveStartingLine")[0];
-
-        autoAlgaeCollectionA = document.getElementsByName("autoAlgaeCollectionA")[0];
-        autoAlgaeCollectionC = document.getElementsByName("autoAlgaeCollectionC")[0];
-        autoAlgaeCollectionE = document.getElementsByName("autoAlgaeCollectionE")[0];
-        autoAlgaeCollectionG = document.getElementsByName("autoAlgaeCollectionG")[0];
-        autoAlgaeCollectionI = document.getElementsByName("autoAlgaeCollectionI")[0];
-        autoAlgaeCollectionK = document.getElementsByName("autoAlgaeCollectionK")[0];
-        pitAutoAlgaeCapability = autoAlgaeCollectionA.checked + "," + autoAlgaeCollectionC.checked + "," + autoAlgaeCollectionE.checked + "," + autoAlgaeCollectionG.checked + "," + autoAlgaeCollectionI.checked + "," + autoAlgaeCollectionK.checked;
-        preplaced1 = document.getElementsByName("pre-placed1")[0];
-        preplaced2 = document.getElementsByName("pre-placed2")[0];
-        preplaced3 = document.getElementsByName("pre-placed3")[0];
-        autoPrePlacedCollection = preplaced1.checked + "," + preplaced2.checked + "," + preplaced3.checked;
-
-        autoCoralStationPickUp1 = document.getElementsByName("autoCoralStationCollection1")[0];
-        autoCoralStationPickUp2 = document.getElementsByName("autoCoralStationCollection2")[0];
-        autoCoralStationPickUp = autoCoralStationPickUp1.checked + "," + autoCoralStationPickUp2.checked;
 
         driverExperience = document.getElementsByName("driverExperience")[0];
         driverSkill = document.getElementsByName("driverSkill")[0];
@@ -1922,7 +1888,7 @@
 
             checkPitInputs();
 
-            const dataArray = [pitScouterName.value, pitTeamNumber.value, pitReefCapability, pitCapabilityProccessor.checked, pitCapabilityNet.checked, robotPurpose.value, autoStrategy.value, possibleStartPositions, pitLeavesStartingPosition.checked, pitAutoCoralCapability, pitAutoAlgaeCapability. autoPrePlacedCollection, autoCoralStationPickUp, driverExperience.value, driverSkill.value, driveTrain.value, pitClimberCapability, pitCoralPickUpCapability, pitAlgaePickUpCapability, pitRobotQuality.value, programmingLanguage.value, helpNeeded.checked, typeHelpNeeded.value, pitComments.value, new Date().toLocaleTimeString()];
+            const dataArray = [pitScouterName.value, pitTeamNumber.value, pitReefCapability, pitCapabilityProccessor.checked, pitCapabilityNet.checked, robotPurpose.value, driverExperience.value, driverSkill.value, driveTrain.value, pitClimberCapability, pitCoralPickUpCapability, pitAlgaePickUpCapability, pitRobotQuality.value, programmingLanguage.value, helpNeeded.checked, typeHelpNeeded.value, pitComments.value, new Date().toLocaleTimeString()];
 
             console.log(dataArray.join("	"));
             QRCode.clear();
