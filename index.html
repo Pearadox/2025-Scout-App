@@ -486,6 +486,7 @@
             <textarea name="matchComments" placeholder="Anything else about how the match went?" >
             </textarea>
 
+            <button type="button" class="regenerateButton" onclick="regenerateData()">Regenerate</button>
             <button type="button" class="generateButton" onclick="generateMatchData()">Generate</button>
         </form>
     </section>
@@ -597,23 +598,8 @@
                 <label for="pitComments">Comments</label> 
                 <textarea type="text" name="pitComments" placeholder="Anything else about the robot?"></textarea>
             </div>
-
-            <label for="buildQuality">Build quality (do not ask!!)</label>
-            <input type="range" name="buildQuality" min="1" max="10" step="1" value="5">
-
-            <label for="programmingLanguage">Programming language</label>
-            <input type="text" name="programmingLanguage">
-
-            <label for="helpNeeded">Help needed</label>
-            <input type="checkbox" name="helpNeeded">
-
-            <label for="typeHelpNeeded">Type of help needed</label>
-            <input type="text" name="typeHelpNeeded">
-
-            <label for="pitComments">Comments</label> 
-            <textarea type="text" name="pitComments" placeholder="Anything else about the robot?"></textarea>
             
-            <button type="button" class="regenerateButton" onclick="regeneratePitData()">Regenerate</button>
+            <button type="button" class="regenerateButton" onclick="regenerateData()">Regenerate</button>
             <button type="button" class="generateButton" onclick="generatePitData()">Generate</button>
         </form>
 
@@ -635,7 +621,7 @@
         <button id="r8Button" type="button" class="downwardsRegenerateButtons" onclick="regenerateQR(7)">Button 8</button>
         <button id="r9Button" type="button" class="downwardsRegenerateButtons" onclick="regenerateQR(8)">Button 9</button>
         <button id="r10Button" type="button" class="downwardsRegenerateButtons" onclick="regenerateQR(9)">Button 10</button>
-        <button id="rClose" type="button" class="downwardsRegenerateButtons" onclick="closeRegenerate()">Close</button>
+        <button type="button" class="downwardsRegenerateButtons" onclick="closeRegenerate()">Close</button>
     </dialog>
 
     <!--QR code-->
@@ -779,7 +765,7 @@
 
         .downwardsRegenerateButtons {
             margin: auto;
-            width: 400px;
+            width: 550px;
             height: 50px;
             font-size: 2rem;
             cursor: pointer;
@@ -787,8 +773,8 @@
 
         #regenerateBackground {
             position: fixed;
-            width: 400px;
-            height: 550px;
+            width: 550px;
+            height: 575px;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -1860,8 +1846,9 @@
         }
 
         // Regenerate Setup
-        var regeneratePitArray = [];
-        var regenerateMatchData = [];
+        var regenerateArray = [];
+        var regenerateType = [];
+        var rBackground = document.getElementById("regenerateBackground");
         var regenerateButtons = [];
         for (let i = 0; i < 10; i++) {
             switch (i) {
@@ -1898,14 +1885,19 @@
             }
         }
 
+        //Initializing the QRModal var
+        var QRModal = document.getElementById("QRModal");
+
         //function to encode the form data to qr-code
         function generateMatchData() {
-            var QRModal = document.getElementById("QRModal");
             QRModal.show();
 
             checkMatchInputs();
 
             const dataArray = [matchScouterName.value, matchTeamNumber.value, matchMatchNumber.value, matchNoShow.checked, startPosition, matchLeaveStartPosition.checked, taxi.checked, autoreeflevel1Number, autoreeflevel1MissedNumber, autoreeflevel2Number,autoreeflevel2MissedNumber, autoreeflevel3Number, autoreeflevel3MissedNumber, autoreeflevel4Number, autoreeflevel4MissedNumber, autoReefAlgaeLowNumber, autoReefAlgaeHighNumber, autoProcessorNumber, autoProcessorMissedNumber, autoNetNumber, autoNetMissedNumber, teleReeflevel1Number, teleReeflevel1MissedNumber, teleReeflevel2Number, teleReeflevel2MissedNumber, teleReeflevel3Number, teleReeflevel3MissedNumber, teleReeflevel4Number, teleReeflevel4MissedNumber, teleReefAlgeaLowNumber, teleReefAlgeaHighNumber, teleProcessorNumber, teleProcessorMissedNumber, teleNetNumber, teleNetMissedNumber, collectCoralStation.checked, collectCoralGround.checked, collectAlgaeReef.checked, collectAlgaeGround.checked, deadTimerMs, matchComments.value, matchClimb, new Date().toLocaleTimeString()];
+
+            regenerateArray.push(dataArray);
+            regenerateType.push("Match");
 
             console.log(dataArray.join("	"));
             QRCode.clear();
@@ -1947,41 +1939,41 @@
         let pitComments;
 
         function checkPitInputs() {
-        //get values for pit scouting
-        let capabilityReefLevel1 = document.getElementsByName("reefLevel1")[0];
-        let capabilityReefLevel2 = document.getElementsByName("reefLevel2")[0];
-        let capabilityReefLevel3 = document.getElementsByName("reefLevel3")[0];
-        let capabilityReefLevel4 = document.getElementsByName("reefLevel4")[0];
-        pitReefCapability = capabilityReefLevel1.checked + "," + capabilityReefLevel2.checked + "," + capabilityReefLevel3.checked + "," + capabilityReefLevel4.checked;
+            //get values for pit scouting
+            let capabilityReefLevel1 = document.getElementsByName("reefLevel1")[0];
+            let capabilityReefLevel2 = document.getElementsByName("reefLevel2")[0];
+            let capabilityReefLevel3 = document.getElementsByName("reefLevel3")[0];
+            let capabilityReefLevel4 = document.getElementsByName("reefLevel4")[0];
+            pitReefCapability = capabilityReefLevel1.checked + "," + capabilityReefLevel2.checked + "," + capabilityReefLevel3.checked + "," + capabilityReefLevel4.checked;
 
-        pitScouterName = document.getElementsByName("pitScouterName")[0];
-        pitTeamNumber = document.getElementsByName("pitTeamNumber")[0];
-        pitCapabilityProccessor = document.getElementsByName("scoreInProccessor")[0];
-        pitCapabilityNet = document.getElementsByName("scoreInNet")[0];
-        robotPurpose = document.getElementsByName("robotPurpose")[0];
+            pitScouterName = document.getElementsByName("pitScouterName")[0];
+            pitTeamNumber = document.getElementsByName("pitTeamNumber")[0];
+            pitCapabilityProccessor = document.getElementsByName("scoreInProccessor")[0];
+            pitCapabilityNet = document.getElementsByName("scoreInNet")[0];
+            robotPurpose = document.getElementsByName("robotPurpose")[0];
 
-        driverExperience = document.getElementsByName("driverExperience")[0];
-        driverSkill = document.getElementsByName("driverSkill")[0];
-        driveTrain = document.getElementsByName("driveTrain")[0];
+            driverExperience = document.getElementsByName("driverExperience")[0];
+            driverSkill = document.getElementsByName("driverSkill")[0];
+            driveTrain = document.getElementsByName("driveTrain")[0];
 
-        pitClimberCapabilityShallow = document.getElementsByName("pitClimberShallow")[0];
-        pitClimberCapabilityDeep = document.getElementsByName("pitClimberDeep")[0];
-        pitClimberCapabilityNone = document.getElementsByName("pitClimberNone")[0];
-        pitClimberCapability = pitClimberCapabilityShallow.checked + "," + pitClimberCapabilityDeep.checked + "," + pitClimberCapabilityNone.checked;
+            pitClimberCapabilityShallow = document.getElementsByName("pitClimberShallow")[0];
+            pitClimberCapabilityDeep = document.getElementsByName("pitClimberDeep")[0];
+            pitClimberCapabilityNone = document.getElementsByName("pitClimberNone")[0];
+            pitClimberCapability = pitClimberCapabilityShallow.checked + "," + pitClimberCapabilityDeep.checked + "," + pitClimberCapabilityNone.checked;
 
-        pitCoralPickUpCapabilityGround = document.getElementsByName("pitCoralPickupGround")[0];
-        pitCoralPickUpCapabilityStation = document.getElementsByName("pitCoralPickupStation")[0];
-        pitCoralPickUpCapability = pitCoralPickUpCapabilityGround.checked + "," + pitCoralPickUpCapabilityStation.checked;
+            pitCoralPickUpCapabilityGround = document.getElementsByName("pitCoralPickupGround")[0];
+            pitCoralPickUpCapabilityStation = document.getElementsByName("pitCoralPickupStation")[0];
+            pitCoralPickUpCapability = pitCoralPickUpCapabilityGround.checked + "," + pitCoralPickUpCapabilityStation.checked;
 
-        pitAlgaePickUpCapabilityGround = document.getElementsByName("pitAlgaePickupGround")[0];
-        pitAlgaePickUpCapabilityReef = document.getElementsByName("pitAlgaePickupReef")[0];
-        pitAlgaePickUpCapability = pitAlgaePickUpCapabilityGround.checked + "," + pitAlgaePickUpCapabilityReef.checked;
+            pitAlgaePickUpCapabilityGround = document.getElementsByName("pitAlgaePickupGround")[0];
+            pitAlgaePickUpCapabilityReef = document.getElementsByName("pitAlgaePickupReef")[0];
+            pitAlgaePickUpCapability = pitAlgaePickUpCapabilityGround.checked + "," + pitAlgaePickUpCapabilityReef.checked;
 
-        pitRobotQuality = document.getElementsByName("buildQuality")[0];
-        programmingLanguage = document.getElementsByName("programmingLanguage")[0];
-        helpNeeded = document.getElementsByName("helpNeeded")[0];
-        typeHelpNeeded = document.getElementsByName("typeHelpNeeded")[0];
-        pitComments = document.getElementsByName("pitComments")[0];
+            pitRobotQuality = document.getElementsByName("buildQuality")[0];
+            programmingLanguage = document.getElementsByName("programmingLanguage")[0];
+            helpNeeded = document.getElementsByName("helpNeeded")[0];
+            typeHelpNeeded = document.getElementsByName("typeHelpNeeded")[0];
+            pitComments = document.getElementsByName("pitComments")[0];
         }
 
         function resetPitForm() {
@@ -1989,14 +1981,17 @@
         }
 
         function generatePitData() {
-            var QRModal = document.getElementById("QRModal");
+            console.log("DO YOU EVEN EXIST?");
             QRModal.show();
 
             checkPitInputs();
 
             const dataArray = [pitScouterName.value, pitTeamNumber.value, pitReefCapability, pitCapabilityProccessor.checked, pitCapabilityNet.checked, robotPurpose.value, driverExperience.value, driverSkill.value, driveTrain.value, pitClimberCapability, pitCoralPickUpCapability, pitAlgaePickUpCapability, pitRobotQuality.value, programmingLanguage.value, helpNeeded.checked, typeHelpNeeded.value, pitComments.value, new Date().toLocaleTimeString()];
 
-            regeneratePitArray.push(dataArray);
+            console.log("DO YOU EVEN EXIST?");
+
+            regenerateArray.push(dataArray);
+            regenerateType.push("Pit");
 
             console.log(dataArray.join("	"));
             QRCode.clear();
@@ -2018,13 +2013,17 @@
             resetPitForm();
         }
 
-        function regeneratePitData() {
-            var rBackground = document.getElementById("regenerateBackground")
-            rBackground.show()
+        function regenerateData() {
+            rBackground.show();
 
             for (let i = 0; i < 10; i++) {
-                if (i < regeneratePitArray.length) {
-                    regenerateButtons[i].textContent = regeneratePitArray[i][0] + " | " + regeneratePitArray[i][1];
+                if (i < regenerateArray.length) {
+                    if (regenerateType[i] == "Pit") {
+                        regenerateButtons[i].textContent = regenerateArray[i][0] + " | " + regenerateArray[i][1] + ", " + regenerateType[i];
+                    }
+                    else {
+                        regenerateButtons[i].textContent = regenerateArray[i][0] + " | " + regenerateArray[i][1] + " | " + regenerateArray[i][2] + ", " + regenerateType[i];
+                    }
                 }
                 else {
                     regenerateButtons[i].textContent = "";
@@ -2033,17 +2032,20 @@
         }
 
         function regenerateQR(id) {
-            if (id < regeneratePitArray.length) {
+            if (id < regenerateArray.length) {
                 var QRModal = document.getElementById("QRModal");
                 QRModal.show();
 
-                regeneratePitArray.push(regeneratePitArray[id]);
-
-                console.log(regeneratePitArray[id].join("	"));
+                console.log(regenerateArray[id].join("	"));
                 QRCode.clear();
-                QRCode.makeCode(regeneratePitArray[id].join("	"));
+                QRCode.makeCode(regenerateArray[id].join("	"));
                 let QRCodePreview = document.getElementById("QRCodePreview");
-                QRCodePreview.innerHTML = regeneratePitArray[id][0] + " | " + regeneratePitArray[id][1];
+                if (regenerateType[i] == "Pit") {
+                    QRCodePreview.innerHTML = regenerateArray[id][0] + " | " + regenerateArray[id][1];
+                }
+                else {
+                    QRCodePreview.innerHTML = regenerateArray[id][0] + " | " + regenerateArray[id][1] + " | " + regenerateArray[id][2];
+                }
             }
         }
 
