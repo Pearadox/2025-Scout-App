@@ -1952,9 +1952,9 @@
             pitCapabilityNet = document.getElementsByName("scoreInNet")[0];
             robotPurpose = document.getElementsByName("robotPurpose")[0];
 
-            driverExperience = document.getElementsByName("driverExperience")[0];
-            driverSkill = document.getElementsByName("driverSkill")[0];
-            driveTrain = document.getElementsByName("driveTrain")[0];
+            driverExperience = document.getElementsByName("pitDriverExperience")[0];
+            driverSkill = document.getElementsByName("pitDriverSkill")[0];
+            driveTrain = document.getElementsByName("pitDriveTrain")[0];
 
             pitClimberCapabilityShallow = document.getElementsByName("pitClimberShallow")[0];
             pitClimberCapabilityDeep = document.getElementsByName("pitClimberDeep")[0];
@@ -1981,14 +1981,11 @@
         }
 
         function generatePitData() {
-            console.log("DO YOU EVEN EXIST?");
             QRModal.show();
 
             checkPitInputs();
 
             const dataArray = [pitScouterName.value, pitTeamNumber.value, pitReefCapability, pitCapabilityProccessor.checked, pitCapabilityNet.checked, robotPurpose.value, driverExperience.value, driverSkill.value, driveTrain.value, pitClimberCapability, pitCoralPickUpCapability, pitAlgaePickUpCapability, pitRobotQuality.value, programmingLanguage.value, helpNeeded.checked, typeHelpNeeded.value, pitComments.value, new Date().toLocaleTimeString()];
-
-            console.log("DO YOU EVEN EXIST?");
 
             regenerateArray.push(dataArray);
             regenerateType.push("Pit");
