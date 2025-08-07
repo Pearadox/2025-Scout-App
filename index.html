@@ -476,10 +476,10 @@
 
             <label>Total Robot Time Died</label>
             <div id="deadTimerContainer" style="margin-top:10px;">
-                <span id="deadTimerDisplay">00:00:00</span>
-                <button type="button" id="deadTimerStart" onclick="startDeadTimer()">Start</button>
-                <button type="button" id="deadTimerStop" onclick="stopDeadTimer()" disabled>Stop</button>
-                <button type="button" id="deadTimerReset" onclick="resetDeadTimer()" disabled>Reset</button>
+                <span id="deadTimerDisplay" class="timerDisplay">00:00:00</span>
+                <button type="button" id="deadTimerStart" onclick="startDeadTimer()" class="timerButton">Start</button>
+                <button type="button" id="deadTimerStop" onclick="stopDeadTimer()" disabled class="timerButton">Stop</button>
+                <button type="button" id="deadTimerReset" onclick="resetDeadTimer()" disabled class="timerButton">Reset</button>
             </div>
 
             <label for="matchComments">Comments</label>
@@ -633,6 +633,33 @@
     
 <!--stylesheet-->
     <style>
+        .timerDisplay {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #fff;
+            background: #1976d2;
+            padding: 10px 20px;
+            border-radius: 8px;
+            margin: 0 0 18px 0;
+            letter-spacing: 0.1em;
+            box-shadow: 0 2px 8px rgba(25, 118, 210, 0.18);
+            display: inline-block;
+        }
+        .timerButton {
+            font-size: 1.2rem;
+            padding: 10px 22px;
+            margin: 6px 8px;
+            border-radius: 8px;
+            border: none;
+            background: #1976d2;
+            color: #fff;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+            transition: background 0.2s;
+        }
+        .timerButton:active {
+            background: #0d47a1;
+        }
         * {
             margin: 0px;
             padding: 0px;
