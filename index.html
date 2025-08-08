@@ -509,13 +509,13 @@
             <div class="multi-select">
                 <label for="pitDriveTrain">Drive Train</label>
                 <input type="text" name="pitDriveTrain">
-                <label for="pitDriverExperience">Driver Experience</label>
+                <label for="pitDriverExperience">Driver Experience (time in years)</label>
                 <input type="text" name="pitDriverExperience">
-                <label for="pitDriverSkill">Driver Skill</label>
+                <label for="pitDriverSkill">Driver Skill (time in hours)</label>
                 <input type="text" name="pitDriverSkill">
                 <label for="robotPurpose">What is the primary purpose of the robot (what game pieces is it designed to score/ does it play defense)</label>
                 <input type="text" name="robotPurpose">
-                <label for="bumpers">Describe your bumpers</label>
+                <label for="bumpers">Describe your bumpers (do not ask!!)</label>
                 <input type="range" name="bumpers" min="1" max="10" step="1" value="5">
             </div>
             
@@ -541,7 +541,7 @@
             </div>
 
             <!-- Auto Paths Section (Replaces Possible Starting Position) -->
-            <p class="multiSelectTitle">Auto Paths</p>
+            <p class="multiSelectTitle">Auto Paths (does not work. do not use)</p>
             <button type="button" id="createAutoPathBtn" onclick="createNewAutoPath()" style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; margin-bottom: 10px;">
                 Create New Auto Path
             </button>
@@ -2066,7 +2066,7 @@
                 QRCode.clear();
                 QRCode.makeCode(regenerateArray[id].join("	"));
                 let QRCodePreview = document.getElementById("QRCodePreview");
-                if (regenerateType[i] == "Pit") {
+                if (regenerateType[id] == "Pit") {
                     QRCodePreview.innerHTML = regenerateArray[id][0] + " | " + regenerateArray[id][1];
                 }
                 else {
