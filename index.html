@@ -516,7 +516,7 @@
                 <label for="robotPurpose">What is the primary purpose of the robot (what game pieces is it designed to score/ does it play defense)</label>
                 <input type="text" name="robotPurpose">
                 <label for="bumpers">Describe your bumpers</label>
-                <input type="text" name="bumpers">
+                <input type="range" name="bumpers" min="1" max="10" step="1" value="5">
             </div>
             
             <div class="multi-select">
@@ -1945,6 +1945,7 @@
         let driverExperience;
         let driverSkill;
         let driveTrain;
+        let bumperQuality;
 
         let pitClimberCapabilityShallow;
         let pitClimberCapabilityDeep;
@@ -1982,6 +1983,7 @@
             driverExperience = document.getElementsByName("pitDriverExperience")[0];
             driverSkill = document.getElementsByName("pitDriverSkill")[0];
             driveTrain = document.getElementsByName("pitDriveTrain")[0];
+            bumperQuality = document.getElementsByName("pitBumperQuality")[0];
 
             pitClimberCapabilityShallow = document.getElementsByName("pitClimberShallow")[0];
             pitClimberCapabilityDeep = document.getElementsByName("pitClimberDeep")[0];
@@ -2012,7 +2014,7 @@
 
             checkPitInputs();
 
-            const dataArray = [pitScouterName.value, pitTeamNumber.value, pitReefCapability, pitCapabilityProccessor.checked, pitCapabilityNet.checked, robotPurpose.value, driverExperience.value, driverSkill.value, driveTrain.value, pitClimberCapability, pitCoralPickUpCapability, pitAlgaePickUpCapability, pitRobotQuality.value, programmingLanguage.value, helpNeeded.checked, typeHelpNeeded.value, pitComments.value, new Date().toLocaleTimeString()];
+            const dataArray = [pitScouterName.value, pitTeamNumber.value, pitReefCapability, pitCapabilityProccessor.checked, pitCapabilityNet.checked, robotPurpose.value, driverExperience.value, driverSkill.value, driveTrain.value, bumperQuality.value, pitClimberCapability, pitCoralPickUpCapability, pitAlgaePickUpCapability, pitRobotQuality.value, programmingLanguage.value, helpNeeded.checked, typeHelpNeeded.value, pitComments.value, new Date().toLocaleTimeString()];
 
             regenerateArray.push(dataArray);
             regenerateType.push("Pit");
